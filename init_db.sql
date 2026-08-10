@@ -783,8 +783,6 @@ ALTER TABLE public.manual_sales ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Admin full access manual_sales"
 ON public.manual_sales FOR ALL USING (auth.role() = 'authenticated');
 -- Agregar soporte para Emails y Rastreo UTM a la tabla de órdenes
-ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS customer_email TEXT;
-ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS source TEXT DEFAULT 'direct';
 
 -- Agregar soporte para Rastreo UTM a las visitas
 ALTER TABLE public.page_views ADD COLUMN IF NOT EXISTS source TEXT DEFAULT 'direct';
@@ -900,3 +898,5 @@ AFTER INSERT OR UPDATE ON public.orders
 FOR EACH ROW
 EXECUTE FUNCTION update_product_sold_count();
 
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS customer_email TEXT;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS source TEXT DEFAULT 'direct';
