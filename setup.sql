@@ -13,15 +13,15 @@ CREATE TABLE products (
 
 -- 2. Insertar los productos de prueba iniciales
 INSERT INTO products (name, category, sub_category, price, image_url, quick_add_upsell, has_free_packaging) VALUES
-('Mate Imperial de Calabaza', 'Mates', 'Imperial', 25000, 'https://placehold.co/400x400?text=Mate+Imperial', true, true),
-('Mate Torpedo Premium', 'Mates', 'Torpedo', 22000, 'https://placehold.co/400x400?text=Mate+Torpedo', true, true),
-('Mate Camionero', 'Mates', 'Varios', 18000, 'https://placehold.co/400x400?text=Mate+Camionero', true, true),
-('Yerba Mate Suave 500g', 'Yerbas', NULL, 3500, 'https://placehold.co/400x400?text=Yerba+500g', false, false),
-('Bombilla Pico de Loro Alpaca', 'Bombillas', NULL, 12000, 'https://placehold.co/400x400?text=Bombilla+Alpaca', false, true),
-('Matera de Cuero', 'Materas y Yerberas', NULL, 35000, 'https://placehold.co/400x400?text=Matera', false, true),
-('Termo Stanley 1L', 'Accesorios', NULL, 85000, 'https://placehold.co/400x400?text=Termo', false, false),
-('Yerba Mate Pequeña 250g (Cross-sell)', 'Yerbas', NULL, 2000, 'https://placehold.co/400x400?text=Yerba+250g', false, false),
-('Bombilla Clásica (Cross-sell)', 'Bombillas', NULL, 5000, 'https://placehold.co/400x400?text=Bombilla+Clasica', false, false);
+('Figura Articulada Dragón', 'Figuras', 'Imperial', 25000, 'https://placehold.co/400x400?text=Figura+Imperial', true, true),
+('Figura Busto Iron Man', 'Figuras', 'Torpedo', 22000, 'https://placehold.co/400x400?text=Figura+Torpedo', true, true),
+('Figura Groot', 'Figuras', 'Varios', 18000, 'https://placehold.co/400x400?text=Figura+Camionero', true, true),
+('Filamento PLA 1KG', 'Filamentos', NULL, 3500, 'https://placehold.co/400x400?text=Filamento+500g', false, false),
+('Accesorio Pico de Loro Alpaca', 'Accesorios', NULL, 12000, 'https://placehold.co/400x400?text=Accesorio+Alpaca', false, true),
+('Cama Caliente PEI', 'Repuestos', NULL, 35000, 'https://placehold.co/400x400?text=Matera', false, true),
+('Impresora Stanley 1L', 'Accesorios', NULL, 85000, 'https://placehold.co/400x400?text=Impresora', false, false),
+('Filamento PETG 500g (Cross-sell)', 'Filamentos', NULL, 2000, 'https://placehold.co/400x400?text=Filamento+250g', false, false),
+('Accesorio Clásica (Cross-sell)', 'Accesorios', NULL, 5000, 'https://placehold.co/400x400?text=Accesorio+Clasica', false, false);
 
 -- 3. Crear el Bucket de almacenamiento para las fotos de los productos
 INSERT INTO storage.buckets (id, name, public) VALUES ('product-images', 'product-images', true);

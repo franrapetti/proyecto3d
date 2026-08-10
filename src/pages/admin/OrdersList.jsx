@@ -89,7 +89,7 @@ const generateTicket = (sale, discountInfo) => {
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Comprobante Cóndor Mates - ${orderId}</title>
+  <title>Comprobante Proyecto 3D - ${orderId}</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -361,8 +361,8 @@ const generateTicket = (sale, discountInfo) => {
   <div style="display: flex; flex-direction: column; align-items: center;">
     <div class="ticket">
       <div class="ticket-header">
-        <img src="${logoUrl}" alt="Cóndor Mates" />
-        <div class="brand">Cóndor Mates</div>
+        <img src="${logoUrl}" alt="Proyecto 3D" />
+        <div class="brand">Proyecto 3D</div>
         <div class="tagline">El arte de cebar</div>
       </div>
       <div class="ticket-meta">
@@ -419,7 +419,7 @@ const generateTicket = (sale, discountInfo) => {
       <div class="ticket-footer">
         <div class="thanks">¡Gracias por tu compra! 🧉</div>
         <div class="sub">Esperamos que disfrutes tu pedido.<br/>Cualquier consulta, escribinos.</div>
-        <a href="https://www.instagram.com/condor_mates" class="ig" target="_blank">@condor_mates</a>
+        <a href="https://www.instagram.com/proyecto3d" class="ig" target="_blank">@proyecto3d</a>
       </div>
     </div>
     <div class="no-print">
@@ -801,7 +801,7 @@ const OrdersList = () => {
       discountText = `\nSubtotal: $${discountInfo.subtotal.toLocaleString()}\nDesc. ${discountInfo.percent}% ${(discountInfo.method === 'Efectivo' || discountInfo.method === 'Transferencia') ? 'Efv / Transf.' : discountInfo.method}: -$${discountInfo.amount.toLocaleString()}`;
     }
 
-    return `🧉 *CÓNDOR MATES*\nComprobante #${orderId}\n\n👤 *Cliente:* ${customerName}\n📅 *Fecha:* ${formattedDate}\n\n📦 *Pedido:*\n${itemsList}\n${discountText}\n💰 *Total: $${total.toLocaleString()}*\n\n¡Gracias por tu compra! 🧉\n🌐 condormates.com.ar\n📸 @condor_mates`;
+    return `🧉 *CÓNDOR MATES*\nComprobante #${orderId}\n\n👤 *Cliente:* ${customerName}\n📅 *Fecha:* ${formattedDate}\n\n📦 *Pedido:*\n${itemsList}\n${discountText}\n💰 *Total: $${total.toLocaleString()}*\n\n¡Gracias por tu compra! 🧉\n🌐 proyecto3d.com.ar\n📸 @proyecto3d`;
   };
 
   const handleShareWhatsApp = () => {
@@ -869,8 +869,8 @@ const OrdersList = () => {
       if (!blob) return;
       
       if (navigator.share && navigator.canShare) {
-        const file = new File([blob], 'comprobante-condor-mates.png', { type: 'image/png' });
-        const shareData = { files: [file], title: 'Comprobante Cóndor Mates' };
+        const file = new File([blob], 'comprobante-condor-figuras.png', { type: 'image/png' });
+        const shareData = { files: [file], title: 'Comprobante Proyecto 3D' };
         if (navigator.canShare(shareData)) {
           await navigator.share(shareData);
           if (navigator.vibrate) navigator.vibrate(50);
@@ -999,7 +999,7 @@ const OrdersList = () => {
   const todaySalesCount = todaySales.length;
   const todayRevenue = todaySales.reduce((acc, s) => acc + (s.total || 0), 0);
 
-  // Yerbas Sales Percentage
+  // Filamentos Sales Percentage
   let yerbaRevenue = 0;
   [...validWeb, ...validManual].forEach(sale => {
     let items = sale.original?.items || sale.items;
@@ -1016,8 +1016,8 @@ const OrdersList = () => {
         
         const catProd = catalogProducts.find(p => Number(p.id) === numericId);
         const isYerba = catProd ? 
-          (catProd.category === 'Yerbas' || catProd.category === 'Yerba Mate') : 
-          /yerba|baldo|canarias|sara|rey verde/i.test(item.name || '');
+          (catProd.category === 'Filamentos' || catProd.category === 'Filamento Figura') : 
+          /filamento|baldo|canarias|sara|rey verde/i.test(item.name || '');
           
         if (isYerba) {
           yerbaRevenue += (Number(item.price) || 0) * (Number(item.quantity) || 1);
@@ -1410,7 +1410,7 @@ const OrdersList = () => {
           <p className="kpi-value">${Math.round(avgTicket).toLocaleString()}</p>
         </div>
         <div className="kpi-card" style={{background: 'linear-gradient(135deg, rgba(217, 119, 6, 0.05), rgba(217, 119, 6, 0.01))', borderColor: 'rgba(217, 119, 6, 0.2)'}}>
-          <h3 style={{color: '#b45309'}}>Proporción Yerbas</h3>
+          <h3 style={{color: '#b45309'}}>Proporción Filamentos</h3>
           <p className="kpi-value" style={{color: '#d97706', fontSize: '1.25rem'}}>{yerbaPercentage}% <span style={{fontSize: '0.85rem', fontWeight: 600, opacity: 0.8}}>del ingreso</span></p>
           <p style={{fontSize: '0.7rem', color: 'var(--text-light)', marginTop: '0.2rem', lineHeight: 1.3}}>
             <strong>Margen prom:</strong> ~23% (30% sobre costo)
@@ -1740,8 +1740,8 @@ const OrdersList = () => {
                 }} />
                 
                 <div style={{ textAlign: 'center', padding: '36px 32px 24px', borderBottom: '2px dashed #e8e2d6' }}>
-                  <img src="/logo.png" alt="Cóndor Mates" style={{ height: '70px', width: 'auto', display: 'inline-block', marginBottom: '12px', objectFit: 'contain' }} />
-                  <div style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '3px', textTransform: 'uppercase', color: '#234a2e' }}>Cóndor Mates</div>
+                  <img src="/logo.png" alt="Proyecto 3D" style={{ height: '70px', width: 'auto', display: 'inline-block', marginBottom: '12px', objectFit: 'contain' }} />
+                  <div style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '3px', textTransform: 'uppercase', color: '#234a2e' }}>Proyecto 3D</div>
                   <div style={{ fontSize: '11px', color: '#9c9585', fontStyle: 'italic', marginTop: '4px' }}>El arte de cebar</div>
                 </div>
 
@@ -1834,8 +1834,8 @@ const OrdersList = () => {
                 <div style={{ textAlign: 'center', padding: '20px 32px 28px', background: 'linear-gradient(180deg, transparent, rgba(35, 74, 46, 0.03))' }}>
                   <div style={{ fontSize: '15px', fontWeight: 700, color: '#234a2e', marginBottom: '6px' }}>¡Gracias por tu compra! 🧉</div>
                   <div style={{ fontSize: '11px', color: '#9c9585', lineHeight: 1.5 }}>Esperamos que disfrutes tu pedido.<br/>Cualquier consulta, escribinos.</div>
-                  <a href="https://www.instagram.com/condor_mates" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginTop: '12px', fontSize: '12px', fontWeight: 600, color: '#234a2e', textDecoration: 'none', padding: '6px 14px', border: '1.5px solid #234a2e', borderRadius: '20px', lineHeight: 1 }}>
-                    @condor_mates
+                  <a href="https://www.instagram.com/proyecto3d" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginTop: '12px', fontSize: '12px', fontWeight: 600, color: '#234a2e', textDecoration: 'none', padding: '6px 14px', border: '1.5px solid #234a2e', borderRadius: '20px', lineHeight: 1 }}>
+                    @proyecto3d
                   </a>
                 </div>
               </div>

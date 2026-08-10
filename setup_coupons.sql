@@ -1,5 +1,5 @@
 -- ============================================================
---  Cóndor Mates — Sistema de Cupones Dinámicos
+--  Proyecto 3D — Sistema de Cupones Dinámicos
 --  Ejecutar en el SQL Editor de Supabase
 -- ============================================================
 
@@ -40,7 +40,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- 6. Insertar el cupón existente CONDOR10 como migración
+-- 6. Insertar el cupón existente PROYECTO10 como migración
 INSERT INTO public.coupons (code, discount_type, discount_value, applicable_product_filter, active)
-VALUES ('CONDOR10', 'percentage', 10, 'imperial%alpaca', true)
+VALUES ('PROYECTO10', 'percentage', 10, 'imperial%alpaca', true)
 ON CONFLICT (code) DO NOTHING;

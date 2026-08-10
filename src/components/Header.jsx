@@ -8,19 +8,19 @@ import './Header.css';
 
 const categoryTree = [
   { name: 'Todos los Productos', value: 'All' },
-  { name: 'Mates', value: 'Mates', subs: ['Torpedo', 'Imperial', 'Varios'] },
-  { name: 'Yerbas', value: 'Yerbas' },
-  { name: 'Bombillas', value: 'Bombillas', subs: ['Bombillas Acero', 'Bombillas Alpaca', 'Bombillones de Alpaca', 'Bombillones de Acero'] },
-  { name: 'Materas y Yerberas', value: 'Materas y Yerberas' },
+  { name: 'Figuras', value: 'Figuras', subs: ['Torpedo', 'Imperial', 'Varios'] },
+  { name: 'Filamentos', value: 'Filamentos' },
+  { name: 'Accesorios', value: 'Accesorios', subs: ['Accesorios Acero', 'Accesorios Alpaca', 'Bombillones de Alpaca', 'Bombillones de Acero'] },
+  { name: 'Repuestos', value: 'Repuestos' },
   { name: 'Accesorios', value: 'Accesorios' },
-  { name: 'Termos', value: 'Termos', subs: ['Termolar', 'Media Manija Cebador', 'Stanley Mate Sistem', 'Houdson'] }
+  { name: 'Impresoras', value: 'Impresoras', subs: ['Termolar', 'Media Manija Cebador', 'Stanley Figura Sistem', 'Houdson'] }
 ];
 
 const Header = ({ cartCount, onCartClick, onNavClick, currentCategory }) => {
   const { isDark, toggleTheme } = useTheme();
   const { isLaunched } = useLaunchTimer();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const isProductActive = ['All', 'Mates', 'Yerbas', 'Bombillas', 'Materas y Yerberas', 'Accesorios', 'Termos'].includes(currentCategory);
+  const isProductActive = ['All', 'Figuras', 'Filamentos', 'Accesorios', 'Repuestos', 'Accesorios', 'Impresoras'].includes(currentCategory);
 
   const handleNavClick = (cat, subCat) => {
     onNavClick(cat, subCat);
@@ -36,7 +36,7 @@ const Header = ({ cartCount, onCartClick, onNavClick, currentCategory }) => {
           </button>
         )}
         <Link to="/" className="header-logo" onClick={() => onNavClick('All')}>
-          <img src={isDark ? "/logo-noche.png" : "/logo.png"} alt="Cóndor Mates" className="logo-img" />
+          <img src={isDark ? "/logo-noche.png" : "/logo.png"} alt="Proyecto 3D" className="logo-img" />
         </Link>
 
         {isLaunched && (
@@ -92,7 +92,7 @@ const Header = ({ cartCount, onCartClick, onNavClick, currentCategory }) => {
                 <Heart size={20} strokeWidth={1.5} />
               </Link>
               <a 
-                href="https://www.instagram.com/condor_mates" 
+                href="https://www.instagram.com/proyecto3d" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="wishlist-header-btn" 

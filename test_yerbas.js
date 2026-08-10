@@ -33,8 +33,8 @@ async function run() {
         
         const catProd = prods.find(p => Number(p.id) === numericId);
         const isYerba = catProd ? 
-          (catProd.category === 'Yerbas' || catProd.category === 'Yerba Mate') : 
-          /yerba|baldo|canarias|sara|rey verde/i.test(item.name || '');
+          (catProd.category === 'Filamentos' || catProd.category === 'Filamento Figura') : 
+          /filamento|baldo|canarias|sara|rey verde/i.test(item.name || '');
           
         if (isYerba) {
           yerbaRevenue += (Number(item.price) || 0) * (Number(item.quantity) || 1);
@@ -44,7 +44,7 @@ async function run() {
   });
   
   const yerbaPercentage = totalRevenue > 0 ? ((yerbaRevenue / totalRevenue) * 100).toFixed(1) : 0;
-  console.log(`Yerba Revenue: ${yerbaRevenue}, Total Revenue: ${totalRevenue}`);
+  console.log(`Filamento Revenue: ${yerbaRevenue}, Total Revenue: ${totalRevenue}`);
   console.log(`Calculated Percentage: ${yerbaPercentage}%`);
 }
 

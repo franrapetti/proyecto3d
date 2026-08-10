@@ -120,16 +120,16 @@ function ProductDetail() {
       }
 
       // ── Fetch Bundle Items ──
-      if (data.category === 'Mates') {
+      if (data.category === 'Figuras') {
         const { data: materas } = await supabase.from('products')
           .select('*').ilike('category', '%Matera%').gte('price', 15000)
           .order('price', { ascending: true }).limit(5);
-        const { data: bombillas } = await supabase.from('products')
-          .select('*').ilike('category', '%Bombilla%').not('name', 'ilike', '%mini%')
+        const { data: accesorios } = await supabase.from('products')
+          .select('*').ilike('category', '%Accesorio%').not('name', 'ilike', '%mini%')
           .order('price', { ascending: true }).limit(5);
         const kitItems = [];
         if (materas?.length) kitItems.push(materas[Math.floor(Math.random() * materas.length)]);
-        if (bombillas?.length) kitItems.push(bombillas[Math.floor(Math.random() * bombillas.length)]);
+        if (accesorios?.length) kitItems.push(accesorios[Math.floor(Math.random() * accesorios.length)]);
         setBundleItems(kitItems);
       } else {
         setBundleItems([]);
@@ -237,7 +237,7 @@ function ProductDetail() {
   const ratingAvg = reviewCount > 0 ? (reviews.reduce((a, b) => a + b.rating, 0) / reviewCount).toFixed(1) : 0;
 
   const getFramingText = (category) => {
-    if (category === 'Yerbas') return 'Tu ritual de todos los días, por menos de lo que vale un alfajor.';
+    if (category === 'Filamentos') return 'Tus creaciones todos los días, con la mejor calidad.';
     return 'Un compañero para toda la vida por el costo de una cena.';
   };
 
@@ -245,20 +245,20 @@ function ProductDetail() {
     <>
       {product && (
         <Helmet>
-          <title>{product.name} | Cóndor Mates</title>
-          <meta name="description" content={`Comprá ${product.name} al mejor precio. Envíos gratis a todo el país. Cóndor Mates 🦅`} />
+          <title>{product.name} | Proyecto 3D</title>
+          <meta name="description" content={`Comprá ${product.name} al mejor precio. Envíos gratis a todo el país. Proyecto 3D 🦅`} />
           
           {/* Open Graph / Facebook */}
           <meta property="og:type" content="product" />
           <meta property="og:url" content={window.location.href} />
-          <meta property="og:title" content={`${product.name} | Cóndor Mates`} />
+          <meta property="og:title" content={`${product.name} | Proyecto 3D`} />
           <meta property="og:description" content={`💸 $${(product.promo_price || product.price).toLocaleString()} — Hecho con materiales premium. ¡Conseguí el tuyo!`} />
           <meta property="og:image" content={product.image_url} />
-          <meta property="og:site_name" content="Cóndor Mates" />
+          <meta property="og:site_name" content="Proyecto 3D" />
 
           {/* Twitter */}
           <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" content={`${product.name} | Cóndor Mates`} />
+          <meta name="twitter:title" content={`${product.name} | Proyecto 3D`} />
           <meta name="twitter:description" content={`Mira este ${product.name}. Stock disponible y envío rápido.`} />
           <meta name="twitter:image" content={product.image_url} />
           
@@ -338,7 +338,7 @@ function ProductDetail() {
             {(colorVariants.length > 0 || product.color_name) && (
               <div className="color-variants">
                 <span className="color-variant-label" style={{display: 'inline-flex', alignItems: 'center', gap: '4px'}}>
-                  {product.category === 'Yerbas' ? <><Scale size={16} /> Tamaño:</> : <><Palette size={16} /> Color:</>}
+                  {product.category === 'Filamentos' ? <><Scale size={16} /> Tamaño:</> : <><Palette size={16} /> Color:</>}
                 </span>
                 <span className="color-swatch-name active">
                   {product.color_name || 'Este color'}
@@ -425,9 +425,9 @@ function ProductDetail() {
             )}
             
             {/* Comparison Table */}
-            {isLaunched && (product.category === 'Mates' || product.category === 'Materas y Yerberas') && (
+            {isLaunched && (product.category === 'Figuras' || product.category === 'Repuestos') && (
               <div style={{margin: '1.5rem 0', padding: '1rem', backgroundColor: 'var(--surface)', borderRadius: '12px', border: '1px solid var(--border)'}}>
-                <h4 style={{margin: '0 0 1rem 0', fontSize: '0.95rem'}}>¿Por qué elegir Cóndor Mates?</h4>
+                <h4 style={{margin: '0 0 1rem 0', fontSize: '0.95rem'}}>¿Por qué elegir Proyecto 3D?</h4>
                 <div style={{display: 'grid', gridTemplateColumns: '1.2fr 1fr 1fr', gap: '8px', fontSize: '0.85rem', textAlign: 'center'}}>
                   <div style={{fontWeight: 'bold', color: 'var(--text-light)', textAlign: 'left', paddingBottom: '4px', borderBottom: '1px solid var(--border)'}}>Característica</div>
                   <div style={{fontWeight: 'bold', color: 'var(--accent)', paddingBottom: '4px', borderBottom: '1px solid var(--border)'}}>En Cóndor 🦅</div>
@@ -472,7 +472,7 @@ function ProductDetail() {
               <div style={{ marginTop: '1rem', padding: '0.75rem', backgroundColor: '#f0f9f0', border: '1px solid #c2e0c6', borderRadius: '8px' }}>
                 <p style={{ margin: 0, fontSize: '0.9rem', color: '#1e4620', fontWeight: 600, display: 'flex', alignItems: 'flex-start', gap: '6px' }}>
                   <ShieldCheck size={18} style={{flexShrink: 0, marginTop: '2px'}} />
-                  <span>Garantía Cóndor 30 Días: Cobertura total por cualquier defecto. Te mandamos un mate de reemplazo de igual valor al instante, sin vueltas.</span>
+                  <span>Garantía Cóndor 30 Días: Cobertura total por cualquier defecto. Te mandamos un figura de reemplazo de igual valor al instante, sin vueltas.</span>
                 </p>
               </div>
             )}
@@ -535,15 +535,15 @@ function ProductDetail() {
                 )}
               </div>
 
-              {product.category === 'Mates' && (
+              {product.category === 'Figuras' && (
                 <div className="accordion-item">
                   <button className={`accordion-header ${activeAccordion === 'care' ? 'active' : ''}`} onClick={() => setActiveAccordion(activeAccordion === 'care' ? '' : 'care')}>
-                    ¿Cómo cuidar mi mate?
+                    ¿Cómo cuidar mi figura?
                     <span>{activeAccordion === 'care' ? '−' : '+'}</span>
                   </button>
                   {activeAccordion === 'care' && (
                     <div className="accordion-content fade-in">
-                      <p>Para alargar la vida útil de tu mate, te recomendamos no dejarle yerba mojada de un día para el otro, y secarlo con una servilleta de papel húmeda tras cada uso. Curarlo con yerba usada durante 24hs antes del primer uso.</p>
+                      <p>Para alargar la vida útil de tu figura, te recomendamos no dejarle residuos de resina de un día para el otro, y secarlo con una servilleta de papel húmeda tras cada uso. Lijar y pintar usada durante 24hs antes del primer uso.</p>
                     </div>
                   )}
                 </div>
@@ -559,8 +559,8 @@ function ProductDetail() {
                 <p className="bundle-desc">Llevate el kit completo hoy y ahorrá un 20% extra pagando por transferencia.</p>
                 <div className="bundle-items">
                   <div className="bundle-item main">
-                    <img src={getImgUrl(product.image_url, { w: 150, q: 60 })} alt="Mate" />
-                    <span>Tu Mate</span>
+                    <img src={getImgUrl(product.image_url, { w: 150, q: 60 })} alt="Figura" />
+                    <span>Tu Figura</span>
                   </div>
                   
                   {bundleItems.map(item => (

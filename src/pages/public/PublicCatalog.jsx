@@ -131,7 +131,7 @@ function PublicCatalog() {
   const outOfStock = visibleProducts.filter(p => p.stock === 0);
   visibleProducts = [...inStock, ...outOfStock];
 
-  const crossSells = products.filter(p => p.category === 'Yerbas' || p.category === 'Bombillas').slice(0, 2);
+  const crossSells = products.filter(p => p.category === 'Filamentos' || p.category === 'Accesorios').slice(0, 2);
 
   const scrollToCatalog = () => {
     document.getElementById('catalog-section')?.scrollIntoView({ behavior: 'smooth' });
@@ -140,20 +140,20 @@ function PublicCatalog() {
   return (
     <>
       <Helmet>
-        <title>Cóndor Mates | Tu Ritual, Nuestra Pasión 🧉</title>
-        <meta name="description" content="Descubrí la mejor selección de mates imperiales, torpedos, termos y accesorios premium. Envíos gratis a toda Argentina. Armá tu combo con descuento." />
+        <title>Proyecto 3D | Tu Ritual, Nuestra Pasión 🧉</title>
+        <meta name="description" content="Descubrí la mejor selección de figuras imperiales, torpedos, impresoras y accesorios premium. Envíos gratis a toda Argentina. Armá tu combo con descuento." />
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
         <meta property="og:url" content={window.location.origin} />
-        <meta property="og:title" content="Cóndor Mates | Tienda de Mates Premium" />
-        <meta property="og:description" content="Buscamos los mejores mates para tu ritual. Torpedos, Imperiales y más. ¡Armá tu combo y llevate hasta 30% OFF!" />
+        <meta property="og:title" content="Proyecto 3D | Tienda de Figuras Premium" />
+        <meta property="og:description" content="Buscamos los mejores figuras para tu ritual. Torpedos, Imperiales y más. ¡Armá tu combo y llevate hasta 30% OFF!" />
         <meta property="og:image" content={heroDesktop || "/logo.png"} />
-        <meta property="og:site_name" content="Cóndor Mates" />
+        <meta property="og:site_name" content="Proyecto 3D" />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Cóndor Mates | Tienda de Mates Premium" />
+        <meta name="twitter:title" content="Proyecto 3D | Tienda de Figuras Premium" />
         <meta name="twitter:description" content="Tu ritual, nuestra pasión. Envíos a todo el país." />
         <meta name="twitter:image" content={heroDesktop || "/logo.png"} />
       </Helmet>
@@ -201,7 +201,7 @@ function PublicCatalog() {
             <div className="hero-fullbleed-overlay" />
             <div className="hero-fullbleed-content" style={{ position: 'relative', zIndex: 1 }}>
               <span className="hero-badge">📦 Envíos Rápidos + Regalo Valor $3,500</span>
-              <h1 className="hero-fullbleed-title">Renová tu mate hoy con hasta <span className="handwriting-accent">30% OFF.</span></h1>
+              <h1 className="hero-fullbleed-title">Renová tu figura hoy con hasta <span className="handwriting-accent">30% OFF.</span></h1>
               <p className="hero-fullbleed-subtitle">Acumulá descuentos de combos y pago por transferencia. El mejor regalo para vos o para alguien especial.</p>
               <div className="hero-buttons-container" style={{ display: 'flex', gap: '0.75rem', flexWrap: 'nowrap', marginTop: '1.5rem', width: '100%' }}>
                 <button className="hero-fullbleed-cta" onClick={scrollToCatalog} style={{ flex: 1, padding: '0.9rem 1rem', whiteSpace: 'nowrap', textAlign: 'center', fontWeight: 900 }}>

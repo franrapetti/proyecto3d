@@ -1,5 +1,5 @@
 -- ============================================================
---  Cóndor Mates — Analytics Fix v4
+--  Proyecto 3D — Analytics Fix v4
 --  Ejecutar en el SQL Editor de Supabase
 --
 --  Corrige:

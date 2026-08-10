@@ -11,12 +11,12 @@ const Footer = () => {
       <div className="footer-grid">
         {/* Brand Section */}
         <div className="footer-brand">
-          <img src="/logo-noche.png" alt="Cóndor Mates" className="footer-logo-img" />
+          <img src="/logo-noche.png" alt="Proyecto 3D" className="footer-logo-img" />
           <p className="footer-tagline">
-            Llevando la tradición del buen mate a cada rincón de Argentina con piezas seleccionadas por su calidad y mística.
+            Llevando la tradición del buen figura a cada rincón de Argentina con piezas seleccionadas por su calidad y mística.
           </p>
           <div className="social-links">
-            <a href="https://www.instagram.com/condor_mates" target="_blank" rel="noopener noreferrer" className="social-icon-btn" title="Instagram">
+            <a href="https://www.instagram.com/proyecto3d" target="_blank" rel="noopener noreferrer" className="social-icon-btn" title="Instagram">
               <InstagramIcon size={20} />
             </a>
             <a href={`https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER || '543572595756'}`} target="_blank" rel="noopener noreferrer" className="social-icon-btn" title="WhatsApp">
@@ -37,7 +37,7 @@ const Footer = () => {
 
         {/* Contact/Info */}
         <div className="footer-links-group">
-          <h4>Cóndor Mates</h4>
+          <h4>Proyecto 3D</h4>
           <div className="footer-link">
             <MapPin size={16} /> Río Segundo, Córdoba
           </div>
@@ -52,12 +52,12 @@ const Footer = () => {
 
       <div className="footer-bottom">
         <p className="footer-copy">
-          © {currentYear} Cóndor Mates. Todos los derechos reservados.
+          © {currentYear} Proyecto 3D. Todos los derechos reservados.
         </p>
         <p className="dev-by">
           Hecho con ❤️ por{' '}
           <a 
-            href={`https://wa.me/543572595756?text=${encodeURIComponent("Hola Francisco, me gustó mucho la web de Cóndor Mates!")}`} 
+            href={`https://wa.me/543572595756?text=${encodeURIComponent("Hola Francisco, me gustó mucho la web de Proyecto 3D!")}`} 
             target="_blank" 
             rel="noopener noreferrer"
             className="dev-link"

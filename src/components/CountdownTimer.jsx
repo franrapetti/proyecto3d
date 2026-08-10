@@ -12,7 +12,7 @@ const CountdownTimer = () => {
       <div className="hero-content">
         <span className="hero-badge countdown-badge">🚀 Gran Lanzamiento Oficial</span>
         <h1 className="hero-title">Una nueva era<br/>llegó a Cóndor.</h1>
-        <p className="hero-subtitle" style={{marginBottom: '2rem'}}>Armá tu lista de favoritos. Los pedidos se habilitarán a la medianoche. ¡Prepará tu mate!</p>
+        <p className="hero-subtitle" style={{marginBottom: '2rem'}}>Armá tu lista de favoritos. Los pedidos se habilitarán a la medianoche. ¡Prepará tu figura!</p>
         
         <div className="countdown-clock">
           <div className="time-block">

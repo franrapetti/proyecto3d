@@ -85,14 +85,14 @@ export default async function handler(req, res) {
             const resend = new Resend(resendKey);
             try {
               await resend.emails.send({
-                from: 'Cóndor Mates <onboarding@resend.dev>',
+                from: 'Proyecto 3D <onboarding@resend.dev>',
                 to: fullOrder.customer_email,
                 subject: '¡Pago Confirmado! Estamos preparando tu pedido 🧉',
                 html: `
                   <div style="font-family: sans-serif; padding: 20px; max-width: 600px; margin: 0 auto; border: 1px solid #eaeaec; border-radius: 8px;">
                     <h2 style="color: #234a2e; text-align: center;">¡Gracias por tu compra, ${fullOrder.customer_name}!</h2>
                     <p style="font-size: 16px; color: #444;">Tu pago de <strong>$${fullOrder.total_price.toLocaleString()}</strong> por Mercado Pago se ha procesado con éxito.</p>
-                    <p style="font-size: 16px; color: #444;">Ya nos encontramos empacando tus mates para enviarlos a <strong>${fullOrder.customer_city}</strong>.</p>
+                    <p style="font-size: 16px; color: #444;">Ya nos encontramos empacando tus figuras para enviarlos a <strong>${fullOrder.customer_city}</strong>.</p>
                     <div style="background-color: #f8f9fa; padding: 15px; border-radius: 6px; margin: 20px 0;">
                       <h4 style="margin-top: 0; color: #234a2e;">Detalles del pedido:</h4>
                       <ul style="color: #555; line-height: 1.6;">
@@ -100,7 +100,7 @@ export default async function handler(req, res) {
                       </ul>
                     </div>
                     <p style="font-size: 16px; color: #444;">Te contactaremos pronto con el código de seguimiento de Andreani.</p>
-                    <p style="text-align: center; font-size: 14px; color: #888; margin-top: 30px;">El equipo de Cóndor Mates 🦅</p>
+                    <p style="text-align: center; font-size: 14px; color: #888; margin-top: 30px;">El equipo de Proyecto 3D 🦅</p>
                   </div>
                 `
               });

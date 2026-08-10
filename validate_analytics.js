@@ -1,6 +1,6 @@
 /**
  * ============================================================
- *  Cóndor Mates — Analytics Validation Script
+ *  Proyecto 3D — Analytics Validation Script
  *  Ejecutar: node validate_analytics.js
  *
  *  Simula N visitas a productos y verifica que se registran
@@ -77,7 +77,7 @@ async function supaPatch(table, query, body) {
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 async function main() {
-  console.log('🔬 Cóndor Mates — Analytics Validation');
+  console.log('🔬 Proyecto 3D — Analytics Validation');
   console.log('═'.repeat(55));
   console.log();
 

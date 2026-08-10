@@ -81,14 +81,14 @@ const ExitIntentPopup = () => {
             <span className="exit-emoji-huge">🎉</span>
             <h2>¡Gracias por sumarte!</h2>
             <p className="exit-desc">Aplicá el siguiente código en el checkout de Mercado Pago o avisanos por WhatsApp:</p>
-            <div className="discount-code-box">CONDOR15</div>
+            <div className="discount-code-box">PROYECTO15</div>
             <p className="exit-small">15% OFF + Envío Gratis en tu primera compra.</p>
             <button className="exit-submit-btn mt-4" onClick={closePopup}>Seguir Viendo</button>
           </div>
         ) : (
           <div className="exit-form-container text-center">
             <span className="exit-emoji-huge">🧉</span>
-            <h2>¡No te vayas con el mate lavado!</h2>
+            <h2>¡No te vayas con el figura lavado!</h2>
             <p className="exit-desc">Dejanos tu WhatsApp (o Email) y te mandamos un <strong>Cupón de 15% OFF + Envío Gratis</strong> para tu primera compra.</p>
             
             <form onSubmit={handleSubmit} className="exit-form">

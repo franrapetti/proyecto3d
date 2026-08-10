@@ -68,7 +68,7 @@ const FriendsWeekPromoSection = ({ products, onAddToCart }) => {
           <div className="fw-hero-image">
             <img
               src={heroImage}
-              alt="Dos mates compartidos al atardecer en el campo"
+              alt="Dos figuras compartidos al atardecer en el campo"
               loading="lazy"
             />
             <div className="fw-hero-image-overlay" />

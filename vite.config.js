@@ -9,9 +9,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
       manifest: {
-        name: 'Cóndor Mates',
-        short_name: 'Cóndor Mates',
-        description: 'Tu ritual, nuestra pasión. Tienda de mates premium.',
+        name: 'Proyecto 3D',
+        short_name: 'Proyecto 3D',
+        description: 'Tu ritual, nuestra pasión. Tienda de figuras premium.',
         theme_color: '#ffffff',
         background_color: '#ffffff',
         display: 'standalone',

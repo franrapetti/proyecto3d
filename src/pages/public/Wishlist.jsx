@@ -36,7 +36,7 @@ const Wishlist = () => {
   return (
     <div className="public-wrapper">
       <Helmet>
-        <title>Mis Favoritos | Cóndor Mates</title>
+        <title>Mis Favoritos | Proyecto 3D</title>
       </Helmet>
       <Header 
         cartCount={cartCount} 

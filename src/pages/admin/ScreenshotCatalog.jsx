@@ -4,12 +4,12 @@ import { Filter } from 'lucide-react';
 import './ScreenshotCatalog.css';
 
 const CATEGORIES = [
-  { value: 'Yerbas', emoji: '🧉' },
-  { value: 'Bombillas', emoji: '🥄' },
-  { value: 'Mates', emoji: '🫖' },
+  { value: 'Filamentos', emoji: '🧉' },
+  { value: 'Accesorios', emoji: '🥄' },
+  { value: 'Figuras', emoji: '🫖' },
 ];
 
-const BASE_DOMAIN = 'https://condormates.com.ar';
+const BASE_DOMAIN = 'https://proyecto3d.com.ar';
 const ensureAbsoluteUrl = (url) => {
   if (!url) return '';
   if (url.startsWith('http://') || url.startsWith('https://')) return url;
@@ -78,7 +78,7 @@ const ScreenshotCatalog = () => {
       }, {});
 
       const ordered = {};
-      const priority = ['Yerbas', 'Bombillas', 'Mates'];
+      const priority = ['Filamentos', 'Accesorios', 'Figuras'];
       
       priority.forEach(cat => {
         if (grouped[cat]) {

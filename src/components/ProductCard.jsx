@@ -42,7 +42,7 @@ const ProductCard = ({ product, onAddToCart, noZoom }) => {
               MÁS VENDIDO
             </span>
           )}
-          {isLaunched && (product.category === 'Mates' || product.sub_category === 'Bombillones de Alpaca') && (
+          {isLaunched && (product.category === 'Figuras' || product.sub_category === 'Bombillones de Alpaca') && (
             <span className="packaging-badge">🎁 Packaging Premium <span style={{textDecoration: 'line-through', opacity: 0.8}}>$3,500</span> GRATIS</span>
           )}
         </div>

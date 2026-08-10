@@ -1,5 +1,5 @@
 -- ============================================================
---  Cóndor Mates — Analytics Overhaul v3
+--  Proyecto 3D — Analytics Overhaul v3
 --  Ejecutar en el SQL Editor de Supabase
 -- ============================================================
 

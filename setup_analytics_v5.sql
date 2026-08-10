@@ -1,5 +1,5 @@
 -- ============================================================================
--- Cóndor Mates — Analytics v5
+-- Proyecto 3D — Analytics v5
 -- Server-side aggregation + Security hardening
 --
 -- What this migration does:

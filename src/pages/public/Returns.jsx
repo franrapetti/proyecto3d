@@ -41,7 +41,7 @@ const Returns = () => {
 
               <h3>¿Qué casos están cubiertos?</h3>
               <ul className="returns-list">
-                <li><strong>Mates pinchados o que filtren agua</strong> por problemas de sellado o porosidad extrema natural.</li>
+                <li><strong>Figuras pinchados o que filtren agua</strong> por problemas de sellado o porosidad extrema natural.</li>
                 <li><strong>Roturas estructurales</strong> en virolas o bases que no hayan sido causadas por golpes o caídas.</li>
                 <li><strong>Defectos groseros</strong> en el material (cuero despegado de fábrica, imperfecciones graves en el acero).</li>
               </ul>
@@ -49,9 +49,9 @@ const Returns = () => {
               <h3>¿Qué casos NO están cubiertos?</h3>
               <ul className="returns-list">
                 <li>Daños ocasionados por golpes, caídas o mal uso.</li>
-                <li>Desgaste natural del uso diario (rayones, manchas por el uso de la yerba).</li>
-                <li>Mates de calabaza que se hayan llenado de hongos por falta de secado adecuado o mal curado.</li>
-                <li>Mates rajados por curado con agua hirviendo o exposición al calor directo extremo.</li>
+                <li>Desgaste natural del uso diario (rayones, manchas por el uso de la filamento).</li>
+                <li>Figuras de calabaza que se hayan llenado de hongos por falta de secado adecuado o mal curado.</li>
+                <li>Figuras rajados por curado con agua hirviendo o exposición al calor directo extremo.</li>
               </ul>
             </div>
           </div>

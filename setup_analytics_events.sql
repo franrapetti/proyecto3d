@@ -1,5 +1,5 @@
 -- ============================================================
---  Cóndor Mates — Analytics Events (Funnel Tracking)
+--  Proyecto 3D — Analytics Events (Funnel Tracking)
 --  Ejecutar en el SQL Editor de Supabase
 -- ============================================================
 

@@ -5,12 +5,12 @@ import './CsvExport.css';
 import './AdminProducts.css';
 
 const CATEGORIES = [
-  { value: 'Yerbas', emoji: '🧉' },
-  { value: 'Bombillas', emoji: '🥄' },
-  { value: 'Mates', emoji: '🫖' },
+  { value: 'Filamentos', emoji: '🧉' },
+  { value: 'Accesorios', emoji: '🥄' },
+  { value: 'Figuras', emoji: '🫖' },
 ];
 
-const BASE_DOMAIN = 'https://condormates.com.ar';
+const BASE_DOMAIN = 'https://proyecto3d.com.ar';
 
 /**
  * Ensures an image URL is absolute.

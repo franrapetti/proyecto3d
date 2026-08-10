@@ -94,7 +94,7 @@ const CheckoutSuccess = () => {
   return (
     <div className="checkout-success-page fade-in">
       <Helmet>
-        <title>{isApproved ? '¡Pago Exitoso!' : 'Pago pendiente'} | Cóndor Mates</title>
+        <title>{isApproved ? '¡Pago Exitoso!' : 'Pago pendiente'} | Proyecto 3D</title>
       </Helmet>
 
       <div className="success-card">
@@ -142,8 +142,8 @@ const CheckoutSuccess = () => {
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1rem' }}>
               <p style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: 0 }}>
-                <strong>Alias:</strong> condormates
-                <button onClick={() => handleCopy('condormates', 'alias')} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '4px', borderRadius: '4px', backgroundColor: 'rgba(0,0,0,0.05)' }} title="Copiar Alias">
+                <strong>Alias:</strong> proyecto3d
+                <button onClick={() => handleCopy('proyecto3d', 'alias')} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: '4px', borderRadius: '4px', backgroundColor: 'rgba(0,0,0,0.05)' }} title="Copiar Alias">
                   {copiedField === 'alias' ? <Check size={16} color="green" /> : <Copy size={16} color="#666" />}
                 </button>
               </p>

@@ -10,7 +10,7 @@ const CrossSellModal = ({ isOpen, onClose, onQuickAdd, crossSells = [] }) => {
       <div className="modal-content">
         <button className="modal-close" onClick={onClose}>×</button>
         <h2>¡Excelente Elección!</h2>
-        <p>¿Te gustaría agregar algo para acompañar tu mate?</p>
+        <p>¿Te gustaría agregar algo para acompañar tu figura?</p>
         
         <div className="cross-sell-items">
           {crossSells.map(item => (

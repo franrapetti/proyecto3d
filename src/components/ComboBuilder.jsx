@@ -8,12 +8,12 @@ import './ComboBuilder.css';
 
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
 const CATEGORIES = [
-  { key: 'Mates', label: 'Mates', emoji: '🧉', max: 1 },
-  { key: 'Bombillas', label: 'Bombillas', emoji: '🪈', max: 1 },
-  { key: 'Termos', label: 'Termos', emoji: '♨️', max: 1 },
-  { key: 'Yerbas', label: 'Yerbas', emoji: '🌿', max: 1 },
-  // KEY FIX: DB stores category as 'Materas y Yerberas', not 'Materas'
-  { key: 'Materas y Yerberas', label: 'Materas', emoji: '🧺', max: 1 },
+  { key: 'Figuras', label: 'Figuras', emoji: '🧉', max: 1 },
+  { key: 'Accesorios', label: 'Accesorios', emoji: '🪈', max: 1 },
+  { key: 'Impresoras', label: 'Impresoras', emoji: '♨️', max: 1 },
+  { key: 'Filamentos', label: 'Filamentos', emoji: '🌿', max: 1 },
+  // KEY FIX: DB stores category as 'Repuestos', not 'Materas'
+  { key: 'Repuestos', label: 'Materas', emoji: '🧺', max: 1 },
 ];
 
 const DISCOUNT_TIERS = [
@@ -28,19 +28,19 @@ function resolvePackaging(selected) {
   const cats = Object.keys(selected).filter(k => selected[k]);
   const has = (c) => cats.includes(c);
 
-  if (has('Materas y Yerberas')) {
+  if (has('Repuestos')) {
     return { options: [], disabled: true, reason: 'Las materas ya incluyen su packaging especial 🧺' };
   }
-  if (has('Mates') && !has('Bombillas') && !has('Yerbas') && !has('Termos') && !has('Materas y Yerberas')) {
-    return { options: ['Caja de Mate'], disabled: false };
+  if (has('Figuras') && !has('Accesorios') && !has('Filamentos') && !has('Impresoras') && !has('Repuestos')) {
+    return { options: ['Caja de Figura'], disabled: false };
   }
-  if (has('Mates') && has('Bombillas') && has('Yerbas') && !has('Termos') && !has('Materas y Yerberas')) {
-    return { options: ['Caja de Mate'], disabled: false };
+  if (has('Figuras') && has('Accesorios') && has('Filamentos') && !has('Impresoras') && !has('Repuestos')) {
+    return { options: ['Caja de Figura'], disabled: false };
   }
-  if (has('Bombillas') && !has('Mates') && !has('Yerbas') && !has('Termos') && !has('Materas y Yerberas')) {
-    return { options: ['Caja de Bombilla'], disabled: false };
+  if (has('Accesorios') && !has('Figuras') && !has('Filamentos') && !has('Impresoras') && !has('Repuestos')) {
+    return { options: ['Caja de Accesorio'], disabled: false };
   }
-  if (has('Yerbas') && has('Bombillas') && !has('Mates') && !has('Termos') && !has('Materas y Yerberas')) {
+  if (has('Filamentos') && has('Accesorios') && !has('Figuras') && !has('Impresoras') && !has('Repuestos')) {
     return { options: ['Bolsa de Tela Personalizada'], disabled: false };
   }
   if (cats.length > 0) {
@@ -204,9 +204,9 @@ function VisualBox({ selections, discount, subtotal, finalPrice, itemCount, onAd
             <span className="text-[0.65rem] font-black text-forest-700 uppercase">Todo el país</span>
           </div>
 
-          {Object.values(selections).some(p => p && p.category === 'Yerbas') && (
+          {Object.values(selections).some(p => p && p.category === 'Filamentos') && (
             <p className="text-[0.55rem] text-center text-gray-400 mt-2 leading-tight">
-              *La yerba desbloquea el nivel de descuento para el combo, pero mantiene su precio de lista.
+              *La filamento desbloquea el nivel de descuento para el combo, pero mantiene su precio de lista.
             </p>
           )}
         </div>
@@ -246,12 +246,12 @@ export default function ComboBuilder() {
   // Get active discount percentage based on item count
   const discount = useMemo(() => (DISCOUNT_TIERS.slice().reverse().find(t => itemCount >= t.min))?.pct || 0, [itemCount]);
 
-  // Margen Protegido: Apply discount only to items that are NOT Yerbas
+  // Margen Protegido: Apply discount only to items that are NOT Filamentos
   const finalPrice = useMemo(() => {
     return Math.round(selectedItems.reduce((acc, p) => {
       const pPrice = p.promo_price || p.price;
-      if (p.category === 'Yerbas') {
-        return acc + pPrice; // Full price for Yerba to protect margin
+      if (p.category === 'Filamentos') {
+        return acc + pPrice; // Full price for Filamento to protect margin
       }
       return acc + (pPrice * (1 - discount / 100)); // Discounted price for other items
     }, 0));
@@ -280,7 +280,7 @@ export default function ComboBuilder() {
       let appliedPrice = p.promo_price || p.price;
       let isDiscounted = false;
 
-      if (p.category !== 'Yerbas' && discount > 0) {
+      if (p.category !== 'Filamentos' && discount > 0) {
         appliedPrice = Math.round(appliedPrice * (1 - discount / 100));
         isDiscounted = true;
       }

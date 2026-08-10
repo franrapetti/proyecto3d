@@ -9,7 +9,7 @@ const Shipping = () => {
     <div className="page-section fade-in modern-layout" style={{ margin: '0 auto', marginTop: '2rem' }}>
       <div className="capsule-hero">
         <span className="badge-modern">Logística</span>
-        <h2 className="title-modern" style={{ fontWeight: 900 }}><strong>Tus mates,</strong><br/><span className="text-gradient" style={{ fontWeight: 900 }}>a tu puerta</span></h2>
+        <h2 className="title-modern" style={{ fontWeight: 900 }}><strong>Tus figuras,</strong><br/><span className="text-gradient" style={{ fontWeight: 900 }}>a tu puerta</span></h2>
       </div>
       <div className="capsule-grid-2">
         <div className="capsule green-dark full-width">

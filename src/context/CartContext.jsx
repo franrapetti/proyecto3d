@@ -25,7 +25,7 @@ export const CartProvider = ({ children }) => {
     const fetchCrossSells = async () => {
       const { data } = await supabase.from('products')
         .select('*')
-        .in('category', ['Yerbas', 'Bombillas'])
+        .in('category', ['Filamentos', 'Accesorios'])
         .not('name', 'ilike', '%Kurupí%')
         .limit(15);
       if (data) setAllCrossSells(data);
@@ -81,7 +81,7 @@ export const CartProvider = ({ children }) => {
         product_name: product.name,
         price: product.promo_price || product.price,
       });
-      if (product.category === 'Mates' && product.quick_add_upsell && allCrossSells.length > 0) {
+      if (product.category === 'Figuras' && product.quick_add_upsell && allCrossSells.length > 0) {
         // Randomize 2 cross sells
         const shuffled = [...allCrossSells].sort(() => 0.5 - Math.random());
         setCrossSells(shuffled.slice(0, 2));

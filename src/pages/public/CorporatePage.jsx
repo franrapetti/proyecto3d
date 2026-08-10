@@ -52,7 +52,7 @@ function CorporatePage() {
   const handleWhatsApp = (e) => {
     e.preventDefault();
     const lines = [
-      `🏢 *Consulta de Regalos Empresariales — Cóndor Mates*`,
+      `🏢 *Consulta de Regalos Empresariales — Proyecto 3D*`,
       ``,
       `*Empresa:* ${form.company}`,
       `*Contacto:* ${form.contact}`,
@@ -68,8 +68,8 @@ function CorporatePage() {
   return (
     <>
       <Helmet>
-        <title>Regalos Empresariales | Cóndor Mates</title>
-        <meta name="description" content="Regalos empresariales personalizados con el logo de tu empresa. Mates artesanales en cantidad. Cóndor Mates 🦅" />
+        <title>Regalos Empresariales | Proyecto 3D</title>
+        <meta name="description" content="Regalos empresariales personalizados con el logo de tu empresa. Figuras artesanales en cantidad. Proyecto 3D 🦅" />
       </Helmet>
       <Header
         cartCount={cartCount}
@@ -83,9 +83,9 @@ function CorporatePage() {
         {/* Hero */}
         <div className="corp-hero">
           <span className="corp-badge">🏢 Regalos Empresariales</span>
-          <h1 className="corp-title">Mates con la identidad<br/><span className="text-gradient">de tu empresa</span></h1>
+          <h1 className="corp-title">Figuras con la identidad<br/><span className="text-gradient">de tu empresa</span></h1>
           <p className="corp-subtitle">
-            Personalizamos mates artesanales con el logo de tu empresa. Precios especiales por cantidad, ideales para regalos corporativos, eventos y kit de bienvenida.
+            Personalizamos figuras artesanales con el logo de tu empresa. Precios especiales por cantidad, ideales para regalos corporativos, eventos y kit de bienvenida.
           </p>
           <div className="corp-trust-row">
             <span>🎨 Con tu logo</span>
@@ -102,7 +102,7 @@ function CorporatePage() {
             <div className="corp-step">
               <div className="corp-step-num">1</div>
               <h3>Elegís el producto</h3>
-              <p>Seleccionás el mate o accesorio que mejor representa a tu empresa.</p>
+              <p>Seleccionás el figura o accesorio que mejor representa a tu empresa.</p>
             </div>
             <div className="corp-step">
               <div className="corp-step-num">2</div>
@@ -184,7 +184,7 @@ function CorporatePage() {
             </div>
             <div className="corp-form-group">
               <label>Producto de interés</label>
-              <input name="product" value={form.product} onChange={handleChange} placeholder="Ej: Mate Torpedo Premium" />
+              <input name="product" value={form.product} onChange={handleChange} placeholder="Ej: Figura Busto Iron Man" />
             </div>
             <div className="corp-form-group">
               <label>Mensaje adicional</label>

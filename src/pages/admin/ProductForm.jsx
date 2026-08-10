@@ -5,20 +5,20 @@ import { useNavigate, useParams, Link } from 'react-router-dom';
 import './AdminProducts.css';
 
 const CATEGORIES = [
-  "Mates - Torpedo",
-  "Mates - Imperial",
-  "Mates - Varios",
-  "Yerbas",
-  "Bombillas - Bombillas Acero",
-  "Bombillas - Bombillas Alpaca",
-  "Bombillas - Bombillones de Alpaca",
-  "Bombillas - Bombillones de Acero",
-  "Materas y Yerberas",
+  "Figuras - Torpedo",
+  "Figuras - Imperial",
+  "Figuras - Varios",
+  "Filamentos",
+  "Accesorios - Accesorios Acero",
+  "Accesorios - Accesorios Alpaca",
+  "Accesorios - Bombillones de Alpaca",
+  "Accesorios - Bombillones de Acero",
+  "Repuestos",
   "Accesorios",
-  "Termos - Termolar",
-  "Termos - Media Manija Cebador",
-  "Termos - Stanley Mate Sistem",
-  "Termos - Houdson"
+  "Impresoras - Termolar",
+  "Impresoras - Media Manija Cebador",
+  "Impresoras - Stanley Figura Sistem",
+  "Impresoras - Houdson"
 ];
 
 /* ────────────────────────────────────────────────────────────
@@ -236,7 +236,7 @@ const ProductForm = () => {
         quick_add_upsell: formData.quick_add_upsell,
         image_url: primaryUrl,
         gallery_images: galleryUrls,
-        has_free_packaging: ['Mates'].includes(category) || subCategory === 'Bombillones de Alpaca',
+        has_free_packaging: ['Figuras'].includes(category) || subCategory === 'Bombillones de Alpaca',
         color_group: formData.color_group || null,
         color_name: formData.color_name || null,
         is_corporate: formData.is_corporate || false,
@@ -331,7 +331,7 @@ const ProductForm = () => {
                     set('slug', e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, ''));
                   }
                 }}
-                placeholder="Ej: Mate Torpedo Premium"
+                placeholder="Ej: Figura Busto Iron Man"
               />
             </div>
 
@@ -341,7 +341,7 @@ const ProductForm = () => {
                 type="text"
                 value={formData.slug}
                 onChange={e => set('slug', e.target.value.toLowerCase().replace(/[^a-z0-9\-]+/g, ''))}
-                placeholder="Ej: mate-torpedo-premium"
+                placeholder="Ej: figura-torpedo-premium"
               />
             </div>
 
@@ -409,7 +409,7 @@ const ProductForm = () => {
               />
             </div>
 
-            {formData.category_raw.startsWith('Mates') && (
+            {formData.category_raw.startsWith('Figuras') && (
               <div className="form-group toggle-group">
                 <label className="toggle-label">
                   <input
@@ -434,7 +434,7 @@ const ProductForm = () => {
                   type="text"
                   value={formData.color_group}
                   onChange={e => set('color_group', e.target.value)}
-                  placeholder="Ej: mate-torpedo-cuero"
+                  placeholder="Ej: figura-torpedo-cuero"
                 />
               </div>
               <div className="form-group">
