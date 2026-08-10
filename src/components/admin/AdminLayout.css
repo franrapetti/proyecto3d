@@ -104,13 +104,13 @@
 }
 
 .adm-nav-link--active {
-  background: rgba(35, 74, 46, 0.1);
+  background: rgba(0, 0, 0, 0.08);
   color: var(--accent);
   font-weight: 600;
 }
 
 .adm-nav-link--active:hover {
-  background: rgba(35, 74, 46, 0.14);
+  background: rgba(0, 0, 0, 0.12);
 }
 
 .adm-nav-link--muted {
@@ -235,7 +235,7 @@
 }
 
 .dark-theme .adm-nav-link--active {
-  background: rgba(46, 166, 85, 0.15);
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .dark-theme .adm-sidebar-close:hover {
@@ -252,7 +252,7 @@
 }
 
 .dark-theme .adm-bottom-nav-link--active {
-  color: #2ea655;
+  color: #ffffff;
 }
 
 /* ════════════════════════════════════════════════════════════════════

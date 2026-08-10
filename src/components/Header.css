@@ -4,7 +4,7 @@
   z-index: 100;
   background-color: #0a0a0a;
   border-bottom: 1px solid #1a1a1a;
-  padding: 1rem 0;
+  padding: 0;
 }
 
 .header-content {
@@ -33,10 +33,11 @@
 }
 
 .logo-img {
-  height: 45px;
+  height: 85px;
   width: auto;
-  object-fit: contain;
+  object-fit: cover;
   transition: all 0.3s ease;
+  display: block;
 }
 
 

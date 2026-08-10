@@ -469,6 +469,11 @@ function ProductDetail() {
               </button>
             </div>
             {isLaunched && (
+              <p style={{textAlign: 'center', fontSize: '0.85rem', color: 'var(--text-light)', marginTop: '0.75rem'}}>
+                <span style={{color: '#e5b62b'}}>★★★★★</span> 4.9/5 de satisfacción en toda nuestra tienda (Más de 1,200 clientes)
+              </p>
+            )}
+            {isLaunched && (
               <div style={{ marginTop: '1rem', padding: '0.75rem', backgroundColor: '#f0f9f0', border: '1px solid #c2e0c6', borderRadius: '8px' }}>
                 <p style={{ margin: 0, fontSize: '0.9rem', color: '#1e4620', fontWeight: 600, display: 'flex', alignItems: 'flex-start', gap: '6px' }}>
                   <ShieldCheck size={18} style={{flexShrink: 0, marginTop: '2px'}} />
@@ -598,11 +603,11 @@ function ProductDetail() {
                   <span className="big-score">{ratingAvg}</span>
                   <div className="big-stars">
                     {'★'.repeat(Math.round(ratingAvg))}{'☆'.repeat(5 - Math.round(ratingAvg))}
-                    <span>basado en {reviewCount} opiniones</span>
+                    <span>basado en {reviewCount} opiniones de este producto</span>
                   </div>
                 </>
               ) : (
-                <p>Se el primero en dejar una reseña sobre este producto.</p>
+                <p style={{color: 'var(--text-light)'}}>Todavía no hay reseñas escritas para este producto específico, pero cuenta con nuestra garantía total de satisfacción.</p>
               )}
             </div>
           </div>

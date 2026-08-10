@@ -1,6 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Footer from './Footer';
+import SocialProofPopup from './SocialProofPopup';
 
 const PublicLayout = () => {
   return (
@@ -8,6 +9,7 @@ const PublicLayout = () => {
       <div className="public-content-wrap" style={{ flex: 1 }}>
         <Outlet />
       </div>
+      <SocialProofPopup />
       <Footer />
     </div>
   );

@@ -1,0 +1,129 @@
+.review-carousel-section {
+  padding: 3rem 1rem;
+  background-color: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+
+.review-carousel-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.review-carousel-title {
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+  color: var(--text-dark);
+  letter-spacing: -0.02em;
+}
+
+.review-carousel-wrapper {
+  display: flex;
+  overflow-x: auto;
+  gap: 1.5rem;
+  padding-bottom: 1rem;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.review-carousel-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+
+.review-carousel-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.review-carousel-wrapper::-webkit-scrollbar-thumb {
+  background-color: var(--border);
+  border-radius: 10px;
+}
+
+.review-carousel-track {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0.5rem;
+}
+
+.review-card-modern {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  min-width: 300px;
+  max-width: 350px;
+  box-shadow: var(--shadow-sm);
+  scroll-snap-align: center;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.review-card-modern:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.review-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.review-stars {
+  display: flex;
+  gap: 2px;
+}
+
+.verified-buyer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #2ea655;
+  background-color: rgba(46, 166, 85, 0.1);
+  padding: 4px 8px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.review-comment-text {
+  font-size: 0.95rem;
+  color: var(--text-dark);
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+  font-style: italic;
+}
+
+.review-author {
+  display: flex;
+  flex-direction: column;
+}
+
+.review-author strong {
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  font-weight: 700;
+}
+
+.review-location {
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
+@media (max-width: 768px) {
+  .review-card-modern {
+    min-width: 260px;
+  }
+}

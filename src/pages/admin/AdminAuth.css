@@ -37,8 +37,8 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  background: rgba(35, 74, 46, 0.1);
-  color: var(--accent);
+  background: rgba(0, 0, 0, 0.08);
+  color: var(--text-dark);
   padding: 2px 8px;
   border-radius: 6px;
   margin-left: 6px;
@@ -78,8 +78,8 @@
 }
 
 .form-group input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(35, 74, 46, 0.1);
+  border-color: var(--text-dark);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
 }
 
 .login-btn {
@@ -99,8 +99,8 @@
 }
 
 .login-btn:hover {
-  background: #1a3d24;
-  box-shadow: 0 4px 16px rgba(35, 74, 46, 0.3);
+  background: #333333;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
   transform: translateY(-1px);
 }
 

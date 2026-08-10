@@ -67,7 +67,7 @@ const AdminLayout = () => {
       {/* ── Sidebar ── */}
       <aside className={`adm-sidebar${sidebarOpen ? ' adm-sidebar--open' : ''}`}>
         <div className="adm-brand">
-          <span className="adm-brand-logo">Proyecto 3D</span>
+          <span className="adm-brand-logo">Punto Base</span>
           <span className="adm-brand-pill">Admin</span>
           <button
             className="adm-sidebar-close"
@@ -114,7 +114,7 @@ const AdminLayout = () => {
           >
             <Menu size={22} />
           </button>
-          <span className="adm-topbar-brand-mobile">Proyecto 3D</span>
+          <span className="adm-topbar-brand-mobile">Punto Base</span>
           <div style={{ flex: 1 }} />
           <div className="adm-topbar-right">
             <button className="adm-theme-btn" onClick={toggleTheme} title="Cambiar tema">

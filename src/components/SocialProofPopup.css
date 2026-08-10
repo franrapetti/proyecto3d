@@ -1,0 +1,93 @@
+.social-proof-popup {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--shadow-md);
+  z-index: 1000;
+  transform: translateY(150%) scale(0.9);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  max-width: 320px;
+}
+
+.social-proof-popup.visible {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.social-proof-icon {
+  background-color: var(--accent);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.social-proof-content {
+  flex-grow: 1;
+}
+
+.social-proof-text {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-dark);
+  line-height: 1.4;
+}
+
+.social-proof-text span {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.social-proof-time {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  display: block;
+  margin-top: 2px;
+}
+
+.social-proof-close {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.social-proof-close:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--text-dark);
+}
+
+.dark-theme .social-proof-close:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+  .social-proof-popup {
+    bottom: 80px; /* Above mobile bottom nav if it exists */
+    left: 16px;
+    right: 16px;
+    max-width: calc(100% - 32px);
+  }
+}

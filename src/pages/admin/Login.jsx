@@ -36,7 +36,7 @@ const Login = () => {
       <div className="admin-login-card">
         <div className="admin-login-header">
           <div>
-            <span className="admin-login-logo">Proyecto 3D</span>
+            <span className="admin-login-logo">Punto Base</span>
             <span className="admin-login-pill">Admin</span>
           </div>
           <p className="admin-login-subtitle">Ingresá para gestionar tu tienda</p>

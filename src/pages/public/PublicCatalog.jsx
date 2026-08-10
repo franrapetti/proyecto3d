@@ -15,6 +15,7 @@ import { ShieldCheck, Star, Truck, CreditCard, BadgeCheck } from 'lucide-react';
 import { FRIENDS_WEEK_ACTIVE } from '../../data/friendsWeekData';
 import FriendsWeekPromoSection from '../../components/FriendsWeekPromoSection';
 import CategoryShowcase from '../../components/CategoryShowcase';
+import ReviewCarousel from '../../components/ReviewCarousel';
 
 function PublicCatalog() {
   const { cartCount, setIsCartOpen, addToCart } = useCart();
@@ -221,8 +222,8 @@ function PublicCatalog() {
                   <Truck size={20} color="#2663eb" />
                 </div>
                 <div className="trust-text-wrapper">
-                  <div className="trust-title">Envios rapidos</div>
-                  <span className="trust-subtitle">por Andreani</span>
+                  <div className="trust-title">Envíos asegurados</div>
+                  <span className="trust-subtitle">seguimiento por Andreani</span>
                 </div>
               </div>
               
@@ -231,8 +232,8 @@ function PublicCatalog() {
                   <CreditCard size={20} color="#454545" />
                 </div>
                 <div className="trust-text-wrapper">
-                  <div className="trust-title">Pagos seguros</div>
-                  <span className="trust-subtitle">por Mercado Pago</span>
+                  <div className="trust-title">Dinero protegido</div>
+                  <span className="trust-subtitle">vía Mercado Pago</span>
                 </div>
               </div>
             </div>
@@ -251,6 +252,8 @@ function PublicCatalog() {
             setCurrentCategory(cat);
             setTimeout(() => document.getElementById('catalog-section')?.scrollIntoView({ behavior: 'smooth' }), 100);
           }} />
+
+          <ReviewCarousel />
         </>
       )}
 
