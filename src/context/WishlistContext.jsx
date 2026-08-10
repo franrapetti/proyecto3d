@@ -1,0 +1,53 @@
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useToast } from './ToastContext';
+import { trackPixelEvent } from '../lib/analytics';
+
+const WishlistContext = createContext();
+
+export const WishlistProvider = ({ children }) => {
+  const [wishlist, setWishlist] = useState(() => {
+    try {
+      const saved = localStorage.getItem('mate_wishlist');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  const { addToast } = useToast();
+
+  useEffect(() => {
+    localStorage.setItem('mate_wishlist', JSON.stringify(wishlist));
+  }, [wishlist]);
+
+  const toggleWishlist = (product) => {
+    const exists = wishlist.find(p => p.id === product.id);
+    if (exists) {
+      addToast(`Eliminado de favoritos`, 'error');
+      setWishlist(prev => prev.filter(p => p.id !== product.id));
+    } else {
+      addToast(`¡${product.name} guardado en favoritos! ❤️`, 'success');
+      setWishlist(prev => [...prev, product]);
+
+      // Meta Pixel: AddToWishlist
+      trackPixelEvent('AddToWishlist', {
+        content_name: product.name,
+        content_ids: [String(product.id)],
+        content_type: 'product',
+        content_category: product.category || '',
+        value: product.promo_price || product.price,
+        currency: 'ARS',
+      });
+    }
+  };
+
+  const isWishlisted = (id) => wishlist.some(p => p.id === id);
+
+  return (
+    <WishlistContext.Provider value={{ wishlist, toggleWishlist, isWishlisted }}>
+      {children}
+    </WishlistContext.Provider>
+  );
+};
+
+export const useWishlist = () => useContext(WishlistContext);

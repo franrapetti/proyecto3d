@@ -1,0 +1,300 @@
+.header.sticky {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--surface);
+  box-shadow: var(--shadow-sm);
+  padding: 1rem 0;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative; /* Anchor for the absolute dropdown */
+}
+
+/* Hamburger: hidden on desktop, shown on mobile */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-dark);
+  padding: 0.25rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-logo {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.logo-img {
+  height: 45px;
+  width: auto;
+  object-fit: contain;
+  transition: all 0.3s ease;
+}
+
+
+
+.logo {
+  font-family: var(--font-logo);
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: var(--accent);
+  cursor: pointer;
+  letter-spacing: -0.01em;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.nav-links > li > button {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-light);
+  transition: color 0.2s;
+  padding: 0.5rem 0;
+}
+
+.nav-links > li > button:hover, .nav-links > li > button.active {
+  color: var(--accent);
+}
+
+.header-nav-link {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-light);
+  transition: color 0.2s;
+  padding: 0.5rem 0;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.header-nav-link:hover, .header-nav-link.active {
+  color: var(--accent);
+}
+
+/* -- DROPDOWN MENU REBUILD -- */
+
+.dropdown-parent {
+  position: relative; /* Now the dropdown anchors directly below the "Productos" button */
+}
+
+/* Base Dropdown (Desktop) */
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 15px);
+  left: -50px; /* Shift slightly left so it centers visually underneath the button without bleeding off screen */
+  background-color: var(--surface);
+  border-radius: 12px;
+  box-shadow: 0 10px 40px -5px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0,0,0,0.05);
+  padding: 1.5rem;
+  
+  /* Animations */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  z-index: 1000;
+
+  /* Layout */
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem 1.5rem;
+  
+  /* Width */
+  width: 750px; 
+  max-width: 90vw; /* Safety constraint for smaller laptops */
+}
+
+/* Hover Bridge */
+.dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background: transparent;
+}
+
+.dropdown-parent:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.dropdown-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.dropdown-main-btn {
+  text-align: left;
+  padding: 0.4rem 0.5rem;
+  border-radius: 6px;
+  font-weight: 700;
+  color: var(--text-dark);
+  transition: all 0.2s;
+  font-size: 0.95rem;
+  background-color: rgba(35, 74, 46, 0.04);
+  width: 100%;
+}
+
+.dropdown-main-btn:hover {
+  background-color: rgba(35, 74, 46, 0.08);
+  color: var(--accent);
+}
+
+.dropdown-sub-links {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-left: 0.25rem;
+  margin-top: 0.25rem;
+}
+
+.dropdown-sub-btn {
+  text-align: left;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-light);
+  font-weight: 500;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.dropdown-sub-btn:hover {
+  color: var(--accent);
+  background-color: rgba(35, 74, 46, 0.05);
+}
+
+/* -- Actions -- */
+.cart-btn {
+  position: relative;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  color: var(--text-dark);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.theme-toggle, .wishlist-header-btn {
+  font-size: 1.25rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  border-radius: 50%;
+  color: var(--text-dark);
+  transition: all 0.2s;
+}
+
+.theme-toggle:hover, .wishlist-header-btn:hover {
+  background-color: rgba(35, 74, 46, 0.05);
+  transform: scale(1.05);
+}
+
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background-color: var(--accent);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  height: 20px;
+  min-width: 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .dropdown-menu {
+    width: 500px;
+    grid-template-columns: repeat(2, 1fr);
+    left: -100px; /* Keep it on screen */
+  }
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: flex;
+  }
+  
+  .desktop-nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--surface);
+    border-bottom: 2px solid var(--border);
+    padding: 1.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);
+    z-index: 50;
+    max-height: calc(100vh - 70px);
+    overflow-y: auto;
+  }
+  
+  .desktop-nav.mobile-open {
+    display: block;
+  }
+  
+  .desktop-nav .nav-links {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .dropdown-menu {
+    /* Mobile Override: Remove absolute positioning entirely */
+    position: static;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    
+    /* Layout */
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    
+    /* Styling resets */
+    box-shadow: none;
+    background: transparent;
+    padding: 0.5rem 0 0 1rem;
+    margin-top: 0;
+  }
+  
+  .dropdown-group {
+    margin-bottom: 0.5rem;
+  }
+}
+

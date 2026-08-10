@@ -1,0 +1,335 @@
+.product-card {
+  background-color: var(--surface);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s, transform 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.product-image-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  background-color: rgba(35, 74, 46, 0.05); /* Soft fill color instead of pure white/surface */
+  overflow: hidden;
+}
+
+.product-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+  background-color: transparent;
+  display: block;
+}
+
+.top-left-badges {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+  z-index: 10;
+}
+
+.packaging-badge {
+  background-color: var(--surface);
+  color: var(--accent);
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.best-seller-badge {
+  background-color: var(--text-dark); /* Dark premium background */
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  padding: 4px 8px;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.product-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 0.2rem;
+  margin-top: 0.1rem;
+}
+
+.rating-value {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.rating-count {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.product-info {
+  padding: 0.5rem 0.4rem 0.4rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 0;
+}
+
+.product-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  font-family: var(--font-display);
+  color: var(--text-dark);
+  margin-bottom: 0.1rem;
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+}
+
+.product-price {
+  font-size: 0.92rem;
+  font-weight: 800;
+  font-family: var(--font-display);
+  color: var(--text-dark);
+  margin-bottom: 0;
+  margin-top: 0;
+  text-align: left;
+}
+
+.product-price-block {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.2rem;
+  flex-wrap: wrap;
+  margin-bottom: 0;
+  margin-top: 0;
+  width: 100%;
+}
+
+.product-price-large {
+  font-size: 1.06rem;
+  font-weight: 800;
+  font-family: var(--font-display);
+  color: var(--text-dark);
+}
+
+.product-price-promo {
+  font-size: 0.95rem;
+  font-weight: 800;
+  font-family: var(--font-display);
+  color: var(--text-dark);
+}
+
+.product-price-original {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-light);
+  text-decoration: line-through;
+}
+
+.transfer-price-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.05rem;
+  margin-top: 0.05rem;
+  margin-bottom: 0.4rem;
+  width: 100%;
+}
+
+.product-card .transfer-price-amount {
+  font-weight: 800;
+  font-size: 1.08rem;
+  color: #16a34a;
+}
+
+.transfer-price-text {
+  font-size: 0.65rem;
+  color: var(--text-light);
+  line-height: 1.1;
+}
+
+.discount-badge {
+  background: #e53935;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 10px;
+  letter-spacing: 0.03em;
+}
+
+.add-to-cart-btn {
+  background-color: var(--accent);
+  color: white;
+  padding: 0.65rem;
+  border-radius: 4px;
+  font-weight: 700;
+  width: 100%;
+  transition: background-color 0.2s;
+  font-size: 0.88rem;
+  margin-top: 0;
+  letter-spacing: 0.02em;
+}
+
+.add-to-cart-btn:hover {
+  filter: brightness(0.9);
+}
+
+/* Wishlist Heart Button */
+.wishlist-btn {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s, background 0.2s;
+  backdrop-filter: blur(4px);
+}
+
+.wishlist-btn:hover {
+  transform: scale(1.15);
+  background: white;
+}
+
+.wishlist-btn.wishlisted {
+  animation: heartPop 0.3s ease;
+}
+
+@keyframes heartPop {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.35);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Stock badges */
+.low-stock-pill {
+  display: inline-block;
+  background: #fff3cd;
+  color: #b45309;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 10px;
+  margin-bottom: 0.6rem;
+  letter-spacing: 0.01em;
+}
+
+.no-stock-pill {
+  display: inline-block;
+  background: #fee2e2;
+  color: #dc2626;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 10px;
+  margin-bottom: 0.6rem;
+}
+
+.add-to-cart-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+  .product-info {
+    padding: 0.5rem 0.65rem;
+  }
+
+  .product-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 0.15rem;
+  }
+
+  .product-price {
+    font-size: 0.88rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .product-price-large {
+    font-size: 1rem;
+  }
+
+  .product-price-promo {
+    font-size: 0.88rem;
+  }
+
+  .product-price-original {
+    font-size: 0.85rem;
+  }
+
+  .discount-badge {
+    font-size: 0.65rem;
+    padding: 1px 5px;
+  }
+
+  .transfer-price-text {
+    font-size: 0.65rem;
+    line-height: 1;
+  }
+
+  .product-card .transfer-price-amount {
+    font-size: 1.02rem;
+  }
+
+  .add-to-cart-btn {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .packaging-badge {
+    font-size: 0.55rem;
+    padding: 2px 4px;
+    gap: 2px;
+  }
+
+  .wishlist-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 0.9rem;
+    bottom: 6px;
+    right: 6px;
+  }
+}

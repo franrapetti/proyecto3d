@@ -1,0 +1,291 @@
+/* ─── COMBO BUILDER PREMIUM STYLES ─────────────────────────────────────────── */
+
+:root {
+  --forest-dark: var(--accent);
+  --forest-light: #3d8055;
+  --bone-bg: var(--background);
+  --ivory: var(--surface);
+  --gold-accent: #d4af37;
+}
+
+/* ── Landing Grid ── */
+.combo-landing-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .combo-landing-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .combo-landing-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+.category-card {
+  aspect-ratio: 1 / 1.1;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
+.category-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 12px 24px rgba(35, 74, 46, 0.12);
+  border-color: var(--forest-dark);
+}
+
+.category-card.selected {
+  border-color: var(--forest-dark);
+  background: rgba(35, 74, 46, 0.02);
+}
+
+.category-card-icon {
+  font-size: 2.5rem;
+  transition: transform 0.3s ease;
+}
+
+.category-card:hover .category-card-icon {
+  transform: scale(1.1);
+}
+
+.category-card-label {
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #444;
+}
+
+/* Selected Image State */
+.category-card-image-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.category-card-image-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.category-card:hover .category-card-image-bg img {
+  transform: scale(1.08);
+}
+
+.category-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 60%);
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.category-card.has-selection .category-card-overlay {
+  opacity: 1;
+}
+
+.category-card.has-selection .category-card-label {
+  position: absolute;
+  bottom: 0.75rem;
+  color: white;
+  z-index: 3;
+}
+
+/* ── Transition Logic ── */
+.combo-main-overflow {
+  overflow: hidden;
+  position: relative;
+  min-height: 600px;
+}
+
+.combo-transition-wrapper {
+  display: flex;
+  width: 200%;
+  transition: transform 0.7s cubic-bezier(0.85, 0, 0.15, 1);
+  align-items: flex-start;
+}
+
+.combo-transition-wrapper.is-picking {
+  transform: translateX(-50%);
+}
+
+.combo-view {
+  width: 50%;
+  flex-shrink: 0;
+  padding: 0 5px;
+}
+
+/* ── Picker View ── */
+.combo-picker-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .combo-picker-layout {
+    grid-template-columns: 80px 1fr;
+    gap: 2.5rem;
+  }
+}
+
+.picker-sidebar {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  gap: 1rem;
+  padding: 0.5rem;
+  background: white;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .picker-sidebar {
+    flex-direction: column;
+    overflow-x: visible;
+    padding: 0.75rem;
+    position: sticky;
+    top: 2rem;
+    margin-bottom: 0;
+  }
+}
+
+.sidebar-icon-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.sidebar-icon-btn.active {
+  background: var(--forest-dark);
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(35, 74, 46, 0.3);
+}
+
+.sidebar-icon-btn:hover:not(.active) {
+  border-color: var(--forest-dark);
+  background: rgba(35, 74, 46, 0.05);
+}
+
+/* ── Submit Button ── */
+.combo-submit-btn {
+  width: 100%;
+  padding: 1.25rem;
+  background: var(--forest-dark);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 10px 25px -5px rgba(35, 74, 46, 0.4);
+}
+
+.combo-submit-btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  background: #1a3d24;
+  box-shadow: 0 15px 30px -5px rgba(35, 74, 46, 0.5);
+}
+
+.combo-submit-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* ── Custom Scrollbar ── */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--text-light);
+}
+
+/* ── Picker Grid ── */
+.picker-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media (min-width: 1024px) {
+  .picker-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+/* ── Animations ── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ── Empty State ── */
+.combo-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  background: rgba(255,255,255,0.5);
+  border-radius: 20px;
+  border: 2px dashed rgba(0,0,0,0.08);
+}
+
+/* ── Utilities ── */
+.shadow-premium {
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+}
