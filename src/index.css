@@ -1,35 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
 :root {
-  --primary: #234A2E;
-  --accent: #234A2E;
-  --accent-light: #4ae577;
-  --background: #F4F0E8;
-  --surface: #FFFDF7;
-  --text-dark: #1a1208;
-  --text-light: #6b5e42;
-  --border: #ddd5c0;
-  --shadow-sm: 0 4px 12px rgba(0,0,0,0.06);
-  --font-logo: 'DejaVu Serif', Georgia, serif;
-  --font-display: 'Montserrat', system-ui, -apple-system, sans-serif;
+  --primary: #0a0a0a;
+  --accent: #0a0a0a;
+  --accent-light: #c0c0c0;
+  --accent-hover: #333333;
+  --background: #ffffff;
+  --surface: #ffffff;
+  --text-dark: #0a0a0a;
+  --text-light: #6b7280;
+  --border: #e5e7eb;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+  --font-logo: 'Inter', system-ui, sans-serif;
+  --font-display: 'Inter', system-ui, -apple-system, sans-serif;
   --font-body: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 .dark-theme {
-  --primary: #34804a;
-  --accent: #2ea655;
-  --accent-light: #4ae577;
-  --background: #161209;
-  --surface: #1e1a10;
-  --text-dark: #f0ead8;
-  --text-light: #a89878;
-  --border: #3a3020;
-  --shadow-sm: 0 4px 12px rgba(0,0,0,0.5);
+  --primary: #ffffff;
+  --accent: #ffffff;
+  --accent-light: #c0c0c0;
+  --background: #0a0a0a;
+  --surface: #141414;
+  --text-dark: #f5f5f5;
+  --text-light: #9ca3af;
+  --border: #262626;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
 }
 
 * {
@@ -110,4 +111,3 @@ h1, h2, h3, h4, h5, h6 {
     flex: 0 0 auto;
   }
 }
-

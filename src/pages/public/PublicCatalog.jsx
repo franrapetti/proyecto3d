@@ -14,13 +14,9 @@ import { trackPixelEvent, logAnalyticsEvent } from '../../lib/analytics';
 import { ShieldCheck, Star, Truck, CreditCard, BadgeCheck } from 'lucide-react';
 import { FRIENDS_WEEK_ACTIVE } from '../../data/friendsWeekData';
 import FriendsWeekPromoSection from '../../components/FriendsWeekPromoSection';
+import CategoryShowcase from '../../components/CategoryShowcase';
 
 function PublicCatalog() {
-  // Dynamic hero — start null to avoid flash while fetching from Supabase
-  const [heroDesktop, setHeroDesktop] = useState(null);
-  const [heroMobile, setHeroMobile] = useState(null);
-  const [heroReady, setHeroReady] = useState(false);
-
   const { cartCount, setIsCartOpen, addToCart } = useCart();
   
   const location = useLocation();
@@ -50,25 +46,7 @@ function PublicCatalog() {
     }
   }, [location.state]);
 
-  useEffect(() => {
-    // Fetch hero images from site_settings — only show hero once resolved
-    supabase
-      .from('site_settings')
-      .select('key, value')
-      .in('key', ['hero_bg_url', 'hero_mobile_url'])
-      .then(({ data }) => {
-        if (data) {
-          data.forEach(row => {
-            if (row.key === 'hero_bg_url' && row.value) setHeroDesktop(row.value);
-            if (row.key === 'hero_mobile_url' && row.value) setHeroMobile(row.value);
-          });
-        }
-        // Fallback to static files if nothing loaded
-        setHeroDesktop(prev => prev || '/hero-bg.png');
-        setHeroMobile(prev => prev || '/hero-bg-mobile.png');
-        setHeroReady(true);
-      });
-  }, []);
+
 
   // ...
 
@@ -140,22 +118,22 @@ function PublicCatalog() {
   return (
     <>
       <Helmet>
-        <title>Proyecto 3D | Tu Ritual, Nuestra Pasión 🧉</title>
-        <meta name="description" content="Descubrí la mejor selección de figuras imperiales, torpedos, impresoras y accesorios premium. Envíos gratis a toda Argentina. Armá tu combo con descuento." />
+        <title>Punto Base | Todo lo que necesitas en un solo lugar</title>
+        <meta name="description" content="Tienda online con envios a todo el pais. Hogar, autopartes, mate, perfumeria y productos personalizados. Los mejores precios." />
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={window.location.origin} />
-        <meta property="og:title" content="Proyecto 3D | Tienda de Figuras Premium" />
-        <meta property="og:description" content="Buscamos los mejores figuras para tu ritual. Torpedos, Imperiales y más. ¡Armá tu combo y llevate hasta 30% OFF!" />
-        <meta property="og:image" content={heroDesktop || "/logo.png"} />
-        <meta property="og:site_name" content="Proyecto 3D" />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:title" content="Punto Base | Todo lo que necesitas en un solo lugar" />
+        <meta property="og:description" content="Tienda online con envios a todo el pais. Hogar, autopartes, mate, perfumeria y productos personalizados. Los mejores precios." />
+        <meta property="og:image" content="/hero-bg.png" />
+        <meta property="og:site_name" content="Punto Base" />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Proyecto 3D | Tienda de Figuras Premium" />
-        <meta name="twitter:description" content="Tu ritual, nuestra pasión. Envíos a todo el país." />
-        <meta name="twitter:image" content={heroDesktop || "/logo.png"} />
+        <meta name="twitter:title" content="Punto Base | Todo lo que necesitas en un solo lugar" />
+        <meta name="twitter:description" content="Tienda online con envios a todo el pais. Hogar, autopartes, mate, perfumeria y productos personalizados. Los mejores precios." />
+        <meta name="twitter:image" content="/hero-bg.png" />
       </Helmet>
       <Header 
         cartCount={cartCount} 
@@ -176,60 +154,37 @@ function PublicCatalog() {
             style={{
               position: 'relative',
               overflow: 'hidden',
-              opacity: heroReady ? 1 : 0,
+              opacity: 1,
               transition: 'opacity 0.4s ease',
             }}
           >
-            {/* Responsive background via <picture> — URLs loaded from admin settings */}
+            {/* Responsive background via <picture> */}
             <picture style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-              <source media="(min-width: 768px)" srcSet={heroDesktop ? getImgUrl(heroDesktop, { w: 1600, q: 75 }) : ''} />
               <img
-                src={heroMobile ? getImgUrl(heroMobile, { w: 1000, h: 1200, q: 75, resize: 'cover' }) : ''}
-                alt=""
+                src="/hero-bg.png"
+                alt="Todo lo que necesitas, en un solo lugar"
                 aria-hidden="true"
                 fetchPriority="high"
                 style={{
                   width: '100%',
                   height: '100%',
                   objectFit: 'cover',
-                  objectPosition: '30% center', // Recorta el lado derecho en celulares
+                  objectPosition: 'center',
                   display: 'block',
                 }}
-                onError={(e) => { e.currentTarget.src = heroDesktop; }}
               />
             </picture>
             <div className="hero-fullbleed-overlay" />
             <div className="hero-fullbleed-content" style={{ position: 'relative', zIndex: 1 }}>
-              <span className="hero-badge">📦 Envíos Rápidos + Regalo Valor $3,500</span>
-              <h1 className="hero-fullbleed-title">Renová tu figura hoy con hasta <span className="handwriting-accent">30% OFF.</span></h1>
-              <p className="hero-fullbleed-subtitle">Acumulá descuentos de combos y pago por transferencia. El mejor regalo para vos o para alguien especial.</p>
-              <div className="hero-buttons-container" style={{ display: 'flex', gap: '0.75rem', flexWrap: 'nowrap', marginTop: '1.5rem', width: '100%' }}>
-                <button className="hero-fullbleed-cta" onClick={scrollToCatalog} style={{ flex: 1, padding: '0.9rem 1rem', whiteSpace: 'nowrap', textAlign: 'center', fontWeight: 900 }}>
-                  Catálogo ↓
+              <span className="hero-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
+                <Truck size={14} /> Envios rapidos a todo el pais
+              </span>
+              <h1 className="hero-fullbleed-title">Todo lo que necesitas,<br/>en un <span className="handwriting-accent">solo lugar.</span></h1>
+              <p className="hero-fullbleed-subtitle">Hogar, autopartes, mate, perfumeria y mas. La mejor calidad, los mejores precios, con envios a todo el pais.</p>
+              <div className="hero-buttons-container" style={{ display: 'flex', gap: '0.75rem', flexWrap: 'nowrap', marginTop: '1.5rem', width: '100%', justifyContent: 'center' }}>
+                <button className="hero-fullbleed-cta" onClick={scrollToCatalog} style={{ padding: '0.9rem 2rem', whiteSpace: 'nowrap', textAlign: 'center', fontWeight: 900 }}>
+                  Explorar productos
                 </button>
-                <a
-                  href="/combo"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '0.4rem',
-                    background: 'rgba(255,255,255,0.15)',
-                    backdropFilter: 'blur(8px)',
-                    color: 'white',
-                    border: '1px solid rgba(255,255,255,0.35)',
-                    borderRadius: '8px',
-                    padding: '0.9rem 1.2rem',
-                    fontWeight: 700,
-                    fontSize: '0.9rem',
-                    textDecoration: 'none',
-                    transition: 'background 0.2s',
-                    flex: 1,
-                    whiteSpace: 'nowrap'
-                  }}
-                >
-                  ✨ Combos
-                </a>
               </div>
             </div>
           </section>
@@ -247,7 +202,7 @@ function PublicCatalog() {
                     +{870 + products.reduce((acc, p) => acc + (p.sold_count || 0), 0)} ventas
                     <span className="verified-badge">Verificado</span>
                   </div>
-                  <span className="trust-subtitle">en todo el país</span>
+                  <span className="trust-subtitle">en todo el pais</span>
                 </div>
               </div>
               
@@ -257,7 +212,7 @@ function PublicCatalog() {
                 </div>
                 <div className="trust-text-wrapper">
                   <div className="trust-title">4.9/5 Estrellas</div>
-                  <span className="trust-subtitle">de satisfacción</span>
+                  <span className="trust-subtitle">de satisfaccion</span>
                 </div>
               </div>
               
@@ -266,7 +221,7 @@ function PublicCatalog() {
                   <Truck size={20} color="#2663eb" />
                 </div>
                 <div className="trust-text-wrapper">
-                  <div className="trust-title">Envíos rápidos</div>
+                  <div className="trust-title">Envios rapidos</div>
                   <span className="trust-subtitle">por Andreani</span>
                 </div>
               </div>
@@ -292,38 +247,10 @@ function PublicCatalog() {
           )}
 
           {/* Categories Preview Grid */}
-          <div className="container" style={{ marginTop: '3.5rem', marginBottom: '1.5rem' }}>
-            <h2 style={{ fontSize: '1.8rem', textAlign: 'center', marginBottom: '2.5rem', fontWeight: 800, color: 'var(--accent)' }}>Explorá nuestras colecciones</h2>
-            <div className="mobile-categories-scroll">
-              {Object.values(
-                products.reduce((acc, p) => {
-                  if (!acc[p.category] || p.price > acc[p.category].price) {
-                    acc[p.category] = p;
-                  }
-                  return acc;
-                }, {})
-              ).filter(p => !['Nosotros', 'Envios'].includes(p.category)).map((catProduct) => (
-                <div 
-                  key={catProduct.category} 
-                  onClick={() => {
-                      setCurrentCategory(catProduct.category);
-                      setTimeout(() => document.getElementById('catalog-section')?.scrollIntoView({ behavior: 'smooth' }), 100);
-                  }}
-                  className="group cursor-pointer text-center transition-all duration-300 hover:-translate-y-2"
-                  style={{ width: '140px' }}
-                >
-                  <div className="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden border-[4px] border-solid border-[#ddd5c0] bg-[#FFFDF7] shadow-sm group-hover:shadow-lg group-hover:border-[#234A2E] transition-all duration-300">
-                    <img 
-                      src={catProduct.image_url} 
-                      alt={catProduct.category} 
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
-                    />
-                  </div>
-                  <h3 className="text-[1.05rem] font-bold text-[#1a1208] group-hover:text-[#234A2E] transition-colors">{catProduct.category}</h3>
-                </div>
-              ))}
-            </div>
-          </div>
+          <CategoryShowcase onCategoryClick={(cat) => {
+            setCurrentCategory(cat);
+            setTimeout(() => document.getElementById('catalog-section')?.scrollIntoView({ behavior: 'smooth' }), 100);
+          }} />
         </>
       )}
 
@@ -348,7 +275,7 @@ function PublicCatalog() {
                 <div className="catalog-controls">
                   <input 
                     type="search" 
-                    placeholder="🔍 Buscar producto..." 
+                    placeholder="Buscar producto..." 
                     className="search-input"
                     value={searchTerm}
                     onChange={(e) => {

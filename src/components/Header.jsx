@@ -8,19 +8,19 @@ import './Header.css';
 
 const categoryTree = [
   { name: 'Todos los Productos', value: 'All' },
-  { name: 'Figuras', value: 'Figuras', subs: ['Torpedo', 'Imperial', 'Varios'] },
-  { name: 'Filamentos', value: 'Filamentos' },
-  { name: 'Accesorios', value: 'Accesorios', subs: ['Accesorios Acero', 'Accesorios Alpaca', 'Bombillones de Alpaca', 'Bombillones de Acero'] },
-  { name: 'Repuestos', value: 'Repuestos' },
-  { name: 'Accesorios', value: 'Accesorios' },
-  { name: 'Impresoras', value: 'Impresoras', subs: ['Termolar', 'Media Manija Cebador', 'Stanley Figura Sistem', 'Houdson'] }
+  { name: 'Hogar', value: 'Hogar' },
+  { name: 'Autopartes', value: 'Autopartes' },
+  { name: 'Cajas de Municion', value: 'Cajas de Municion' },
+  { name: 'Mate', value: 'Mate' },
+  { name: 'Perfumeria', value: 'Perfumeria' },
+  { name: 'Personalizados', value: 'Personalizados' }
 ];
 
 const Header = ({ cartCount, onCartClick, onNavClick, currentCategory }) => {
   const { isDark, toggleTheme } = useTheme();
   const { isLaunched } = useLaunchTimer();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const isProductActive = ['All', 'Figuras', 'Filamentos', 'Accesorios', 'Repuestos', 'Accesorios', 'Impresoras'].includes(currentCategory);
+  const isProductActive = ['All', 'Hogar', 'Autopartes', 'Cajas de Municion', 'Mate', 'Perfumeria', 'Personalizados'].includes(currentCategory);
 
   const handleNavClick = (cat, subCat) => {
     onNavClick(cat, subCat);
@@ -36,7 +36,7 @@ const Header = ({ cartCount, onCartClick, onNavClick, currentCategory }) => {
           </button>
         )}
         <Link to="/" className="header-logo" onClick={() => onNavClick('All')}>
-          <img src={isDark ? "/logo-noche.png" : "/logo.png"} alt="Proyecto 3D" className="logo-img" />
+          <img src="/logo.png" alt="Punto Base" className="logo-img" />
         </Link>
 
         {isLaunched && (
@@ -81,7 +81,7 @@ const Header = ({ cartCount, onCartClick, onNavClick, currentCategory }) => {
                 </li>
                 <li><Link to="/nosotros" onClick={() => setIsMenuOpen(false)} className={`header-nav-link ${currentCategory === 'Nosotros' ? 'active' : ''}`}>Quiénes somos</Link></li>
                 <li><Link to="/envios" onClick={() => setIsMenuOpen(false)} className={`header-nav-link ${currentCategory === 'Envios' ? 'active' : ''}`}>Envíos</Link></li>
-                <li><Link to="/empresas" onClick={() => setIsMenuOpen(false)} className={`header-nav-link ${currentCategory === 'Empresas' ? 'active' : ''}`}>Empresas 🏢</Link></li>
+                <li><Link to="/empresas" onClick={() => setIsMenuOpen(false)} className={`header-nav-link ${currentCategory === 'Empresas' ? 'active' : ''}`}>Empresas</Link></li>
               </ul>
             </nav>
             <div className="header-actions">
@@ -92,7 +92,7 @@ const Header = ({ cartCount, onCartClick, onNavClick, currentCategory }) => {
                 <Heart size={20} strokeWidth={1.5} />
               </Link>
               <a 
-                href="https://www.instagram.com/proyecto3d" 
+                href="https://www.instagram.com/puntobase.disenos/" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="wishlist-header-btn" 

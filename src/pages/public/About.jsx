@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { MapPin, ShieldCheck } from 'lucide-react';
 
 const About = () => {
   useEffect(() => {
@@ -9,28 +10,26 @@ const About = () => {
     <div className="page-section fade-in modern-layout" style={{ margin: '0 auto', marginTop: '2rem' }}>
       <div className="capsule-hero">
         <span className="badge-modern">Sobre nosotros</span>
-        <h2 className="title-modern" style={{ fontWeight: 900 }}>Conocé a <br/><span className="text-gradient" style={{ fontWeight: 900 }}>Proyecto 3D</span></h2>
+        <h2 className="title-modern" style={{ fontWeight: 900 }}>Conoce a <br/><span className="text-gradient" style={{ fontWeight: 900 }}>Punto Base</span></h2>
       </div>
       <div className="capsule-grid">
         <div className="capsule green-dark" style={{ gridColumn: '1 / -1', display: 'flex', flexDirection: 'column', gap: '1.5rem', alignItems: 'center', textAlign: 'center' }}>
-          <img src="/img/francisco_portrait.jpg" alt="Francisco - Fundador" style={{ width: '120px', height: '120px', borderRadius: '50%', objectFit: 'cover', border: '3px solid white', boxShadow: '0 8px 20px rgba(0,0,0,0.2)' }} onError={(e) => e.target.style.display='none'} />
           <div>
-            <h3 style={{ marginBottom: '0.5rem', fontWeight: 800 }}>Hola, soy Francisco 👋</h3>
+            <h3 style={{ marginBottom: '0.5rem', fontWeight: 800 }}>Conoce a Punto Base</h3>
             <p style={{ fontSize: '1.1rem', lineHeight: '1.6' }}>
-              Soy un apasionado del figura nacido en <strong>Río Segundo, Córdoba</strong>. En Proyecto 3D nacimos con una misión simple pero importante: llevar la mejor calidad y la verdadera mística de la cultura matera a cada rincón de Argentina. <br/><br/>
-              Yo personalmente selecciono y superviso cada pieza, asegurando que a tu casa llegue un producto premium, duradero y hecho con dedicación.
+              Somos Punto Base, una tienda online que nace con la mision de ofrecer productos de calidad en categorias como hogar, autopartes, mate, perfumeria y mas. Desde Argentina, seleccionamos cada producto con dedicacion para que encuentres todo lo que necesitas en un solo lugar.
             </p>
           </div>
         </div>
         <div className="capsule green-light">
-          <span className="emoji-huge" style={{ justifyContent: 'center' }}>🇦🇷</span>
-          <h3 style={{ textAlign: 'center' }}>Origen Cordobés</h3>
-          <p style={{ textAlign: 'center' }}>De Río Segundo para todo el país con la mejor energía.</p>
+          <MapPin size={48} className="icon-huge" style={{ margin: '0 auto', display: 'block', marginBottom: '1rem' }} />
+          <h3 style={{ textAlign: 'center' }}>Origen Argentino</h3>
+          <p style={{ textAlign: 'center' }}>De Argentina para todo el pais con la mejor atencion.</p>
         </div>
         <div className="capsule green-accent">
-          <span className="emoji-huge" style={{ justifyContent: 'center' }}>🦅</span>
-          <h3 style={{ textAlign: 'center' }}>El Cóndor</h3>
-          <p style={{ textAlign: 'center' }}>Elegancia, altura y tradición en cada figura que armamos.</p>
+          <ShieldCheck size={48} className="icon-huge" style={{ margin: '0 auto', display: 'block', marginBottom: '1rem' }} />
+          <h3 style={{ textAlign: 'center' }}>Calidad</h3>
+          <p style={{ textAlign: 'center' }}>Seleccion rigurosa en cada producto que ofrecemos.</p>
         </div>
       </div>
     </div>

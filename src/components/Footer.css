@@ -1,10 +1,8 @@
 .footer {
   margin-top: 6rem;
   padding: 4rem 2rem 2rem;
-  background: linear-gradient(135deg, #0d1711 0%, #15291d 100%);
+  background: #0a0a0a;
   color: white;
-  border-top-left-radius: 60px;
-  border-top-right-radius: 60px;
 }
 
 .footer-grid {
@@ -66,39 +64,41 @@
 .footer-link:hover {
   opacity: 1;
   transform: translateX(5px);
-  color: var(--accent-light);
-  text-shadow: 0 0 10px rgba(74, 229, 119, 0.4);
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
 }
 
 .social-links {
   display: flex;
+  flex-wrap: wrap;
   gap: 1.2rem;
   margin-top: 0.5rem;
 }
 
 .social-icon-btn {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
+  padding: 0.5rem 1rem;
+  border-radius: 22px;
   background: rgba(255,255,255,0.06);
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 0.5rem;
   color: white;
+  text-decoration: none;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  width: fit-content;
 }
 
 .social-icon-btn:hover {
-  background: var(--accent-light);
+  background: #ffffff;
   transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(74, 229, 119, 0.25);
-  color: #0d1711;
+  box-shadow: 0 10px 20px rgba(255, 255, 255, 0.15);
+  color: #000000;
 }
 
 .footer-bottom {
   margin-top: 4rem;
   padding-top: 2rem;
-  border-top: 1px solid rgba(255,255,255,0.05);
+  border-top: 1px solid rgba(255,255,255,0.08);
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -117,7 +117,7 @@
 }
 
 .dev-link {
-  color: var(--accent-light);
+  color: #c0c0c0;
   font-weight: 700;
   text-decoration: none;
 }

@@ -52,7 +52,7 @@ function CorporatePage() {
   const handleWhatsApp = (e) => {
     e.preventDefault();
     const lines = [
-      `🏢 *Consulta de Regalos Empresariales — Proyecto 3D*`,
+      `*Consulta de Regalos Empresariales — Punto Base*`,
       ``,
       `*Empresa:* ${form.company}`,
       `*Contacto:* ${form.contact}`,
@@ -68,8 +68,8 @@ function CorporatePage() {
   return (
     <>
       <Helmet>
-        <title>Regalos Empresariales | Proyecto 3D</title>
-        <meta name="description" content="Regalos empresariales personalizados con el logo de tu empresa. Figuras artesanales en cantidad. Proyecto 3D 🦅" />
+        <title>Empresas | Punto Base</title>
+        <meta name="description" content="Regalos empresariales personalizados con el logo de tu empresa. Productos en cantidad. Punto Base" />
       </Helmet>
       <Header
         cartCount={cartCount}
@@ -82,16 +82,16 @@ function CorporatePage() {
       <main className="container main-content fade-in">
         {/* Hero */}
         <div className="corp-hero">
-          <span className="corp-badge">🏢 Regalos Empresariales</span>
-          <h1 className="corp-title">Figuras con la identidad<br/><span className="text-gradient">de tu empresa</span></h1>
+          <span className="corp-badge">Regalos Empresariales</span>
+          <h1 className="corp-title">Productos con la identidad<br/><span className="text-gradient">de tu empresa</span></h1>
           <p className="corp-subtitle">
-            Personalizamos figuras artesanales con el logo de tu empresa. Precios especiales por cantidad, ideales para regalos corporativos, eventos y kit de bienvenida.
+            Personalizamos productos con el logo de tu empresa. Precios especiales por cantidad, ideales para regalos corporativos, eventos y kit de bienvenida.
           </p>
           <div className="corp-trust-row">
-            <span>🎨 Con tu logo</span>
-            <span>📦 Packaging premium</span>
-            <span>🚀 Envíos masivos</span>
-            <span>💬 Asesoramiento personalizado</span>
+            <span>Con tu logo</span>
+            <span>Packaging premium</span>
+            <span>Envios masivos</span>
+            <span>Asesoramiento personalizado</span>
           </div>
         </div>
 
@@ -102,7 +102,7 @@ function CorporatePage() {
             <div className="corp-step">
               <div className="corp-step-num">1</div>
               <h3>Elegís el producto</h3>
-              <p>Seleccionás el figura o accesorio que mejor representa a tu empresa.</p>
+              <p>Seleccionás el producto que mejor representa a tu empresa.</p>
             </div>
             <div className="corp-step">
               <div className="corp-step-num">2</div>
@@ -155,10 +155,10 @@ function CorporatePage() {
             <h2>Contactanos</h2>
             <p>Completá el formulario y te contactamos en menos de 24hs hábiles con un presupuesto personalizado.</p>
             <ul className="corp-benefits">
-              <li>✅ +10 unidades: precio especial</li>
-              <li>✅ +50 unidades: diseño sin cargo</li>
-              <li>✅ +100 unidades: envío gratis</li>
-              <li>✅ Factura A y B disponible</li>
+              <li>+10 unidades: precio especial</li>
+              <li>+50 unidades: diseño sin cargo</li>
+              <li>+100 unidades: envío gratis</li>
+              <li>Factura A y B disponible</li>
             </ul>
           </div>
           <form className="corp-form" onSubmit={handleWhatsApp}>
@@ -184,14 +184,14 @@ function CorporatePage() {
             </div>
             <div className="corp-form-group">
               <label>Producto de interés</label>
-              <input name="product" value={form.product} onChange={handleChange} placeholder="Ej: Figura Busto Iron Man" />
+              <input name="product" value={form.product} onChange={handleChange} placeholder="Ej: Producto A" />
             </div>
             <div className="corp-form-group">
               <label>Mensaje adicional</label>
               <textarea name="message" value={form.message} onChange={handleChange} rows={3} placeholder="Contanos más sobre lo que necesitás (colores, fecha de entrega, personalización, etc.)" />
             </div>
             <button type="submit" className="corp-submit-btn">
-              <span>💬 Consultar por WhatsApp</span>
+              <span>Consultar por WhatsApp</span>
               <small>Se va a abrir WhatsApp con tu consulta pre-armada</small>
             </button>
           </form>

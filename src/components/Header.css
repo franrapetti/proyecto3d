@@ -2,8 +2,8 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background-color: var(--surface);
-  box-shadow: var(--shadow-sm);
+  background-color: #0a0a0a;
+  border-bottom: 1px solid #1a1a1a;
   padding: 1rem 0;
 }
 
@@ -20,7 +20,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--text-dark);
+  color: #ffffff;
   padding: 0.25rem;
   align-items: center;
   justify-content: center;
@@ -45,7 +45,7 @@
   font-family: var(--font-logo);
   font-size: 1.65rem;
   font-weight: 800;
-  color: var(--accent);
+  color: #ffffff;
   cursor: pointer;
   letter-spacing: -0.01em;
 }
@@ -60,20 +60,20 @@
   font-family: var(--font-display);
   font-size: 1.05rem;
   font-weight: 600;
-  color: var(--text-light);
+  color: #ffffff;
   transition: color 0.2s;
   padding: 0.5rem 0;
 }
 
 .nav-links > li > button:hover, .nav-links > li > button.active {
-  color: var(--accent);
+  color: #c0c0c0;
 }
 
 .header-nav-link {
   font-family: var(--font-display);
   font-size: 1.05rem;
   font-weight: 600;
-  color: var(--text-light);
+  color: #ffffff;
   transition: color 0.2s;
   padding: 0.5rem 0;
   text-decoration: none;
@@ -81,7 +81,7 @@
 }
 
 .header-nav-link:hover, .header-nav-link.active {
-  color: var(--accent);
+  color: #c0c0c0;
 }
 
 /* -- DROPDOWN MENU REBUILD -- */
@@ -95,9 +95,9 @@
   position: absolute;
   top: calc(100% + 15px);
   left: -50px; /* Shift slightly left so it centers visually underneath the button without bleeding off screen */
-  background-color: var(--surface);
+  background-color: #141414;
   border-radius: 12px;
-  box-shadow: 0 10px 40px -5px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0,0,0,0.05);
+  box-shadow: 0 10px 40px -5px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255,255,255,0.05);
   padding: 1.5rem;
   
   /* Animations */
@@ -147,16 +147,16 @@
   padding: 0.4rem 0.5rem;
   border-radius: 6px;
   font-weight: 700;
-  color: var(--text-dark);
+  color: #ffffff;
   transition: all 0.2s;
   font-size: 0.95rem;
-  background-color: rgba(35, 74, 46, 0.04);
+  background-color: rgba(255, 255, 255, 0.04);
   width: 100%;
 }
 
 .dropdown-main-btn:hover {
-  background-color: rgba(35, 74, 46, 0.08);
-  color: var(--accent);
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #c0c0c0;
 }
 
 .dropdown-sub-links {
@@ -171,15 +171,15 @@
   text-align: left;
   padding: 0.25rem 0.5rem;
   font-size: 0.85rem;
-  color: var(--text-light);
+  color: #a0a0a0;
   font-weight: 500;
   border-radius: 4px;
   transition: all 0.2s;
 }
 
 .dropdown-sub-btn:hover {
-  color: var(--accent);
-  background-color: rgba(35, 74, 46, 0.05);
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 /* -- Actions -- */
@@ -188,7 +188,10 @@
   font-size: 1.5rem;
   display: flex;
   align-items: center;
-  color: var(--text-dark);
+  color: #ffffff;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .header-actions {
@@ -207,12 +210,12 @@
   justify-content: center;
   padding: 0.25rem;
   border-radius: 50%;
-  color: var(--text-dark);
+  color: #ffffff;
   transition: all 0.2s;
 }
 
 .theme-toggle:hover, .wishlist-header-btn:hover {
-  background-color: rgba(35, 74, 46, 0.05);
+  background-color: rgba(255, 255, 255, 0.1);
   transform: scale(1.05);
 }
 
@@ -220,8 +223,8 @@
   position: absolute;
   top: -8px;
   right: -10px;
-  background-color: var(--accent);
-  color: white;
+  background-color: #ffffff;
+  color: #000000;
   font-size: 0.75rem;
   font-weight: bold;
   height: 20px;
@@ -253,10 +256,10 @@
     top: 100%;
     left: 0;
     right: 0;
-    background: var(--surface);
-    border-bottom: 2px solid var(--border);
+    background: #0a0a0a;
+    border-bottom: 1px solid #1a1a1a;
     padding: 1.5rem;
-    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.5);
     z-index: 50;
     max-height: calc(100vh - 70px);
     overflow-y: auto;

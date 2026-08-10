@@ -43,7 +43,7 @@
 
 .packaging-badge {
   background-color: var(--surface);
-  color: var(--accent);
+  color: #0a0a0a;
   font-size: 0.65rem;
   font-weight: 700;
   padding: 4px 8px;
@@ -56,7 +56,7 @@
 }
 
 .best-seller-badge {
-  background-color: var(--text-dark); /* Dark premium background */
+  background-color: #0a0a0a; /* Dark premium background */
   color: #fff;
   font-size: 0.65rem;
   font-weight: 800;
@@ -162,7 +162,7 @@
 .product-card .transfer-price-amount {
   font-weight: 800;
   font-size: 1.08rem;
-  color: #16a34a;
+  color: #0a0a0a;
 }
 
 .transfer-price-text {
@@ -172,7 +172,7 @@
 }
 
 .discount-badge {
-  background: #e53935;
+  background: #0a0a0a;
   color: white;
   font-size: 0.7rem;
   font-weight: 800;
@@ -182,7 +182,7 @@
 }
 
 .add-to-cart-btn {
-  background-color: var(--accent);
+  background-color: #0a0a0a;
   color: white;
   padding: 0.65rem;
   border-radius: 4px;
@@ -195,7 +195,7 @@
 }
 
 .add-to-cart-btn:hover {
-  filter: brightness(0.9);
+  background-color: #333333;
 }
 
 /* Wishlist Heart Button */
@@ -244,8 +244,8 @@
 /* Stock badges */
 .low-stock-pill {
   display: inline-block;
-  background: #fff3cd;
-  color: #b45309;
+  background: #f3f4f6;
+  color: #374151;
   font-size: 0.72rem;
   font-weight: 700;
   padding: 3px 8px;
@@ -256,8 +256,8 @@
 
 .no-stock-pill {
   display: inline-block;
-  background: #fee2e2;
-  color: #dc2626;
+  background: #f3f4f6;
+  color: #6b7280;
   font-size: 0.72rem;
   font-weight: 700;
   padding: 3px 8px;

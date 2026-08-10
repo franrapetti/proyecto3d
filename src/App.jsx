@@ -6,7 +6,6 @@ import NotFound from './pages/public/NotFound';
 import Wishlist from './pages/public/Wishlist';
 import CorporatePage from './pages/public/CorporatePage';
 import Returns from './pages/public/Returns';
-import ComboBuilder from './components/ComboBuilder';
 import Login from './pages/admin/Login';
 import AdminLayout from './components/admin/AdminLayout';
 import ProductsList from './pages/admin/ProductsList';
@@ -74,7 +73,6 @@ function App() {
                     <Route path="/empresas" element={<CorporatePage />} />
                     <Route path="/nosotros" element={<About />} />
                     <Route path="/envios" element={<Shipping />} />
-                    <Route path="/combo" element={<ComboBuilder />} />
                     <Route path="/devoluciones" element={<Returns />} />
                   </Route>
                   <Route path="/admin/login" element={<Login />} />

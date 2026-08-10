@@ -78,18 +78,16 @@ const ExitIntentPopup = () => {
         
         {status === 'success' ? (
           <div className="exit-success text-center">
-            <span className="exit-emoji-huge">🎉</span>
             <h2>¡Gracias por sumarte!</h2>
-            <p className="exit-desc">Aplicá el siguiente código en el checkout de Mercado Pago o avisanos por WhatsApp:</p>
-            <div className="discount-code-box">PROYECTO15</div>
-            <p className="exit-small">15% OFF + Envío Gratis en tu primera compra.</p>
+            <p className="exit-desc">Aplica el siguiente codigo en el checkout o avisanos por WhatsApp:</p>
+            <div className="discount-code-box">PUNTOBASE15</div>
+            <p className="exit-small">15% OFF + Envio Gratis en tu primera compra.</p>
             <button className="exit-submit-btn mt-4" onClick={closePopup}>Seguir Viendo</button>
           </div>
         ) : (
           <div className="exit-form-container text-center">
-            <span className="exit-emoji-huge">🧉</span>
-            <h2>¡No te vayas con el figura lavado!</h2>
-            <p className="exit-desc">Dejanos tu WhatsApp (o Email) y te mandamos un <strong>Cupón de 15% OFF + Envío Gratis</strong> para tu primera compra.</p>
+            <h2>No te vayas sin tu descuento</h2>
+            <p className="exit-desc">Dejanos tu WhatsApp (o Email) y te mandamos un <strong>Cupon de 15% OFF + Envio Gratis</strong> para tu primera compra.</p>
             
             <form onSubmit={handleSubmit} className="exit-form">
               <input 
@@ -101,7 +99,7 @@ const ExitIntentPopup = () => {
                 className="exit-input"
               />
               <button type="submit" disabled={status === 'loading'} className="exit-submit-btn">
-                {status === 'loading' ? 'Procesando...' : 'Quiero mi 15% OFF + Envío Gratis 🚀'}
+                {status === 'loading' ? 'Procesando...' : 'Quiero mi 15% OFF + Envio Gratis'}
               </button>
             </form>
             <button className="exit-deny-btn" onClick={closePopup}>No gracias, prefiero pagar precio completo</button>

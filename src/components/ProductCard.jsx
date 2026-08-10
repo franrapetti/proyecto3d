@@ -43,7 +43,7 @@ const ProductCard = ({ product, onAddToCart, noZoom }) => {
             </span>
           )}
           {isLaunched && (product.category === 'Figuras' || product.sub_category === 'Bombillones de Alpaca') && (
-            <span className="packaging-badge">🎁 Packaging Premium <span style={{textDecoration: 'line-through', opacity: 0.8}}>$3,500</span> GRATIS</span>
+            <span className="packaging-badge">Packaging Premium <span style={{textDecoration: 'line-through', opacity: 0.8}}>$3,500</span> GRATIS</span>
           )}
         </div>
         <button
@@ -89,10 +89,10 @@ const ProductCard = ({ product, onAddToCart, noZoom }) => {
             </div>
 
             {product.show_stock_alert && (
-              <span className="low-stock-pill">🔥 Últimas unidades</span>
+              <span className="low-stock-pill">Ultimas unidades</span>
             )}
             {product.stock === 0 && (
-              <span className="no-stock-pill">😔 Sin stock</span>
+              <span className="no-stock-pill">Sin stock</span>
             )}
             <button
               className="add-to-cart-btn"
