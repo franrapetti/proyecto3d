@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { supabase } from '../../lib/supabaseClient';
-import './AdminLeads.css';
+import './AdminSubscribers.css';
 
-const AdminLeads = () => {
+const AdminSubscribers = () => {
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -56,7 +56,7 @@ const AdminLeads = () => {
     const blob = new Blob([headers + rows], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.setAttribute('download', `leads_proyecto3d_${new Date().toISOString().slice(0, 10)}.csv`);
+    link.setAttribute('download', `suscriptores_puntobase_${new Date().toISOString().slice(0, 10)}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -66,8 +66,8 @@ const AdminLeads = () => {
     <div className="admin-page">
       <div className="adm-page-header">
         <div className="adm-page-title">
-          <h1>📧 Contactos Capturados</h1>
-          <span className="adm-count-pill">{totalLeads} leads</span>
+          <h1>📧 Suscriptores (Emails Capturados)</h1>
+          <span className="adm-count-pill">{totalLeads} subs</span>
         </div>
         <button
           onClick={exportToCSV}
@@ -81,7 +81,7 @@ const AdminLeads = () => {
       {/* Stats Row */}
       <div className="leads-stats-row">
         <div className="leads-stat-card">
-          <h4>Total de Leads</h4>
+          <h4>Total de Suscriptores</h4>
           <div className="stat-value">{totalLeads}</div>
           <div className="stat-sub">Emails únicos capturados</div>
         </div>
@@ -95,7 +95,7 @@ const AdminLeads = () => {
           <div className="stat-value" style={{ fontSize: '1.2rem' }}>
             {topSource ? topSource[0] : '—'}
           </div>
-          <div className="stat-sub">{topSource ? `${topSource[1]} leads` : 'Sin datos'}</div>
+          <div className="stat-sub">{topSource ? `${topSource[1]} subs` : 'Sin datos'}</div>
         </div>
       </div>
 
@@ -121,12 +121,12 @@ const AdminLeads = () => {
       {/* Table */}
       <div className="leads-table-container">
         {loading ? (
-          <p style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-light)' }}>Cargando contactos...</p>
+          <p style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-light)' }}>Cargando suscriptores...</p>
         ) : filteredLeads.length === 0 ? (
           <div className="leads-empty-state">
             <div className="empty-icon">📭</div>
-            <p><strong>No hay leads capturados aún.</strong></p>
-            <p style={{ marginTop: '0.5rem', fontSize: '0.82rem' }}>Los contactos se registran automáticamente cuando los usuarios dejan su email en el popup de salida.</p>
+            <p><strong>No hay suscriptores capturados aún.</strong></p>
+            <p style={{ marginTop: '0.5rem', fontSize: '0.82rem' }}>Los contactos se registran automáticamente cuando los usuarios dejan su email en el popup de descuento.</p>
           </div>
         ) : (
           <table className="leads-table">
@@ -169,11 +169,10 @@ const AdminLeads = () => {
         }}>
           <strong>💡 Consejo:</strong> Exportá el CSV y subilo a tu plataforma de Email Marketing
           (Mailchimp, Brevo, Resend) para enviarles campañas promocionales segmentadas.
-          Estos leads ya mostraron intención de compra al interactuar con el popup de descuento.
         </div>
       )}
     </div>
   );
 };
 
-export default AdminLeads;
+export default AdminSubscribers;

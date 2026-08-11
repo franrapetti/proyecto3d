@@ -12,7 +12,9 @@ import ProductsList from './pages/admin/ProductsList';
 import ProductForm from './pages/admin/ProductForm';
 import OrdersList from './pages/admin/OrdersList';
 import AdminSettings from './pages/admin/AdminSettings';
-import AdminLeads from './pages/admin/AdminLeads';
+import AdminSubscribers from './pages/admin/AdminSubscribers';
+import LeadsCRM from './pages/admin/LeadsCRM';
+import PrintJobsManager from './pages/admin/PrintJobsManager';
 import CategoriesManager from './pages/admin/CategoriesManager';
 import CsvExport from './pages/admin/CsvExport';
 import ScreenshotCatalog from './pages/admin/ScreenshotCatalog';
@@ -87,7 +89,9 @@ function App() {
                     <Route path="orders" element={<OrdersList />} />
                     <Route path="settings" element={<AdminSettings />} />
                     <Route path="categories" element={<CategoriesManager />} />
-                    <Route path="leads" element={<AdminLeads />} />
+                    <Route path="subscribers" element={<AdminSubscribers />} />
+                    <Route path="leads-crm" element={<LeadsCRM />} />
+                    <Route path="print-jobs" element={<PrintJobsManager />} />
                     <Route path="export" element={<CsvExport />} />
                     <Route path="screenshots" element={<ScreenshotCatalog />} />
                     <Route path="products/new" element={<ProductForm />} />

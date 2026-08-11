@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
-import { LayoutGrid, ShoppingBag, Moon, Sun, LogOut, ExternalLink, Settings, Mail, Download, Printer, Menu, X, Tag } from 'lucide-react';
+import { LayoutGrid, ShoppingBag, Moon, Sun, LogOut, ExternalLink, Settings, Mail, Download, Printer, Menu, X, Tag, Inbox, Layers } from 'lucide-react';
 import { useAdminFavicon } from '../../hooks/useAdminFavicon';
 import './AdminLayout.css';
 
 const NAV_LINKS = [
   { to: '/admin',          end: true,  icon: <LayoutGrid size={18} />,    label: 'Catálogo'      },
   { to: '/admin/orders',   end: false, icon: <ShoppingBag size={18} />,   label: 'Ventas'        },
-  { to: '/admin/leads',    end: false, icon: <Mail size={18} />,          label: 'Contactos'     },
+  { to: '/admin/leads-crm',end: false, icon: <Inbox size={18} />,         label: 'Pedidos'       },
+  { to: '/admin/print-jobs',end: false, icon: <Layers size={18} />,       label: 'Impresiones'   },
+  { to: '/admin/subscribers',end: false, icon: <Mail size={18} />,        label: 'Suscriptores'  },
   { to: '/admin/categories', end: false, icon: <Tag size={18} />,         label: 'Categorías'    },
   { to: '/admin/export',   end: false, icon: <Download size={18} />,      label: 'Exportar CSV'  },
   { to: '/admin/screenshots', end: false, icon: <Printer size={18} />,    label: 'Capturas ML'   },
