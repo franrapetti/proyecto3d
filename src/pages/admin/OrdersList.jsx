@@ -1409,13 +1409,7 @@ const OrdersList = () => {
           <h3>Ticket Promedio</h3>
           <p className="kpi-value">${Math.round(avgTicket).toLocaleString()}</p>
         </div>
-        <div className="kpi-card" style={{background: 'linear-gradient(135deg, rgba(217, 119, 6, 0.05), rgba(217, 119, 6, 0.01))', borderColor: 'rgba(217, 119, 6, 0.2)'}}>
-          <h3 style={{color: '#b45309'}}>Proporción Filamentos</h3>
-          <p className="kpi-value" style={{color: '#d97706', fontSize: '1.25rem'}}>{yerbaPercentage}% <span style={{fontSize: '0.85rem', fontWeight: 600, opacity: 0.8}}>del ingreso</span></p>
-          <p style={{fontSize: '0.7rem', color: 'var(--text-light)', marginTop: '0.2rem', lineHeight: 1.3}}>
-            <strong>Margen prom:</strong> ~23% (30% sobre costo)
-          </p>
-        </div>
+
         <div className="kpi-card analytics-kpi">
           <h3>Visitas Únicas</h3>
           <p className="kpi-value">{uniqueSessions}</p>
