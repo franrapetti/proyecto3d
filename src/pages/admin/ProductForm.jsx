@@ -4,23 +4,6 @@ import { supabase } from '../../lib/supabaseClient';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import './AdminProducts.css';
 
-const CATEGORIES = [
-  "Figuras - Torpedo",
-  "Figuras - Imperial",
-  "Figuras - Varios",
-  "Filamentos",
-  "Accesorios - Accesorios Acero",
-  "Accesorios - Accesorios Alpaca",
-  "Accesorios - Bombillones de Alpaca",
-  "Accesorios - Bombillones de Acero",
-  "Repuestos",
-  "Accesorios",
-  "Impresoras - Termolar",
-  "Impresoras - Media Manija Cebador",
-  "Impresoras - Stanley Figura Sistem",
-  "Impresoras - Houdson"
-];
-
 /* ────────────────────────────────────────────────────────────
    Beautiful Dropzone Component
 ──────────────────────────────────────────────────────────── */
@@ -91,10 +74,10 @@ const ProductForm = () => {
 
   const [formData, setFormData] = useState({
     name: '',
-    price: '',
+    transfer_price: '',
     promo_price: '',
     stock: '',
-    category_raw: CATEGORIES[0],
+    category_raw: '',
     quick_add_upsell: false,
     color_group: '',
     color_name: '',
@@ -111,14 +94,29 @@ const ProductForm = () => {
   // Corporate pricing tiers: [{min, max, price}]
   const [corporateTiers, setCorporateTiers] = useState([{ min: 10, max: 49, price: '' }, { min: 50, max: '', price: '' }]);
 
-  // images: array of { preview, file } for new files OR { url } for existing URLs
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState('');
+  const [dbCategories, setDbCategories] = useState([]);
 
   useEffect(() => {
+    fetchCategories();
     if (isEditing) fetchProduct();
   }, [id]);
+
+  const fetchCategories = async () => {
+    try {
+      const { data, error } = await supabase.from('categories').select('name').order('name');
+      if (!error && data) {
+        setDbCategories(data.map(c => c.name));
+        if (!isEditing && data.length > 0) {
+          setFormData(prev => ({ ...prev, category_raw: data[0].name }));
+        }
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   // Clean up object URLs on unmount
   useEffect(() => {
@@ -132,13 +130,13 @@ const ProductForm = () => {
 
       let catRaw = data.category;
       if (data.sub_category) {
-        const expectedRaw = `${data.category} - ${data.sub_category}`;
-        if (CATEGORIES.includes(expectedRaw)) catRaw = expectedRaw;
+        catRaw = `${data.category} - ${data.sub_category}`;
       }
 
-      setFormData({
+      setFormData(prev => ({
+        ...prev,
         name: data.name,
-        price: data.price,
+        transfer_price: data.price ? Math.round(data.price * 0.8) : '',
         promo_price: data.promo_price ?? '',
         stock: data.stock ?? '',
         category_raw: catRaw,
@@ -228,7 +226,7 @@ const ProductForm = () => {
 
       const payload = {
         name: formData.name,
-        price: Number(formData.price),
+        price: Number(formData.transfer_price) * 1.25,
         promo_price: formData.promo_price !== '' ? Number(formData.promo_price) : null,
         stock: formData.stock !== '' ? Number(formData.stock) : null,
         category,
@@ -264,10 +262,10 @@ const ProductForm = () => {
         // Reset form for next entry
         setFormData({
           name: '',
-          price: '',
+          transfer_price: '',
           promo_price: '',
           stock: '',
-          category_raw: CATEGORIES[0],
+          category_raw: dbCategories[0] || '',
           quick_add_upsell: false,
           color_group: '',
           color_name: '',
@@ -327,9 +325,6 @@ const ProductForm = () => {
                 value={formData.name}
                 onChange={e => {
                   set('name', e.target.value);
-                  if (!isEditing && !formData.slug) {
-                    set('slug', e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, ''));
-                  }
                 }}
                 placeholder="Ej: Figura Busto Iron Man"
               />
@@ -337,45 +332,56 @@ const ProductForm = () => {
 
             <div className="form-group">
               <label>URL Amigable (Slug) <span className="form-label-hint">Para SEO</span></label>
-              <input
-                type="text"
-                value={formData.slug}
-                onChange={e => set('slug', e.target.value.toLowerCase().replace(/[^a-z0-9\-]+/g, ''))}
-                placeholder="Ej: figura-torpedo-premium"
-              />
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <input
+                  type="text"
+                  value={formData.slug}
+                  onChange={e => set('slug', e.target.value.toLowerCase().replace(/[^a-z0-9\-]+/g, ''))}
+                  placeholder="Ej: figura-torpedo-premium"
+                  style={{ flex: 1 }}
+                />
+                <button
+                  type="button"
+                  className="btn-secondary"
+                  onClick={() => set('slug', formData.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, ''))}
+                  style={{ padding: '0 1rem', whiteSpace: 'nowrap' }}
+                >
+                  ↻ Actualizar
+                </button>
+              </div>
             </div>
 
             <div className="form-row">
               <div className="form-group">
-                <label>Precio Regular (ARS)</label>
+                <label>Precio Efectivo / Transferencia (ARS)</label>
                 <input
                   type="number"
                   required
                   min="0"
-                  value={formData.price}
-                  onChange={e => set('price', e.target.value)}
-                  placeholder="Ej: 12000"
+                  value={formData.transfer_price}
+                  onChange={e => set('transfer_price', e.target.value)}
+                  placeholder="Ej: 10000"
                 />
-                {formData.price && (
-                  <p className="price-hint">
-                    Aprox. transferencia (20% OFF): ${Math.round(formData.price * 0.8).toLocaleString()}
+                {formData.transfer_price && (
+                  <p className="price-hint" style={{ color: '#059669' }}>
+                    Precio de lista (25% recargo): ${Math.round(formData.transfer_price * 1.25).toLocaleString()}
                   </p>
                 )}
               </div>
               <div className="form-group">
                 <label>
-                  Precio Promocional <span className="form-label-hint">(Opcional)</span>
+                  Precio Promocional de Lista <span className="form-label-hint">(Opcional)</span>
                 </label>
                 <input
                   type="number"
                   min="0"
                   value={formData.promo_price}
                   onChange={e => set('promo_price', e.target.value)}
-                  placeholder="Ej: 9500"
+                  placeholder="Ej: 11000"
                 />
-                {formData.promo_price && formData.price && Number(formData.promo_price) < Number(formData.price) && (
+                {formData.promo_price && formData.transfer_price && Number(formData.promo_price) < Number(formData.transfer_price * 1.25) && (
                   <small className="form-hint-success">
-                    {Math.round((1 - formData.promo_price / formData.price) * 100)}% de descuento ✓
+                    {Math.round((1 - formData.promo_price / (formData.transfer_price * 1.25)) * 100)}% de descuento sobre precio de lista ✓
                   </small>
                 )}
               </div>
@@ -392,7 +398,7 @@ const ProductForm = () => {
                 value={formData.category_raw}
                 onChange={e => set('category_raw', e.target.value)}
               >
-                {CATEGORIES.map(cat => (
+                {dbCategories.map(cat => (
                   <option key={cat} value={cat}>{cat}</option>
                 ))}
               </select>

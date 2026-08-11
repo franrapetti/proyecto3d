@@ -13,6 +13,7 @@ import ProductForm from './pages/admin/ProductForm';
 import OrdersList from './pages/admin/OrdersList';
 import AdminSettings from './pages/admin/AdminSettings';
 import AdminLeads from './pages/admin/AdminLeads';
+import CategoriesManager from './pages/admin/CategoriesManager';
 import CsvExport from './pages/admin/CsvExport';
 import ScreenshotCatalog from './pages/admin/ScreenshotCatalog';
 import { AuthProvider } from './context/AuthContext';
@@ -85,6 +86,7 @@ function App() {
                     <Route index element={<ProductsList />} />
                     <Route path="orders" element={<OrdersList />} />
                     <Route path="settings" element={<AdminSettings />} />
+                    <Route path="categories" element={<CategoriesManager />} />
                     <Route path="leads" element={<AdminLeads />} />
                     <Route path="export" element={<CsvExport />} />
                     <Route path="screenshots" element={<ScreenshotCatalog />} />
