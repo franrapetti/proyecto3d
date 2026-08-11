@@ -151,7 +151,7 @@ const ProductForm = () => {
         rating: data.rating ?? '',
         reviews_count: data.reviews_count ?? '',
         is_friends_week_promo: data.is_friends_week_promo ?? false,
-      });
+      }));
 
       if (data.corporate_pricing && Array.isArray(data.corporate_pricing)) {
         setCorporateTiers(data.corporate_pricing.map(t => ({ ...t, max: t.max ?? '' })));
