@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabaseClient';
-import { Plus, Trash2, CheckCircle, Circle, AlertTriangle } from 'lucide-react';
+import { Plus, Trash2, CheckCircle, Circle, AlertTriangle, Inbox as InboxIcon } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import './AdminProducts.css';
+import '../admin/LeadsCRM.css';
 
 const PrintJobsManager = () => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [adding, setAdding] = useState(false);
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     job_name: '',
@@ -113,7 +116,7 @@ const PrintJobsManager = () => {
     <div className="admin-page">
       <div className="adm-page-header sticky-header">
         <div className="adm-page-title">
-          <h1>🖨️ Registro de Impresiones (Finanzas)</h1>
+          <h1>🖨️ Producción (Registro de Impresiones)</h1>
         </div>
       </div>
 
@@ -208,13 +211,20 @@ const PrintJobsManager = () => {
         {loading ? (
           <p style={{ padding: '2rem', textAlign: 'center' }}>Cargando...</p>
         ) : jobs.length === 0 ? (
-          <p style={{ padding: '2rem', textAlign: 'center' }}>No hay impresiones registradas.</p>
+          <div className="crm-empty-state">
+            <InboxIcon size={48} strokeWidth={1} />
+            <p><strong>No hay impresiones registradas.</strong></p>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-light)' }}>
+              Las impresiones también se crean automáticamente cuando un pedido pasa a "Aceptado".
+            </p>
+          </div>
         ) : (
           <table className="data-table">
             <thead>
               <tr>
                 <th>Fecha</th>
                 <th>Trabajo</th>
+                <th>Origen</th>
                 <th>Filamento</th>
                 <th>Energía</th>
                 <th>Savings ($)</th>
@@ -228,6 +238,19 @@ const PrintJobsManager = () => {
                 <tr key={job.id}>
                   <td>{new Date(job.created_at).toLocaleDateString()}</td>
                   <td style={{ fontWeight: 600 }}>{job.job_name}</td>
+                  <td>
+                    {job.lead_id ? (
+                      <span
+                        className="crm-lead-badge"
+                        onClick={() => navigate('/admin/leads-crm')}
+                        title="Creado desde un pedido personalizado"
+                      >
+                        📋 Pedido
+                      </span>
+                    ) : (
+                      <span className="badge-outline">Manual</span>
+                    )}
+                  </td>
                   <td>{job.filament_used}g</td>
                   <td>{job.energy_used}</td>
                   <td>${job.savings_amount?.toLocaleString()}</td>

@@ -438,6 +438,7 @@ const generateTicket = (sale, discountInfo) => {
 const OrdersList = () => {
   const [orders, setOrders] = useState([]);
   const [manualSales, setManualSales] = useState([]);
+  const [customLeads, setCustomLeads] = useState([]);
   const [pageViews, setPageViews] = useState([]);
   const [allEvents, setAllEvents] = useState([]);
   const [rpcAnalytics, setRpcAnalytics] = useState(null);
@@ -520,6 +521,17 @@ const OrdersList = () => {
         if (eventsData) setAllEvents(eventsData);
       } catch (_) {
         // silently ignore
+      }
+
+      // Fetch custom leads (pedidos custom) for unified KPIs
+      try {
+        const { data: leadsData } = await supabase
+          .from('custom_leads')
+          .select('id, sale_price, material_cost, electricity_cost, machine_wear_cost, failure_reserve, other_costs, shipping_cost, status, created_at')
+          .in('status', ['Finalizado - Pendiente de Envío', 'Finalizado - Enviado']);
+        if (leadsData) setCustomLeads(leadsData);
+      } catch (_) {
+        // table may not exist yet
       }
 
     } catch (error) {
@@ -992,6 +1004,18 @@ const OrdersList = () => {
   });
   const totalDebt = debtSales.reduce((acc, s) => acc + s.total_amount, 0);
 
+  // Custom Leads Revenue (finalized custom orders)
+  const validCustomLeads = customLeads.filter(l => {
+    if (cutoff && new Date(l.created_at) < cutoff) return false;
+    return true; // already filtered by status in fetch
+  });
+  const customLeadsRevenue = validCustomLeads.reduce((acc, l) => acc + (Number(l.sale_price) || 0), 0);
+  const customLeadsCount = validCustomLeads.length;
+
+  // Grand total including custom
+  const grandTotalRevenue = totalRevenue + customLeadsRevenue;
+  const grandTotalSalesCount = totalSalesCount + customLeadsCount;
+
   // Today Sales
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -1399,15 +1423,20 @@ const OrdersList = () => {
         </div>
         <div className="kpi-card">
           <h3>Ingresos Totales</h3>
-          <p className="kpi-value">${totalRevenue.toLocaleString()}</p>
+          <p className="kpi-value">${grandTotalRevenue.toLocaleString()}</p>
+          {customLeadsRevenue > 0 && (
+            <span style={{fontSize: '0.72rem', color: 'var(--text-light)', fontWeight: 600, marginTop: '0.25rem', display: 'block'}}>
+              Incluye ${customLeadsRevenue.toLocaleString()} de {customLeadsCount} pedido{customLeadsCount !== 1 ? 's' : ''} custom
+            </span>
+          )}
         </div>
         <div className="kpi-card">
           <h3>Ventas Concretadas</h3>
-          <p className="kpi-value">{totalSalesCount}</p>
+          <p className="kpi-value">{grandTotalSalesCount}</p>
         </div>
         <div className="kpi-card">
           <h3>Ticket Promedio</h3>
-          <p className="kpi-value">${Math.round(avgTicket).toLocaleString()}</p>
+          <p className="kpi-value">${Math.round(grandTotalSalesCount > 0 ? grandTotalRevenue / grandTotalSalesCount : 0).toLocaleString()}</p>
         </div>
 
         <div className="kpi-card analytics-kpi">

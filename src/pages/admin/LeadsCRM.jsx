@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { supabase } from '../../lib/supabaseClient';
-import { Plus, Trash2, X, Pencil, Calendar, ChevronDown, Search, Inbox } from 'lucide-react';
+import { Plus, Trash2, X, Pencil, Calendar, Search, Inbox, TrendingUp, TrendingDown, Truck } from 'lucide-react';
 import './AdminProducts.css';
 import './LeadsCRM.css';
 
@@ -9,7 +9,8 @@ const STATUS_OPTIONS = [
   { value: 'Presupuestado', label: 'Presupuestado' },
   { value: 'Aceptado', label: 'Aceptado' },
   { value: 'En Producción', label: 'En Producción' },
-  { value: 'Finalizado', label: 'Finalizado' },
+  { value: 'Finalizado - Pendiente de Envío', label: 'Finalizado - Pend. Envío' },
+  { value: 'Finalizado - Enviado', label: 'Finalizado - Enviado' },
   { value: 'Cancelado', label: 'Cancelado' },
 ];
 
@@ -19,6 +20,12 @@ const EMPTY_FORM = {
   details: '',
   material_cost: '',
   hours: '',
+  electricity_cost: '',
+  machine_wear_cost: '',
+  failure_reserve: '',
+  other_costs: '',
+  shipping_cost: '',
+  sale_price: '',
   unit_cost: '',
   quantity: 1,
   status: 'Pendiente',
@@ -70,7 +77,15 @@ const LeadsCRM = () => {
   const filteredLeads = useMemo(() => {
     let result = leads;
     if (statusFilter !== 'all') {
-      result = result.filter(l => l.status === statusFilter);
+      if (statusFilter === 'Finalizado') {
+        // Show both finalized sub-states
+        result = result.filter(l =>
+          l.status === 'Finalizado - Pendiente de Envío' ||
+          l.status === 'Finalizado - Enviado'
+        );
+      } else {
+        result = result.filter(l => l.status === statusFilter);
+      }
     }
     if (search.trim()) {
       const q = search.toLowerCase();
@@ -96,6 +111,12 @@ const LeadsCRM = () => {
       details: lead.details || '',
       material_cost: lead.material_cost ?? '',
       hours: lead.hours ?? '',
+      electricity_cost: lead.electricity_cost ?? '',
+      machine_wear_cost: lead.machine_wear_cost ?? '',
+      failure_reserve: lead.failure_reserve ?? '',
+      other_costs: lead.other_costs ?? '',
+      shipping_cost: lead.shipping_cost ?? '',
+      sale_price: lead.sale_price ?? '',
       unit_cost: lead.unit_cost ?? '',
       quantity: lead.quantity ?? 1,
       status: lead.status || 'Pendiente',
@@ -110,6 +131,55 @@ const LeadsCRM = () => {
     setEditingId(null);
   };
 
+  // Calculate total costs from form data
+  const calcTotalCosts = (data) => {
+    return (
+      (Number(data.material_cost) || 0) +
+      (Number(data.electricity_cost) || 0) +
+      (Number(data.machine_wear_cost) || 0) +
+      (Number(data.failure_reserve) || 0) +
+      (Number(data.other_costs) || 0) +
+      (Number(data.shipping_cost) || 0)
+    );
+  };
+
+  // Calculate profit from a lead object or form data
+  const calcProfit = (data) => {
+    const salePrice = Number(data.sale_price) || 0;
+    return salePrice - calcTotalCosts(data);
+  };
+
+  // Auto-sync: create print_job when status changes to 'Aceptado'
+  const syncLeadToPrintJob = async (lead) => {
+    try {
+      // Check if print job already exists for this lead
+      const { data: existing } = await supabase
+        .from('print_jobs')
+        .select('id')
+        .eq('lead_id', lead.id)
+        .limit(1);
+
+      if (existing && existing.length > 0) return; // Already synced
+
+      const jobPayload = {
+        job_name: `${lead.client_name} — ${(lead.details || '').substring(0, 60)}`,
+        filament_used: 0,
+        energy_used: Number(lead.hours) || 0,
+        savings_amount: 0,
+        emergency_amount: 0,
+        lead_id: lead.id,
+      };
+
+      const { error } = await supabase
+        .from('print_jobs')
+        .insert([jobPayload]);
+
+      if (error) console.error('Error syncing lead to print_jobs:', error);
+    } catch (err) {
+      console.error('Error syncing lead to print_jobs:', err);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.client_name.trim()) return;
@@ -122,6 +192,12 @@ const LeadsCRM = () => {
         details: formData.details,
         material_cost: Number(formData.material_cost) || 0,
         hours: Number(formData.hours) || 0,
+        electricity_cost: Number(formData.electricity_cost) || 0,
+        machine_wear_cost: Number(formData.machine_wear_cost) || 0,
+        failure_reserve: Number(formData.failure_reserve) || 0,
+        other_costs: Number(formData.other_costs) || 0,
+        shipping_cost: Number(formData.shipping_cost) || 0,
+        sale_price: Number(formData.sale_price) || 0,
         unit_cost: Number(formData.unit_cost) || 0,
         quantity: Number(formData.quantity) || 1,
         status: formData.status,
@@ -131,22 +207,29 @@ const LeadsCRM = () => {
           : null,
       };
 
+      let savedLead;
+
       if (editingId) {
-        // UPDATE
         const { error } = await supabase
           .from('custom_leads')
           .update(payload)
           .eq('id', editingId);
         if (error) throw error;
+        savedLead = { id: editingId, ...payload };
         setLeads(prev => prev.map(l => l.id === editingId ? { ...l, ...payload } : l));
       } else {
-        // INSERT
         const { data, error } = await supabase
           .from('custom_leads')
           .insert([payload])
           .select();
         if (error) throw error;
+        savedLead = data[0];
         setLeads(prev => [data[0], ...prev]);
+      }
+
+      // Auto-sync to print_jobs if status is 'Aceptado'
+      if (payload.status === 'Aceptado' && savedLead) {
+        await syncLeadToPrintJob(savedLead);
       }
 
       closeForm();
@@ -177,7 +260,14 @@ const LeadsCRM = () => {
         .update({ status: newStatus })
         .eq('id', id);
       if (error) throw error;
+
+      const lead = leads.find(l => l.id === id);
       setLeads(prev => prev.map(l => l.id === id ? { ...l, status: newStatus } : l));
+
+      // Auto-sync to print_jobs when accepted
+      if (newStatus === 'Aceptado' && lead) {
+        await syncLeadToPrintJob({ ...lead, status: newStatus });
+      }
     } catch (error) {
       console.error(error);
     }
@@ -187,12 +277,20 @@ const LeadsCRM = () => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const totalCalculated = (Number(formData.unit_cost) || 0) * (Number(formData.quantity) || 1);
+  // Form profit preview
+  const formProfit = calcProfit(formData);
+  const formTotalCosts = calcTotalCosts(formData);
+  const formSalePrice = Number(formData.sale_price) || 0;
 
   // KPIs
   const pendingCount = leads.filter(l => l.status === 'Pendiente').length;
   const inProgressCount = leads.filter(l => ['Presupuestado', 'Aceptado', 'En Producción'].includes(l.status)).length;
-  const doneCount = leads.filter(l => l.status === 'Finalizado').length;
+  const doneCount = leads.filter(l =>
+    l.status === 'Finalizado - Pendiente de Envío' || l.status === 'Finalizado - Enviado'
+  ).length;
+  const totalProfit = leads
+    .filter(l => l.status === 'Finalizado - Pendiente de Envío' || l.status === 'Finalizado - Enviado')
+    .reduce((acc, l) => acc + calcProfit(l), 0);
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -200,7 +298,8 @@ const LeadsCRM = () => {
       case 'Presupuestado': return '#3b82f6';
       case 'Aceptado': return '#8b5cf6';
       case 'En Producción': return '#f97316';
-      case 'Finalizado': return '#22c55e';
+      case 'Finalizado - Pendiente de Envío': return '#06b6d4';
+      case 'Finalizado - Enviado': return '#22c55e';
       case 'Cancelado': return '#ef4444';
       default: return '#6b7280';
     }
@@ -215,6 +314,11 @@ const LeadsCRM = () => {
       });
     }
     return '—';
+  };
+
+  const formatMoney = (val) => {
+    const n = Number(val) || 0;
+    return `$${n.toLocaleString('es-AR')}`;
   };
 
   return (
@@ -245,8 +349,10 @@ const LeadsCRM = () => {
           <div className="crm-kpi-label">Finalizados</div>
         </div>
         <div className="crm-kpi-card">
-          <div className="crm-kpi-value">{leads.length}</div>
-          <div className="crm-kpi-label">Total</div>
+          <div className="crm-kpi-value" style={{ color: totalProfit >= 0 ? '#16a34a' : '#dc2626' }}>
+            {formatMoney(totalProfit)}
+          </div>
+          <div className="crm-kpi-label">Ganancia Total</div>
         </div>
       </div>
 
@@ -298,93 +404,141 @@ const LeadsCRM = () => {
                 <th>Cliente</th>
                 <th>Tipo</th>
                 <th>Entrega</th>
-                <th>Precio Unit.</th>
-                <th>Cant.</th>
-                <th>Total</th>
+                <th>Venta</th>
+                <th>Costos</th>
+                <th>Ganancia</th>
                 <th>Estado</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {filteredLeads.map(lead => (
-                <React.Fragment key={lead.id}>
-                  <tr
-                    className={`crm-row ${expandedId === lead.id ? 'expanded' : ''}`}
-                    onClick={() => setExpandedId(expandedId === lead.id ? null : lead.id)}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    <td style={{ fontSize: '0.82rem', color: 'var(--text-light)' }}>
-                      {new Date(lead.created_at).toLocaleDateString('es-AR', { day: '2-digit', month: 'short' })}
-                    </td>
-                    <td style={{ fontWeight: 600 }}>{lead.client_name}</td>
-                    <td>
-                      <span className="badge-outline">
-                        {lead.request_type === 'ofrecido' ? 'Ofrecido' : 'Específico'}
-                      </span>
-                    </td>
-                    <td style={{ fontSize: '0.82rem' }}>
-                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                        <Calendar size={13} /> {formatDeadline(lead)}
-                      </span>
-                    </td>
-                    <td>{lead.unit_cost ? `$${Number(lead.unit_cost).toLocaleString()}` : '—'}</td>
-                    <td style={{ fontWeight: 700 }}>x{lead.quantity || 1}</td>
-                    <td style={{ fontWeight: 700, color: 'var(--accent)' }}>
-                      {lead.unit_cost
-                        ? `$${(lead.unit_cost * (lead.quantity || 1)).toLocaleString()}`
-                        : '—'}
-                    </td>
-                    <td>
-                      <select
-                        className="crm-status-select"
-                        value={lead.status || 'Pendiente'}
-                        style={{ color: getStatusColor(lead.status), borderColor: getStatusColor(lead.status) }}
-                        onChange={e => { e.stopPropagation(); quickStatusChange(lead.id, e.target.value); }}
-                        onClick={e => e.stopPropagation()}
-                      >
-                        {STATUS_OPTIONS.map(s => (
-                          <option key={s.value} value={s.value}>{s.label}</option>
-                        ))}
-                      </select>
-                    </td>
-                    <td>
-                      <div className="action-buttons" onClick={e => e.stopPropagation()}>
-                        <button className="btn-icon" onClick={() => openEditForm(lead)} title="Editar">
-                          <Pencil size={15} />
-                        </button>
-                        <button className="btn-icon text-danger" onClick={() => handleDelete(lead.id)} title="Eliminar">
-                          <Trash2 size={15} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  {/* Expanded detail row */}
-                  {expandedId === lead.id && (
-                    <tr className="crm-detail-row">
-                      <td colSpan={9}>
-                        <div className="crm-detail-content">
-                          <div className="crm-detail-grid">
-                            <div>
-                              <span className="crm-detail-label">Detalles del Pedido</span>
-                              <p>{lead.details || 'Sin detalles cargados.'}</p>
-                            </div>
-                            <div className="crm-detail-numbers">
-                              <div>
-                                <span className="crm-detail-label">Costo Material</span>
-                                <span>${Number(lead.material_cost || 0).toLocaleString()}</span>
-                              </div>
-                              <div>
-                                <span className="crm-detail-label">Horas Est.</span>
-                                <span>{lead.hours || 0}h</span>
-                              </div>
-                            </div>
-                          </div>
+              {filteredLeads.map(lead => {
+                const leadProfit = calcProfit(lead);
+                const leadCosts = calcTotalCosts(lead);
+                return (
+                  <React.Fragment key={lead.id}>
+                    <tr
+                      className={`crm-row ${expandedId === lead.id ? 'expanded' : ''}`}
+                      onClick={() => setExpandedId(expandedId === lead.id ? null : lead.id)}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <td style={{ fontSize: '0.82rem', color: 'var(--text-light)' }}>
+                        {new Date(lead.created_at).toLocaleDateString('es-AR', { day: '2-digit', month: 'short' })}
+                      </td>
+                      <td style={{ fontWeight: 600 }}>{lead.client_name}</td>
+                      <td>
+                        <span className="badge-outline">
+                          {lead.request_type === 'ofrecido' ? 'Ofrecido' : 'Específico'}
+                        </span>
+                      </td>
+                      <td style={{ fontSize: '0.82rem' }}>
+                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                          <Calendar size={13} /> {formatDeadline(lead)}
+                        </span>
+                      </td>
+                      <td style={{ fontWeight: 600 }}>
+                        {lead.sale_price ? formatMoney(lead.sale_price) : '—'}
+                      </td>
+                      <td style={{ fontSize: '0.85rem', color: 'var(--text-light)' }}>
+                        {leadCosts > 0 ? formatMoney(leadCosts) : '—'}
+                      </td>
+                      <td>
+                        {lead.sale_price ? (
+                          <span className={`crm-profit-badge ${leadProfit >= 0 ? 'positive' : 'negative'}`}>
+                            {leadProfit >= 0 ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
+                            {formatMoney(Math.abs(leadProfit))}
+                          </span>
+                        ) : '—'}
+                      </td>
+                      <td>
+                        <select
+                          className="crm-status-select"
+                          value={lead.status || 'Pendiente'}
+                          style={{ color: getStatusColor(lead.status), borderColor: getStatusColor(lead.status) }}
+                          onChange={e => { e.stopPropagation(); quickStatusChange(lead.id, e.target.value); }}
+                          onClick={e => e.stopPropagation()}
+                        >
+                          {STATUS_OPTIONS.map(s => (
+                            <option key={s.value} value={s.value}>{s.label}</option>
+                          ))}
+                        </select>
+                      </td>
+                      <td>
+                        <div className="action-buttons" onClick={e => e.stopPropagation()}>
+                          <button className="btn-icon" onClick={() => openEditForm(lead)} title="Editar">
+                            <Pencil size={15} />
+                          </button>
+                          <button className="btn-icon text-danger" onClick={() => handleDelete(lead.id)} title="Eliminar">
+                            <Trash2 size={15} />
+                          </button>
                         </div>
                       </td>
                     </tr>
-                  )}
-                </React.Fragment>
-              ))}
+                    {/* Expanded detail row */}
+                    {expandedId === lead.id && (
+                      <tr className="crm-detail-row">
+                        <td colSpan={9}>
+                          <div className="crm-detail-content">
+                            <div className="crm-detail-grid">
+                              <div>
+                                <span className="crm-detail-label">Detalles del Pedido</span>
+                                <p>{lead.details || 'Sin detalles cargados.'}</p>
+                              </div>
+                              <div>
+                                <span className="crm-detail-label">Horas Estimadas</span>
+                                <span style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-dark)' }}>
+                                  {lead.hours || 0}h
+                                </span>
+                              </div>
+                            </div>
+                            {/* Cost Breakdown */}
+                            <div className="crm-cost-breakdown">
+                              <div className="crm-cost-item">
+                                <span className="crm-detail-label">Material</span>
+                                <span>{formatMoney(lead.material_cost)}</span>
+                              </div>
+                              <div className="crm-cost-item">
+                                <span className="crm-detail-label">Electricidad</span>
+                                <span>{formatMoney(lead.electricity_cost)}</span>
+                              </div>
+                              <div className="crm-cost-item">
+                                <span className="crm-detail-label">Desg. Máquina</span>
+                                <span>{formatMoney(lead.machine_wear_cost)}</span>
+                              </div>
+                              <div className="crm-cost-item">
+                                <span className="crm-detail-label">Reserva Falla</span>
+                                <span>{formatMoney(lead.failure_reserve)}</span>
+                              </div>
+                              {(Number(lead.other_costs) > 0) && (
+                                <div className="crm-cost-item">
+                                  <span className="crm-detail-label">Otros Costos</span>
+                                  <span>{formatMoney(lead.other_costs)}</span>
+                                </div>
+                              )}
+                              {(Number(lead.shipping_cost) > 0) && (
+                                <div className="crm-cost-item">
+                                  <span className="crm-detail-label">Envío</span>
+                                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                                    <Truck size={13} /> {formatMoney(lead.shipping_cost)}
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+                            {/* Profit summary */}
+                            {lead.sale_price > 0 && (
+                              <div className={`crm-profit-badge ${leadProfit >= 0 ? 'positive' : 'negative'}`}>
+                                {leadProfit >= 0 ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
+                                Ganancia: {formatMoney(Math.abs(leadProfit))}
+                                {leadProfit < 0 && ' (pérdida)'}
+                              </div>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </React.Fragment>
+                );
+              })}
             </tbody>
           </table>
         )}
@@ -464,23 +618,29 @@ const LeadsCRM = () => {
 
               <div className="crm-form-divider" />
 
-              {/* Costs */}
+              {/* ── COSTS SECTION ── */}
+              <div className="crm-form-group">
+                <label style={{ fontSize: '0.9rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '0.5rem' }}>
+                  Costos de Producción
+                </label>
+              </div>
+
               <div className="crm-form-row">
                 <div className="crm-form-group">
                   <label>Costo de Material ($)</label>
                   <input
                     type="number"
-                    placeholder="Ej: 2500"
+                    placeholder="0"
                     value={formData.material_cost}
                     onChange={e => setField('material_cost', e.target.value)}
                   />
                 </div>
                 <div className="crm-form-group">
-                  <label>Horas Estimadas</label>
+                  <label>Horas de Impresión</label>
                   <input
                     type="number"
                     step="0.5"
-                    placeholder="Ej: 4"
+                    placeholder="0"
                     value={formData.hours}
                     onChange={e => setField('hours', e.target.value)}
                   />
@@ -489,28 +649,118 @@ const LeadsCRM = () => {
 
               <div className="crm-form-row">
                 <div className="crm-form-group">
-                  <label>Precio Unitario ($)</label>
+                  <label>Electricidad ($)</label>
                   <input
                     type="number"
-                    placeholder="Opcional"
-                    value={formData.unit_cost}
-                    onChange={e => setField('unit_cost', e.target.value)}
+                    placeholder="0"
+                    value={formData.electricity_cost}
+                    onChange={e => setField('electricity_cost', e.target.value)}
                   />
                 </div>
                 <div className="crm-form-group">
-                  <label>Cantidad</label>
+                  <label>Desgaste Máquina ($)</label>
                   <input
                     type="number"
-                    min="1"
-                    value={formData.quantity}
-                    onChange={e => setField('quantity', e.target.value)}
+                    placeholder="0"
+                    value={formData.machine_wear_cost}
+                    onChange={e => setField('machine_wear_cost', e.target.value)}
                   />
                 </div>
               </div>
 
-              {totalCalculated > 0 && (
-                <div className="crm-total-preview">
-                  Total estimado: <strong>${totalCalculated.toLocaleString()}</strong>
+              <div className="crm-form-row-3">
+                <div className="crm-form-group">
+                  <label>Reserva x Falla ($)</label>
+                  <input
+                    type="number"
+                    placeholder="0"
+                    value={formData.failure_reserve}
+                    onChange={e => setField('failure_reserve', e.target.value)}
+                  />
+                </div>
+                <div className="crm-form-group">
+                  <label>Otros Costos ($) <span style={{ fontWeight: 400, color: 'var(--text-light)' }}>opc.</span></label>
+                  <input
+                    type="number"
+                    placeholder="0"
+                    value={formData.other_costs}
+                    onChange={e => setField('other_costs', e.target.value)}
+                  />
+                </div>
+                <div className="crm-form-group">
+                  <label>Envío ($) <span style={{ fontWeight: 400, color: 'var(--text-light)' }}>opc.</span></label>
+                  <input
+                    type="number"
+                    placeholder="0"
+                    value={formData.shipping_cost}
+                    onChange={e => setField('shipping_cost', e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="crm-form-divider" />
+
+              {/* ── SALE PRICE ── */}
+              <div className="crm-form-group">
+                <label style={{ fontSize: '0.9rem', fontWeight: 800 }}>Precio de Venta ($)</label>
+                <input
+                  type="number"
+                  placeholder="Precio presupuestado al cliente"
+                  value={formData.sale_price}
+                  onChange={e => setField('sale_price', e.target.value)}
+                />
+              </div>
+
+              {/* ── PROFIT BREAKDOWN PREVIEW ── */}
+              {formSalePrice > 0 && (
+                <div className="crm-profit-breakdown">
+                  <h4>Resumen de Ganancia</h4>
+                  <div className="crm-profit-line">
+                    <span>Precio de Venta</span>
+                    <span>{formatMoney(formSalePrice)}</span>
+                  </div>
+                  <div className="crm-profit-divider" />
+                  {Number(formData.material_cost) > 0 && (
+                    <div className="crm-profit-line expense">
+                      <span>Material</span>
+                      <span>-{formatMoney(formData.material_cost)}</span>
+                    </div>
+                  )}
+                  {Number(formData.electricity_cost) > 0 && (
+                    <div className="crm-profit-line expense">
+                      <span>Electricidad</span>
+                      <span>-{formatMoney(formData.electricity_cost)}</span>
+                    </div>
+                  )}
+                  {Number(formData.machine_wear_cost) > 0 && (
+                    <div className="crm-profit-line expense">
+                      <span>Desg. Máquina</span>
+                      <span>-{formatMoney(formData.machine_wear_cost)}</span>
+                    </div>
+                  )}
+                  {Number(formData.failure_reserve) > 0 && (
+                    <div className="crm-profit-line expense">
+                      <span>Reserva Falla</span>
+                      <span>-{formatMoney(formData.failure_reserve)}</span>
+                    </div>
+                  )}
+                  {Number(formData.other_costs) > 0 && (
+                    <div className="crm-profit-line expense">
+                      <span>Otros Costos</span>
+                      <span>-{formatMoney(formData.other_costs)}</span>
+                    </div>
+                  )}
+                  {Number(formData.shipping_cost) > 0 && (
+                    <div className="crm-profit-line expense">
+                      <span>Envío</span>
+                      <span>-{formatMoney(formData.shipping_cost)}</span>
+                    </div>
+                  )}
+                  <div className="crm-profit-divider" />
+                  <div className={`crm-profit-line total ${formProfit >= 0 ? 'positive' : 'negative'}`}>
+                    <span>Ganancia (pre-impuestos)</span>
+                    <span>{formProfit >= 0 ? '' : '-'}{formatMoney(Math.abs(formProfit))}</span>
+                  </div>
                 </div>
               )}
 
