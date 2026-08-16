@@ -6,6 +6,7 @@ import {
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
 import html2canvas from 'html2canvas';
+import LeadsCRM from './LeadsCRM';
 import './OrdersList.css';
 
 const PAYMENT_METHODS = ['Efectivo', 'Transferencia', 'Mercado Pago', 'Débito', 'Otro'];
@@ -445,6 +446,7 @@ const OrdersList = () => {
   const [rpcFunnel, setRpcFunnel] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [activeTab, setActiveTab] = useState('catalogo');
   
   // Manual form state
   const [showManualForm, setShowManualForm] = useState(false);
@@ -1453,6 +1455,23 @@ const OrdersList = () => {
         </div>
       </div>
 
+      <div style={{ display: 'flex', gap: '1rem', borderBottom: '2px solid var(--border)', marginBottom: '1.5rem', marginTop: '1.5rem' }}>
+        <button 
+          onClick={() => setActiveTab('catalogo')}
+          style={{ padding: '0.75rem 1rem', background: 'none', border: 'none', borderBottom: activeTab === 'catalogo' ? '2px solid var(--accent)' : '2px solid transparent', marginBottom: '-2px', fontWeight: activeTab === 'catalogo' ? 700 : 500, color: activeTab === 'catalogo' ? 'var(--accent)' : 'var(--text-light)', cursor: 'pointer', fontSize: '0.95rem' }}
+        >
+          🛒 Ventas de Catálogo
+        </button>
+        <button 
+          onClick={() => setActiveTab('custom')}
+          style={{ padding: '0.75rem 1rem', background: 'none', border: 'none', borderBottom: activeTab === 'custom' ? '2px solid var(--accent)' : '2px solid transparent', marginBottom: '-2px', fontWeight: activeTab === 'custom' ? 700 : 500, color: activeTab === 'custom' ? 'var(--accent)' : 'var(--text-light)', cursor: 'pointer', fontSize: '0.95rem' }}
+        >
+          🎨 Pedidos Personalizados
+        </button>
+      </div>
+
+      {activeTab === 'catalogo' ? (
+        <>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem', margin: '1.5rem 0 1rem' }}>
         <h2 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-dark)' }}>📊 Analíticas de Tráfico</h2>
         <div style={{ display: 'flex', gap: '0.4rem' }}>
@@ -1884,6 +1903,10 @@ const OrdersList = () => {
             </div>
           </div>
         </div>
+      )}
+      </>
+      ) : (
+        <LeadsCRM isEmbedded={true} />
       )}
     </div>
   );

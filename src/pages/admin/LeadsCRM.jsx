@@ -33,7 +33,7 @@ const EMPTY_FORM = {
   deadline_date: '',
 };
 
-const LeadsCRM = () => {
+const LeadsCRM = ({ isEmbedded = false }) => {
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -322,19 +322,22 @@ const LeadsCRM = () => {
   };
 
   return (
-    <div className="admin-page">
+    <div className={isEmbedded ? "" : "admin-page"}>
       {/* ── HEADER ── */}
-      <div className="adm-page-header sticky-header">
-        <div className="adm-page-title">
-          <h1>Pedidos Personalizados</h1>
-          <span className="adm-count-pill">{leads.length} pedidos</span>
+      {!isEmbedded && (
+        <div className="adm-page-header sticky-header">
+          <div className="adm-page-title">
+            <h1>Pedidos Personalizados</h1>
+            <span className="adm-count-pill">{leads.length} pedidos</span>
+          </div>
+          <button className="btn-primary" onClick={openNewForm}>
+            <Plus size={18} /> Nuevo Pedido
+          </button>
         </div>
-        <button className="btn-primary" onClick={openNewForm}>
-          <Plus size={18} /> Nuevo Pedido
-        </button>
-      </div>
+      )}
 
       {/* ── KPI CARDS ── */}
+      {!isEmbedded && (
       <div className="crm-kpi-row">
         <div className="crm-kpi-card">
           <div className="crm-kpi-value" style={{ color: '#f59e0b' }}>{pendingCount}</div>
@@ -355,6 +358,17 @@ const LeadsCRM = () => {
           <div className="crm-kpi-label">Ganancia Total</div>
         </div>
       </div>
+      )}
+
+      {/* Si está embebido, igual mostramos el botón de Nuevo Pedido arriba de los filtros */}
+      {isEmbedded && (
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+          <h2 style={{ fontSize: '1.1rem', fontWeight: 700, margin: 0, color: 'var(--text-dark)' }}>Pedidos Personalizados</h2>
+          <button className="btn-primary" onClick={openNewForm}>
+            <Plus size={16} /> Nuevo Pedido
+          </button>
+        </div>
+      )}
 
       {/* ── FILTERS ── */}
       <div className="crm-filters-row">
