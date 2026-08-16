@@ -120,7 +120,7 @@ const PrintJobsManager = () => {
         </div>
       </div>
 
-      <div className="leads-stats-row" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', marginBottom: '2rem' }}>
+      <div className="leads-stats-row" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', marginTop: '1rem', marginBottom: '2rem' }}>
         <div className="form-section-card" style={{ background: '#f0fdf4', borderColor: '#bbf7d0', padding: '1.25rem' }}>
           <h4 style={{ margin: 0, color: '#166534', fontSize: '0.85rem', textTransform: 'uppercase' }}>Ahorro (Savings) Pendiente</h4>
           <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#15803d', marginTop: '0.5rem' }}>${pendingSavings.toLocaleString()}</div>
