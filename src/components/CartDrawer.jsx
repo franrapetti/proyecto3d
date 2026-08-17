@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
-import { X, Trash2, ShoppingBag, ShieldCheck, CreditCard, Landmark } from 'lucide-react';
+import { X, Trash2, ShoppingBag, ShieldCheck, CreditCard, Landmark, Plus } from 'lucide-react';
 import { trackPixelEvent, trackTikTokEvent, logAnalyticsEvent } from '../lib/analytics';
+import { supabase } from '../lib/supabaseClient';
+import { useQuery } from '@tanstack/react-query';
 import './CartDrawer.css';
 
 // Initialize MP with public key (fallback to TEST if not found)
 initMercadoPago(import.meta.env.VITE_MP_PUBLIC_KEY || 'TEST-PUBLIC-KEY', { locale: 'es-AR' });
 
-const CartDrawer = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem }) => {
+const CartDrawer = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem, onAddToCart }) => {
   const [isCheckout, setIsCheckout] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', postalCode: '', city: '', notes: '' });
   const [preferenceId, setPreferenceId] = useState(null);
@@ -31,6 +33,15 @@ const CartDrawer = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem
   const promoDiscount = appliedPromo ? appliedPromo.discount_amount : 0;
   const total = baseTotal - promoDiscount;
   const promoSaved = promoDiscount;
+
+  // Upsell Fetch
+  const { data: upsellItem } = useQuery({
+    queryKey: ['upsell'],
+    queryFn: async () => {
+      const { data } = await supabase.from('products').select('*').eq('category', 'Accesorios').eq('stock', 100).limit(1).single();
+      return data || null;
+    }
+  });
 
   // Free shipping threshold (Protective margin threshold)
   const FREE_SHIPPING_THRESHOLD = 120000;
@@ -367,6 +378,23 @@ const CartDrawer = ({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem
                 </div>
               ))}
             </div>
+
+            {/* Upsell Section */}
+            {upsellItem && !cartItems.some(i => i.id === upsellItem.id) && (
+              <div className="cart-upsell-section" style={{ margin: '0 1.5rem 1rem 1.5rem', padding: '12px', backgroundColor: 'rgba(46, 166, 85, 0.05)', borderRadius: '12px', border: '1px solid rgba(46, 166, 85, 0.2)', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <img src={upsellItem.image_url} alt={upsellItem.name} style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '8px' }} />
+                <div style={{ flex: 1 }}>
+                  <h4 style={{ fontSize: '0.85rem', margin: '0 0 4px 0', color: 'var(--text-dark)' }}>Agregá un {upsellItem.name}</h4>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 700, margin: 0 }}>${(upsellItem.promo_price || upsellItem.price).toLocaleString()}</p>
+                </div>
+                <button 
+                  onClick={() => onAddToCart(upsellItem)}
+                  style={{ backgroundColor: 'var(--accent)', color: 'white', border: 'none', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', flexShrink: 0 }}
+                >
+                  <Plus size={18} />
+                </button>
+              </div>
+            )}
             
             <div className="cart-footer">
               {/* Promo Code Engine — API-powered */}

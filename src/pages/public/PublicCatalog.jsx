@@ -77,6 +77,8 @@ function PublicCatalog() {
     visibleProducts.sort((a, b) => a.price - b.price);
   } else if (sortOrder === 'price_desc') {
     visibleProducts.sort((a, b) => b.price - a.price);
+  } else if (sortOrder === 'best_selling') {
+    visibleProducts.sort((a, b) => (b.sold_count || 0) - (a.sold_count || 0));
   } else {
     // Advanced Default Sorting Logic
     // 1. Separate priority items
@@ -304,6 +306,7 @@ function PublicCatalog() {
                     onChange={(e) => setSortOrder(e.target.value)}
                   >
                     <option value="newest">Más nuevos</option>
+                    <option value="best_selling">Más vendidos</option>
                     <option value="price_asc">Menor precio</option>
                     <option value="price_desc">Mayor precio</option>
                   </select>

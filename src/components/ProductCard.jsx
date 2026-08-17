@@ -28,12 +28,24 @@ const ProductCard = ({ product, onAddToCart, noZoom }) => {
     <div className="product-card">
       <div className={`product-image-container ${noZoom ? 'no-zoom' : ''}`}>
         <Link to={`/producto/${product.slug || product.id}`} onClick={handleProductClick}>
-          <img 
-            src={getImgUrl(product.image_url, { w: 400, q: 65 })} 
-            alt={product.name} 
-            loading="lazy" 
-            decoding="async" 
-          />
+          <div className="card-images-wrapper">
+            <img 
+              src={getImgUrl(product.image_url, { w: 400, q: 65 })} 
+              alt={product.name} 
+              className="card-main-image"
+              loading="lazy" 
+              decoding="async" 
+            />
+            {product.gallery_images && product.gallery_images.length > 0 && (
+              <img 
+                src={getImgUrl(product.gallery_images[0], { w: 400, q: 65 })} 
+                alt={`${product.name} vista 2`} 
+                className="card-hover-image"
+                loading="lazy" 
+                decoding="async" 
+              />
+            )}
+          </div>
         </Link>
         <div className="top-left-badges">
           {product.best_seller && (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabaseClient';
 import { useCart } from '../../context/CartContext';
@@ -47,6 +47,28 @@ function ProductDetail() {
 
   // Zoom Lightbox
   const [isZoomOpen, setIsZoomOpen] = useState(false);
+
+  // Sticky Mobile CTA
+  const [showStickyCTA, setShowStickyCTA] = useState(false);
+  const mainCtaRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting && entry.boundingClientRect.y < 0) {
+          setShowStickyCTA(true);
+        } else {
+          setShowStickyCTA(false);
+        }
+      },
+      { threshold: 0 }
+    );
+
+    if (mainCtaRef.current) {
+      observer.observe(mainCtaRef.current);
+    }
+    return () => observer.disconnect();
+  }, [product]);
 
   const [isDark, setIsDark] = useState(() => document.body.classList.contains('dark-theme'));
 
@@ -237,8 +259,11 @@ function ProductDetail() {
   const ratingAvg = reviewCount > 0 ? (reviews.reduce((a, b) => a + b.rating, 0) / reviewCount).toFixed(1) : 0;
 
   const getFramingText = (category) => {
-    if (category === 'Filamentos') return 'Tus creaciones todos los días, con la mejor calidad.';
-    return 'Un compañero para toda la vida por el costo de una cena.';
+    if (category === 'Filamentos') return 'Tus creaciones con la mejor calidad, garantizada.';
+    if (category === 'Repuestos') return 'Soluciones duraderas y a medida para tu vehículo.';
+    if (category === 'Mates') return 'El compañero perfecto para tus mañanas, diseñado para durar.';
+    if (category === 'Figuras') return 'Detalles únicos de colección que le dan vida a tus espacios.';
+    return 'Calidad premium garantizada, hecha a medida para vos.';
   };
 
   return (
@@ -246,8 +271,14 @@ function ProductDetail() {
       {product && (
         <Helmet>
           <title>{product.name} | Proyecto 3D</title>
-          <meta name="description" content={`Comprá ${product.name} al mejor precio. Envíos gratis a todo el país. Proyecto 3D 🦅`} />
-          
+          <meta name="description" content={`Comprá ${product.name} al mejor precio. Envíos a todo el país. Proyecto 3D 🇦🇷`} />
+          <meta property="og:title" content={`${product.name} | Proyecto 3D`} />
+          <meta property="og:description" content={`Llevate tu ${product.name} hoy. Envíos seguros a todo el país.`} />
+          <meta property="og:image" content={product.image_url ? getImgUrl(product.image_url) : "https://proyecto3d.com.ar/default-share.jpg"} />
+          <meta property="og:url" content={window.location.href} />
+          <meta property="og:type" content="product" />
+          <meta property="product:price:amount" content={product.promo_price || product.price} />
+          <meta property="product:price:currency" content="ARS" />
           {/* Open Graph / Facebook */}
           <meta property="og:type" content="product" />
           <meta property="og:url" content={window.location.href} />
@@ -430,7 +461,7 @@ function ProductDetail() {
                 <h4 style={{margin: '0 0 1rem 0', fontSize: '0.95rem'}}>¿Por qué elegir Proyecto 3D?</h4>
                 <div style={{display: 'grid', gridTemplateColumns: '1.2fr 1fr 1fr', gap: '8px', fontSize: '0.85rem', textAlign: 'center'}}>
                   <div style={{fontWeight: 'bold', color: 'var(--text-light)', textAlign: 'left', paddingBottom: '4px', borderBottom: '1px solid var(--border)'}}>Característica</div>
-                  <div style={{fontWeight: 'bold', color: 'var(--accent)', paddingBottom: '4px', borderBottom: '1px solid var(--border)'}}>En Cóndor 🦅</div>
+                  <div style={{fontWeight: 'bold', color: 'var(--accent)', paddingBottom: '4px', borderBottom: '1px solid var(--border)'}}>En Proyecto 3D 🇦🇷</div>
                   <div style={{fontWeight: 'bold', color: 'var(--text-light)', paddingBottom: '4px', borderBottom: '1px solid var(--border)'}}>Otros ❌</div>
                   
                   <div style={{textAlign: 'left', paddingTop: '4px'}}>Materiales</div>
@@ -442,13 +473,13 @@ function ProductDetail() {
                   <div style={{paddingTop: '4px'}}>Sin garantía</div>
 
                   <div style={{textAlign: 'left', paddingTop: '4px'}}>Terminaciones</div>
-                  <div style={{paddingTop: '4px'}}>Costuras a mano</div>
-                  <div style={{paddingTop: '4px'}}>Pegados</div>
+                  <div style={{paddingTop: '4px'}}>Alta Precisión (0.1mm)</div>
+                  <div style={{paddingTop: '4px'}}>Rugosas / Con hilos</div>
                 </div>
               </div>
             )}
 
-            <div className="detail-cta-row">
+            <div className="detail-cta-row" ref={mainCtaRef}>
               {isLaunched && (
                 <button 
                   className="add-to-cart-large" 
@@ -477,7 +508,7 @@ function ProductDetail() {
               <div style={{ marginTop: '1rem', padding: '0.75rem', backgroundColor: '#f0f9f0', border: '1px solid #c2e0c6', borderRadius: '8px' }}>
                 <p style={{ margin: 0, fontSize: '0.9rem', color: '#1e4620', fontWeight: 600, display: 'flex', alignItems: 'flex-start', gap: '6px' }}>
                   <ShieldCheck size={18} style={{flexShrink: 0, marginTop: '2px'}} />
-                  <span>Garantía Cóndor 30 Días: Cobertura total por cualquier defecto. Te mandamos un figura de reemplazo de igual valor al instante, sin vueltas.</span>
+                  <span>Garantía Proyecto 3D 30 Días: Cobertura total por cualquier defecto de fabricación. Te mandamos un reemplazo al instante, sin vueltas.</span>
                 </p>
               </div>
             )}
@@ -711,6 +742,25 @@ function ProductDetail() {
           />
         </div>
       )}
+      
+      {/* Sticky Mobile CTA */}
+      {isLaunched && showStickyCTA && product && product.stock > 0 && (
+        <div className="sticky-mobile-cta slide-up">
+          <div className="sticky-cta-content">
+            <div className="sticky-cta-info">
+              <span className="sticky-cta-title">{product.name}</span>
+              <span className="sticky-cta-price">${(product.promo_price || product.price).toLocaleString()}</span>
+            </div>
+            <button 
+              className="sticky-add-btn"
+              onClick={() => addToCart(product)}
+            >
+              Agregar
+            </button>
+          </div>
+        </div>
+      )}
+
     </>
   );
 }

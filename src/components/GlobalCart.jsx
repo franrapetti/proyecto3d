@@ -8,7 +8,7 @@ const GlobalCart = () => {
     cartItems, isCartOpen, setIsCartOpen, 
     isCrossSellOpen, setIsCrossSellOpen, 
     updateQuantity, removeItem, quickAdd,
-    crossSells
+    crossSells, addToCart
   } = useCart();
 
   return (
@@ -19,6 +19,7 @@ const GlobalCart = () => {
         cartItems={cartItems}
         onUpdateQuantity={updateQuantity}
         onRemoveItem={removeItem}
+        onAddToCart={addToCart}
       />
       
       <CrossSellModal 

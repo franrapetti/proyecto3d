@@ -818,3 +818,76 @@
   from { transform: scale(0.9); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
+
+/* ── STICKY MOBILE CTA ── */
+.sticky-mobile-cta {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 0.75rem 1rem;
+  padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+}
+
+.sticky-cta-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 500px;
+  gap: 1rem;
+}
+
+.sticky-cta-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.sticky-cta-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+}
+
+.sticky-cta-price {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.sticky-add-btn {
+  background: var(--text-dark);
+  color: var(--surface);
+  border: none;
+  padding: 0.6rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.slide-up {
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@media (min-width: 768px) {
+  .sticky-mobile-cta {
+    display: none;
+  }
+}
