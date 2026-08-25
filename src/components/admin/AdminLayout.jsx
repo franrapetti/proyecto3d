@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
-import { LayoutGrid, ShoppingBag, Moon, Sun, LogOut, ExternalLink, Settings, Mail, Download, Printer, Menu, X, Tag, Inbox, Wrench } from 'lucide-react';
+import { LayoutGrid, ShoppingBag, Moon, Sun, LogOut, ExternalLink, Settings, Mail, Download, Printer, Menu, X, Tag, Inbox, Wrench, Calculator } from 'lucide-react';
 import { useAdminFavicon } from '../../hooks/useAdminFavicon';
 import './AdminLayout.css';
 
@@ -12,6 +12,7 @@ const NAV_LINKS = [
   { to: '/admin/subscribers',end: false, icon: <Mail size={18} />,        label: 'Suscriptores'  },
   { to: '/admin/categories', end: false, icon: <Tag size={18} />,         label: 'Categorías'    },
   { to: '/admin/print-jobs',end: false, icon: <Wrench size={18} />,       label: 'Producción'    },
+  { to: '/admin/calculator',end: false, icon: <Calculator size={18} />,   label: 'Calculadora 3D'},
   { to: '/admin/export',   end: false, icon: <Download size={18} />,      label: 'Exportar CSV'  },
   { to: '/admin/screenshots', end: false, icon: <Printer size={18} />,    label: 'Capturas ML'   },
   { to: '/admin/settings', end: false, icon: <Settings size={18} />,      label: 'Configuración' },

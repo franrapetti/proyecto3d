@@ -17,6 +17,7 @@ import LeadsCRM from './pages/admin/LeadsCRM';
 import PrintJobsManager from './pages/admin/PrintJobsManager';
 import CategoriesManager from './pages/admin/CategoriesManager';
 import CsvExport from './pages/admin/CsvExport';
+import CostCalculator from './pages/admin/CostCalculator';
 import ScreenshotCatalog from './pages/admin/ScreenshotCatalog';
 import { AuthProvider } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
@@ -94,6 +95,7 @@ function App() {
                     <Route path="print-jobs" element={<PrintJobsManager />} />
                     <Route path="export" element={<CsvExport />} />
                     <Route path="screenshots" element={<ScreenshotCatalog />} />
+                    <Route path="calculator" element={<CostCalculator />} />
                     <Route path="products/new" element={<ProductForm />} />
                     <Route path="products/:id" element={<ProductForm />} />
                   </Route>
