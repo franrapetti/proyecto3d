@@ -392,7 +392,7 @@
 
 .export-dropdown-menu {
   position: absolute;
-  top: 110%;
+  bottom: 110%;
   left: 0;
   background: var(--surface);
   border: 1px solid var(--border);
