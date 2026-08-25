@@ -64,6 +64,8 @@ const CostCalculator = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
+  const [exportMode, setExportMode] = useState('full'); // 'full', 'client_no_comm', 'client_comm'
+  const [showExportMenu, setShowExportMenu] = useState(false);
   const exportRef = useRef(null);
 
   // ── Fetch presupuestos guardados ──
@@ -198,36 +200,43 @@ const CostCalculator = () => {
     }
   };
 
-  const handleExport = async () => {
-    if (!exportRef.current) return;
-    try {
-      const el = exportRef.current;
-      el.style.display = 'block';
-      el.style.position = 'fixed';
-      el.style.left = '-9999px';
-      el.style.top = '0';
-
-      const canvas = await html2canvas(el, {
-        backgroundColor: '#0a0a0a',
-        scale: 2,
-        useCORS: true,
-        logging: false,
-      });
-
-      el.style.display = 'none';
-      el.style.position = '';
-      el.style.left = '';
-      el.style.top = '';
-
-      const link = document.createElement('a');
-      const safeName = (inputs.budgetName || 'impresion-3d').replace(/[^a-zA-Z0-9áéíóúñ ]/gi, '').replace(/\s+/g, '-').toLowerCase();
-      link.download = `presupuesto-${safeName}-${new Date().toISOString().slice(0, 10)}.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-    } catch (err) {
-      console.error(err);
-      alert('Error al exportar imagen');
-    }
+  const handleExport = (mode = 'full') => {
+    setExportMode(mode);
+    setShowExportMenu(false);
+    
+    // Esperar a que el DOM se actualice con el nuevo mode
+    setTimeout(async () => {
+      if (exportRef.current) {
+        try {
+          const element = exportRef.current;
+          
+          element.style.display = 'block';
+          
+          const canvas = await html2canvas(element, {
+            scale: 2,
+            backgroundColor: '#fbfaf6',
+            logging: false,
+            useCORS: true,
+            windowWidth: 550
+          });
+          
+          element.style.display = 'none';
+          
+          const link = document.createElement('a');
+          const dateStr = new Date().toISOString().split('T')[0];
+          const modeStr = mode === 'full' ? 'costos' : (mode === 'client_no_comm' ? 'venta' : 'venta-mp');
+          const fileNameName = inputs.budgetName ? `_${inputs.budgetName.replace(/\s+/g, '-')}` : '';
+          link.download = `Presupuesto_${modeStr}${fileNameName}_${dateStr}.png`;
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+          
+        } catch (error) {
+          console.error('Error al exportar:', error);
+          alert('Error al exportar el presupuesto');
+          if (exportRef.current) exportRef.current.style.display = 'none';
+        }
+      }
+    }, 150);
   };
 
   const loadBudget = (b) => {
@@ -553,9 +562,27 @@ const CostCalculator = () => {
               <button className="calc-btn calc-btn-save" onClick={handleSave} disabled={saving}>
                 <Save size={16} /> {saving ? 'Guardando...' : 'Guardar'}
               </button>
-              <button className="calc-btn calc-btn-export" onClick={handleExport}>
-                <Download size={16} /> Exportar
-              </button>
+              
+              <div className="export-dropdown-container" style={{ position: 'relative' }}>
+                <button className="calc-btn calc-btn-export" onClick={() => setShowExportMenu(!showExportMenu)}>
+                  <Download size={16} /> Exportar <ChevronDown size={14} style={{marginLeft: '4px'}} />
+                </button>
+                
+                {showExportMenu && (
+                  <div className="export-dropdown-menu">
+                    <button onClick={() => handleExport('full')}>
+                      📊 Exportar Interno (Costos + Ganancia)
+                    </button>
+                    <button onClick={() => handleExport('client_no_comm')}>
+                      🧾 Exportar Cliente (Precio Contado)
+                    </button>
+                    <button onClick={() => handleExport('client_comm')}>
+                      💳 Exportar Cliente (Precio Mercado Pago)
+                    </button>
+                  </div>
+                )}
+              </div>
+
               <button className="calc-btn calc-btn-reset" onClick={resetForm} title="Resetear valores">
                 <RotateCcw size={16} />
               </button>
@@ -644,77 +671,120 @@ const CostCalculator = () => {
 
         <div className="calc-export-client-row">
           <span className="meta-label">DETALLE / CLIENTE</span>
-          <span className="meta-value-large">{inputs.budgetName || 'Presupuesto Estándar'}</span>
+          <span className="meta-value-large">{inputs.budgetName || 'Presupuesto de Impresión'}</span>
         </div>
 
         <div className="calc-export-divider"></div>
 
-        <div className="calc-export-table-section">
-          <span className="meta-label">DETALLE DE COSTOS</span>
-          <table className="calc-export-table">
-            <thead>
-              <tr>
-                <th>CONCEPTO</th>
-                <th>CANT.</th>
-                <th>SUBTOTAL</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Depreciación impresora</td>
-                <td>{inputs.printHours || 0}h</td>
-                <td>{fmt(results.depreciationCost)}</td>
-              </tr>
-              <tr>
-                <td>Filamento ({fmt(inputs.filamentCostPerKg)}/kg)</td>
-                <td>{inputs.filamentUsedGrams || 0}g</td>
-                <td>{fmt(results.filamentTotalCost)}</td>
-              </tr>
-              <tr>
-                <td>Electricidad ({inputs.printerWatts}W a {fmt(inputs.electricityCostKwh)}/kWh)</td>
-                <td>{inputs.printHours || 0}h</td>
-                <td>{fmt(results.electricityCost)}</td>
-              </tr>
-              {Number(inputs.extraSupplies) > 0 && (
-                <tr>
-                  <td>Insumos extra</td>
-                  <td>1</td>
-                  <td>{fmt(inputs.extraSupplies)}</td>
-                </tr>
-              )}
-              {Number(inputs.packaging) > 0 && (
-                <tr>
-                  <td>Packaging</td>
-                  <td>1</td>
-                  <td>{fmt(inputs.packaging)}</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-
-        <div className="calc-export-divider"></div>
-
-        <div className="calc-export-total-row">
-          <span className="total-label">COSTO TOTAL</span>
-          <span className="total-value">{fmt(results.totalCost)}</span>
-        </div>
-
-        <div className="calc-export-prices-alt">
-          <div className="price-alt-item">
-            <span className="price-alt-label">PRECIO SUGERIDO (Sin Comisiones)</span>
-            <div style={{textAlign: 'right'}}>
-              <span className="price-alt-value">{fmt(results.priceNoCommission)}</span>
+        {exportMode === 'full' ? (
+          // ── MODO COSTOS INTERNO ──
+          <>
+            <div className="calc-export-table-section">
+              <span className="meta-label">DETALLE DE COSTOS (INTERNO)</span>
+              <table className="calc-export-table">
+                <thead>
+                  <tr>
+                    <th>CONCEPTO</th>
+                    <th>CANT.</th>
+                    <th>SUBTOTAL</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Depreciación impresora</td>
+                    <td>{inputs.printHours || 0}h</td>
+                    <td>{fmt(results.depreciationCost)}</td>
+                  </tr>
+                  <tr>
+                    <td>Filamento ({fmt(inputs.filamentCostPerKg)}/kg)</td>
+                    <td>{inputs.filamentUsedGrams || 0}g</td>
+                    <td>{fmt(results.filamentTotalCost)}</td>
+                  </tr>
+                  <tr>
+                    <td>Electricidad ({inputs.printerWatts}W a {fmt(inputs.electricityCostKwh)}/kWh)</td>
+                    <td>{inputs.printHours || 0}h</td>
+                    <td>{fmt(results.electricityCost)}</td>
+                  </tr>
+                  {Number(inputs.extraSupplies) > 0 && (
+                    <tr>
+                      <td>Insumos extra</td>
+                      <td>1</td>
+                      <td>{fmt(inputs.extraSupplies)}</td>
+                    </tr>
+                  )}
+                  {Number(inputs.packaging) > 0 && (
+                    <tr>
+                      <td>Packaging</td>
+                      <td>1</td>
+                      <td>{fmt(inputs.packaging)}</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
-          </div>
-          <div className="price-alt-item" style={{borderTop: '1px solid #e0ded8', paddingTop: '1rem', marginTop: '0.5rem'}}>
-            <span className="price-alt-label">PRECIO CON MERCADO PAGO</span>
-            <div style={{textAlign: 'right'}}>
-              <span className="price-alt-value">{fmt(results.priceWithCommission)}</span>
-              <span className="price-alt-sub">Incluye comisión y/o cuotas</span>
+
+            <div className="calc-export-divider"></div>
+
+            <div className="calc-export-total-row">
+              <span className="total-label">COSTO TOTAL</span>
+              <span className="total-value">{fmt(results.totalCost)}</span>
             </div>
-          </div>
-        </div>
+
+            <div className="calc-export-prices-alt">
+              <div className="price-alt-item">
+                <span className="price-alt-label">PRECIO SUGERIDO (Sin Comisiones)</span>
+                <div style={{textAlign: 'right'}}>
+                  <span className="price-alt-value">{fmt(results.priceNoCommission)}</span>
+                </div>
+              </div>
+              <div className="price-alt-item" style={{borderTop: '1px solid #e0ded8', paddingTop: '1rem', marginTop: '0.5rem'}}>
+                <span className="price-alt-label">PRECIO CON MERCADO PAGO</span>
+                <div style={{textAlign: 'right'}}>
+                  <span className="price-alt-value">{fmt(results.priceWithCommission)}</span>
+                  <span className="price-alt-sub">Incluye comisión y/o cuotas</span>
+                </div>
+              </div>
+            </div>
+          </>
+        ) : (
+          // ── MODO CLIENTE (Sin Costos) ──
+          <>
+            <div className="calc-export-table-section">
+              <span className="meta-label">DETALLE DEL PEDIDO</span>
+              <table className="calc-export-table">
+                <thead>
+                  <tr>
+                    <th>PRODUCTO</th>
+                    <th>CANT.</th>
+                    <th>SUBTOTAL</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{inputs.budgetName || 'Servicio de Impresión 3D'}</td>
+                    <td>1</td>
+                    <td>
+                      {exportMode === 'client_comm' 
+                        ? fmt(results.priceWithCommission) 
+                        : fmt(results.priceNoCommission)}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div className="calc-export-divider"></div>
+
+            <div className="calc-export-total-row">
+              <span className="total-label">TOTAL</span>
+              <span className="total-value">
+                {exportMode === 'client_comm' 
+                  ? fmt(results.priceWithCommission) 
+                  : fmt(results.priceNoCommission)}
+              </span>
+            </div>
+          </>
+        )}
 
         <div className="calc-export-footer">
           <div className="footer-thanks">¡Gracias por confiar en nosotros! 🚀</div>
