@@ -1,16 +1,18 @@
 .product-card {
   background-color: var(--surface);
-  border-radius: 8px;
+  border-radius: var(--radius-card);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
-  transition: box-shadow 0.2s, transform 0.2s;
+  transition: box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
+  border: 1px solid var(--border);
 }
 
 .product-card:hover {
   box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
+  transform: translateY(-4px);
+  border-color: transparent;
 }
 
 .product-image-container {
@@ -126,21 +128,21 @@
 }
 
 .product-info {
-  padding: 0.5rem 0.4rem 0.4rem;
+  padding: 0.75rem 0.75rem 0.6rem;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  gap: 0;
+  gap: 0.15rem;
 }
 
 .product-title {
-  font-size: 1.15rem;
+  font-size: 1rem;
   font-weight: 700;
   font-family: var(--font-display);
   color: var(--text-dark);
-  margin-bottom: 0.1rem;
-  line-height: 1.15;
-  letter-spacing: 0.02em;
+  margin-bottom: 0.15rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
 }
 
 .product-price {
@@ -190,15 +192,18 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 0.05rem;
-  margin-top: 0.05rem;
-  margin-bottom: 0.4rem;
+  margin-top: 0.1rem;
+  margin-bottom: 0.5rem;
   width: 100%;
+  padding: 0.35rem 0.5rem;
+  background: var(--accent-warm-light);
+  border-radius: 6px;
 }
 
 .product-card .transfer-price-amount {
   font-weight: 800;
-  font-size: 1.08rem;
-  color: #0a0a0a;
+  font-size: 1rem;
+  color: var(--accent-warm);
 }
 
 .transfer-price-text {
@@ -208,30 +213,34 @@
 }
 
 .discount-badge {
-  background: #0a0a0a;
+  background: var(--accent-warm);
   color: white;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 800;
   padding: 2px 7px;
-  border-radius: 10px;
+  border-radius: var(--radius-pill);
   letter-spacing: 0.03em;
 }
 
 .add-to-cart-btn {
-  background-color: #0a0a0a;
-  color: white;
-  padding: 0.65rem;
-  border-radius: 4px;
+  background-color: var(--text-dark);
+  color: var(--accent-fg);
+  padding: 0.75rem;
+  border-radius: var(--radius-btn);
   font-weight: 700;
+  font-family: var(--font-display);
   width: 100%;
-  transition: background-color 0.2s;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s, box-shadow 0.2s;
   font-size: 0.88rem;
-  margin-top: 0;
+  margin-top: auto;
   letter-spacing: 0.02em;
+  min-height: 48px;
 }
 
 .add-to-cart-btn:hover {
-  background-color: #333333;
+  background-color: var(--accent-hover);
+  transform: scale(1.02);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Wishlist Heart Button */

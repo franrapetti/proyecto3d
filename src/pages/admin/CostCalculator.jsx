@@ -270,7 +270,7 @@ const CostCalculator = () => {
   return (
     <div className="admin-page">
       {/* Header */}
-      <div className="adm-page-header sticky-header">
+      <div className="adm-page-header">
         <div className="adm-page-title">
           <h1>🧮 Calculadora de Costos 3D</h1>
         </div>
@@ -280,7 +280,7 @@ const CostCalculator = () => {
       <div className="calc-name-input">
         <input
           type="text"
-          placeholder="Nombre del presupuesto (ej: Mate Imperial x10 — Cliente Juan)"
+          placeholder="Nombre del presupuesto (ej: Soporte celular x5 — Cliente Pedro)"
           value={inputs.budgetName}
           onChange={e => setField('budgetName', e.target.value)}
         />
@@ -303,7 +303,7 @@ const CostCalculator = () => {
                   type="number"
                   value={inputs.printerCost}
                   onChange={e => setField('printerCost', e.target.value)}
-                  placeholder="1500000"
+                  placeholder="Ej: 1500000"
                 />
               </div>
               <div className="calc-field">
@@ -312,7 +312,7 @@ const CostCalculator = () => {
                   type="number"
                   value={inputs.sparePartsCost}
                   onChange={e => setField('sparePartsCost', e.target.value)}
-                  placeholder="150000"
+                  placeholder="Ej: 150000"
                 />
               </div>
               <div className="calc-field">
@@ -342,7 +342,7 @@ const CostCalculator = () => {
                   type="number"
                   value={inputs.filamentCostPerKg}
                   onChange={e => setField('filamentCostPerKg', e.target.value)}
-                  placeholder="20000"
+                  placeholder="Ej: 20000"
                 />
               </div>
               <div className="calc-field">
@@ -351,7 +351,7 @@ const CostCalculator = () => {
                   type="number"
                   value={inputs.filamentUsedGrams}
                   onChange={e => setField('filamentUsedGrams', e.target.value)}
-                  placeholder="Ej: 120"
+                  placeholder="Ej: 85"
                 />
               </div>
             </div>
@@ -370,7 +370,7 @@ const CostCalculator = () => {
                   type="number"
                   value={inputs.electricityCostKwh}
                   onChange={e => setField('electricityCostKwh', e.target.value)}
-                  placeholder="250"
+                  placeholder="Ej: 250"
                 />
               </div>
               <div className="calc-field">
@@ -379,7 +379,7 @@ const CostCalculator = () => {
                   type="number"
                   value={inputs.printerWatts}
                   onChange={e => setField('printerWatts', e.target.value)}
-                  placeholder="150"
+                  placeholder="Ej: 150"
                 />
               </div>
               <div className="calc-field">

@@ -192,12 +192,12 @@
 }
 
 .calc-results-card {
-  background: linear-gradient(145deg, #0f0f0f 0%, #1a1a2e 50%, #0f172a 100%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 20px;
   padding: 1.75rem;
-  color: #f5f5f5;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255,255,255,0.05);
+  color: var(--text-dark);
+  box-shadow: var(--shadow-lg);
 }
 
 .calc-results-title {
@@ -206,7 +206,7 @@
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-light);
   margin-bottom: 1.5rem;
 }
 
@@ -217,7 +217,7 @@
   gap: 0.6rem;
   margin-bottom: 1.5rem;
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--border);
 }
 
 .calc-breakdown-row {
@@ -228,13 +228,13 @@
 }
 
 .calc-breakdown-label {
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-light);
   font-weight: 500;
 }
 
 .calc-breakdown-value {
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--text-dark);
   font-variant-numeric: tabular-nums;
 }
 
@@ -245,13 +245,13 @@
   align-items: center;
   padding: 1rem 0;
   margin-bottom: 1.25rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--border);
 }
 
 .calc-total-label {
   font-size: 0.9rem;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-light);
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
@@ -260,7 +260,7 @@
   font-family: var(--font-display);
   font-size: 1.5rem;
   font-weight: 800;
-  color: #fbbf24;
+  color: #d97706;
   font-variant-numeric: tabular-nums;
 }
 
@@ -275,23 +275,24 @@
 .calc-price-card {
   border-radius: 14px;
   padding: 1rem 1.25rem;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  background: var(--background);
   transition: transform 0.2s, background 0.2s;
 }
 
 .calc-price-card:hover {
   transform: translateY(-1px);
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--background);
+  box-shadow: var(--shadow-sm);
 }
 
 .calc-price-card.green {
-  border-color: rgba(16, 185, 129, 0.25);
+  border-color: rgba(16, 185, 129, 0.35);
   background: rgba(16, 185, 129, 0.06);
 }
 
 .calc-price-card.blue {
-  border-color: rgba(99, 102, 241, 0.25);
+  border-color: rgba(99, 102, 241, 0.35);
   background: rgba(99, 102, 241, 0.06);
 }
 
@@ -303,21 +304,21 @@
   margin-bottom: 0.35rem;
 }
 
-.calc-price-card.green .calc-price-card-label { color: #34d399; }
-.calc-price-card.blue .calc-price-card-label { color: #818cf8; }
+.calc-price-card.green .calc-price-card-label { color: #059669; }
+.calc-price-card.blue .calc-price-card-label { color: #6366f1; }
 
 .calc-price-card-value {
   font-family: var(--font-display);
   font-size: 1.6rem;
   font-weight: 800;
-  color: #ffffff;
+  color: var(--text-dark);
   font-variant-numeric: tabular-nums;
   line-height: 1.2;
 }
 
 .calc-price-card-sub {
   font-size: 0.72rem;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--text-light);
   margin-top: 0.25rem;
   font-weight: 500;
 }
@@ -325,15 +326,15 @@
 /* Commission info */
 .calc-commission-info {
   font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.35);
+  color: var(--text-light);
   padding: 0.75rem 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid var(--border);
   margin-bottom: 1rem;
   line-height: 1.5;
 }
 
 .calc-commission-info span {
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-dark);
   font-weight: 600;
 }
 
@@ -376,26 +377,26 @@
 }
 
 .calc-btn-export {
-  background: rgba(255, 255, 255, 0.1);
-  color: #e5e5e5;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--background);
+  color: var(--text-dark);
+  border: 1px solid var(--border);
 }
 .calc-btn-export:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--border);
   transform: translateY(-1px);
 }
 
 .calc-btn-reset {
   background: none;
-  color: rgba(255, 255, 255, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-light);
+  border: 1px solid var(--border);
   flex: 0;
   padding: 0.7rem;
 }
 .calc-btn-reset:hover {
   color: #f43f5e;
   border-color: rgba(244, 63, 94, 0.3);
-  background: rgba(244, 63, 94, 0.08);
+  background: rgba(244, 63, 94, 0.06);
 }
 
 /* ── HISTORY SECTION ── */

@@ -240,8 +240,8 @@
 
 /* Shipping Progress Bar */
 .shipping-progress-container {
-  padding: 1rem 1.5rem;
-  background-color: var(--surface);
+  padding: 0.85rem 1.5rem;
+  background: linear-gradient(135deg, var(--accent-warm-light), transparent);
   border-bottom: 1px solid var(--border);
 }
 
@@ -254,23 +254,25 @@
 
 .shipping-progress-text.success {
   color: #16a34a;
+  font-weight: 600;
 }
 
 .shipping-progress-bar {
-  height: 6px;
+  height: 5px;
   background-color: var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius-pill);
   overflow: hidden;
 }
 
 .shipping-progress-fill {
   height: 100%;
-  background-color: var(--accent);
-  transition: width 0.3s ease;
+  background: linear-gradient(90deg, var(--accent-warm), #d4975a);
+  border-radius: var(--radius-pill);
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .shipping-progress-fill.success {
-  background-color: #16a34a;
+  background: linear-gradient(90deg, #16a34a, #22c55e);
 }
 
 /* Trust Badges */
