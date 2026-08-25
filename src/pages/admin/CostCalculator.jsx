@@ -621,74 +621,105 @@ const CostCalculator = () => {
 
       {/* ═══ EXPORT TEMPLATE (hidden, capturado por html2canvas) ═══ */}
       <div ref={exportRef} className="calc-export-template">
-        <div className="calc-export-header">
-          <div>
-            <div className="calc-export-brand">Punto Base</div>
-            <div className="calc-export-subtitle">Presupuesto de Impresión 3D</div>
+        <div className="calc-export-top">
+          <img src="/logo.png" alt="Punto Base" className="calc-export-logo" />
+          <div className="calc-export-brand">PUNTO BASE</div>
+          <div className="calc-export-tagline">Soluciones en Impresión 3D</div>
+        </div>
+
+        <div className="calc-export-divider"></div>
+
+        <div className="calc-export-meta-row">
+          <div className="meta-col">
+            <span className="meta-label">COMPROBANTE</span>
+            <span className="meta-value">#{Math.random().toString(36).substring(2, 10).toUpperCase()}</span>
           </div>
-          <div className="calc-export-meta">
-            <div>{new Date().toLocaleDateString('es-AR', { day: '2-digit', month: 'long', year: 'numeric' })}</div>
+          <div className="meta-col text-right">
+            <span className="meta-label">FECHA</span>
+            <span className="meta-value">{new Date().toLocaleDateString('es-AR', { day: '2-digit', month: 'long', year: 'numeric' })}</span>
           </div>
         </div>
 
-        {inputs.budgetName && (
-          <div className="calc-export-name">{inputs.budgetName}</div>
-        )}
+        <div className="calc-export-divider thin"></div>
 
-        <table className="calc-export-table">
-          <thead>
-            <tr>
-              <th>Concepto</th>
-              <th>Monto</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Depreciación impresora ({fmt(results.depreciationPerHour)}/h × {inputs.printHours || 0}h)</td>
-              <td>{fmt(results.depreciationCost)}</td>
-            </tr>
-            <tr>
-              <td>Filamento ({inputs.filamentUsedGrams || 0}g a {fmt(inputs.filamentCostPerKg)}/kg)</td>
-              <td>{fmt(results.filamentTotalCost)}</td>
-            </tr>
-            <tr>
-              <td>Electricidad ({inputs.printerWatts}W × {inputs.printHours || 0}h a {fmt(inputs.electricityCostKwh)}/kWh)</td>
-              <td>{fmt(results.electricityCost)}</td>
-            </tr>
-            {Number(inputs.extraSupplies) > 0 && (
-              <tr>
-                <td>Insumos extra</td>
-                <td>{fmt(inputs.extraSupplies)}</td>
-              </tr>
-            )}
-            {Number(inputs.packaging) > 0 && (
-              <tr>
-                <td>Packaging</td>
-                <td>{fmt(inputs.packaging)}</td>
-              </tr>
-            )}
-            <tr className="total-row">
-              <td>COSTO TOTAL</td>
-              <td>{fmt(results.totalCost)}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div className="calc-export-client-row">
+          <span className="meta-label">DETALLE / CLIENTE</span>
+          <span className="meta-value-large">{inputs.budgetName || 'Presupuesto Estándar'}</span>
+        </div>
 
-        <div className="calc-export-prices">
-          <div className="calc-export-price-box green">
-            <div className="calc-export-price-box-label">Precio sin comisión</div>
-            <div className="calc-export-price-box-value">{fmt(results.priceNoCommission)}</div>
-            <div className="calc-export-price-box-sub">Rentabilidad: {inputs.profitMargin}%</div>
+        <div className="calc-export-divider"></div>
+
+        <div className="calc-export-table-section">
+          <span className="meta-label">DETALLE DE COSTOS</span>
+          <table className="calc-export-table">
+            <thead>
+              <tr>
+                <th>CONCEPTO</th>
+                <th>CANT.</th>
+                <th>SUBTOTAL</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Depreciación impresora</td>
+                <td>{inputs.printHours || 0}h</td>
+                <td>{fmt(results.depreciationCost)}</td>
+              </tr>
+              <tr>
+                <td>Filamento ({fmt(inputs.filamentCostPerKg)}/kg)</td>
+                <td>{inputs.filamentUsedGrams || 0}g</td>
+                <td>{fmt(results.filamentTotalCost)}</td>
+              </tr>
+              <tr>
+                <td>Electricidad ({inputs.printerWatts}W a {fmt(inputs.electricityCostKwh)}/kWh)</td>
+                <td>{inputs.printHours || 0}h</td>
+                <td>{fmt(results.electricityCost)}</td>
+              </tr>
+              {Number(inputs.extraSupplies) > 0 && (
+                <tr>
+                  <td>Insumos extra</td>
+                  <td>1</td>
+                  <td>{fmt(inputs.extraSupplies)}</td>
+                </tr>
+              )}
+              {Number(inputs.packaging) > 0 && (
+                <tr>
+                  <td>Packaging</td>
+                  <td>1</td>
+                  <td>{fmt(inputs.packaging)}</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="calc-export-divider"></div>
+
+        <div className="calc-export-total-row">
+          <span className="total-label">COSTO TOTAL</span>
+          <span className="total-value">{fmt(results.totalCost)}</span>
+        </div>
+
+        <div className="calc-export-prices-alt">
+          <div className="price-alt-item">
+            <span className="price-alt-label">PRECIO SUGERIDO (Sin Comisiones)</span>
+            <div style={{textAlign: 'right'}}>
+              <span className="price-alt-value">{fmt(results.priceNoCommission)}</span>
+            </div>
           </div>
-          <div className="calc-export-price-box blue">
-            <div className="calc-export-price-box-label">Precio con Mercado Pago</div>
-            <div className="calc-export-price-box-value">{fmt(results.priceWithCommission)}</div>
-            <div className="calc-export-price-box-sub">Comisión: {pct(results.totalCommissionRate)}</div>
+          <div className="price-alt-item" style={{borderTop: '1px solid #e0ded8', paddingTop: '1rem', marginTop: '0.5rem'}}>
+            <span className="price-alt-label">PRECIO CON MERCADO PAGO</span>
+            <div style={{textAlign: 'right'}}>
+              <span className="price-alt-value">{fmt(results.priceWithCommission)}</span>
+              <span className="price-alt-sub">Incluye comisión y/o cuotas</span>
+            </div>
           </div>
         </div>
 
         <div className="calc-export-footer">
-          Generado con Punto Base · {new Date().toLocaleDateString('es-AR')}
+          <div className="footer-thanks">¡Gracias por confiar en nosotros! 🚀</div>
+          <div className="footer-msg">Esperamos que disfrutes tu pedido.<br/>Cualquier consulta, escribinos.</div>
+          <div className="footer-social">@puntobase3d</div>
         </div>
       </div>
     </div>
